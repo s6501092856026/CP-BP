@@ -1,0 +1,222 @@
+rawmat_id,name_raw,detail,unit,carbon_per_kg,type_raw
+1,"Acrylonitrile Butadiene Styrene (ABS)",โพรเพนที่ได้จากการกระบวนการแยกก๊าซธรรมชาติ,kg,4.1597,petroleum
+2,Polystyrene(GPPS),"ผลิตจาก Styrene และ Ethylbenzene",kg,3.2281,petroleum
+3,"High Density Polyethylene (HDPE)","ผลิตจาก Ethylene โดยมี 1-Butene และ Propylene เป็น Comonomer",kg,6.7071,petroleum
+4,"High Impact Polystyrene (HIPS) ","ผลิตจาก Styrene และ Polybutadiene rubber",kg,3.6843,petroleum
+5,"Linear Low Density Polyethylene (LLDPE)","ผลิตจากกระบวนการที่เป็น Solution phase และ Gas phase",kg,2.1356,petroleum
+6,"Low Density Polyethylene (LDPE)","ผลิตจากกระบวนการที่เป็น Solution phase และ Gas phase",kg,2.6258,petroleum
+7,"Polypropylene (PP)","ผลิตจากกระบวนการที่เป็น Liquid phase และ Gas phase",kg,1.8814,petroleum
+8,"Ployvinyl Chloride (PVC) ","ผลิตจากกระบวนการ Suspension และ Emulsion",kg,2.1331,petroleum
+9,"P-xylene ","ผลิตจากกระบวนการ PAREX / ISOMAR",kg,0.9226,petroleum
+10,"Styrene Monomer (SM)","ผลิตจากกระบวนการอัลคิลเลชัน ของเบนซีน และเอทีลีน",kg,2.3705,petroleum
+11,"Styrene Acrylonitrile (SAN)","ผลิตจากกระบวนการอัลคิลเลชัน ของเบนซีน และเอทีลีน",kg,3.0008,petroleum
+12,"Vinyl Chlodie Monomer (VCM)","ผลิตจากกระบวนการ Suspension และ Emulsion",kg,2.1793,petroleum
+13,Benzene,"ผลิตจากกระบวนการ Toluene Hydrodealkylation",kg,1.3268,petroleum
+14,"Caprolactam (CPL)","ผลิตจาก Cyclohexane, Ammonia และ Sulfur",kg,1.2916,petroleum
+15,"Cyclohexane (CX)","ผลิตจาก Benzene และ Hydrogen",kg,1.4132,petroleum
+16,Ethylene,"ผลิตจากกระบวนการ Natural Gas/ Gas Oil Cracking",kg,1.9562,petroleum
+17,"Mixed C4","ผลิตจากกระบวนการ Natural Gas/ Gas Oil Cracking",kg,1.1114,petroleum
+18,"Toluene ","ผลิตจาก Reformate",kg,0.9551,petroleum
+19,Propylene,"ผลิตจากกระบวนการ Natural Gas/ Gas Oil Cracking",kg,1.4473,petroleum
+20,"Epoxy resin",-,kg,6.686,petroleum
+21,"Expanded polystyrene (EPS)",-,kg,4.6127,petroleum
+22,"Polyethylene terephthalate (PET)","Polyethylene terephthalate, granulate, bottle",kg,2.8854,petroleum
+23,"Polyethylene terephthalate (PET)","Polyethylene terephthalate, granulate, amorphous, at plant ",kg,2.6922,petroleum
+24,Polybutadiene,"Polybutadiene, at plant ",kg,3.9106,petroleum
+25,Polycarbonate,"Polycarbonate, at plant ",kg,7.776,petroleum
+26,"Polyester resin","Polyester resin, unsaturated, at plant ",kg,7.4185,petroleum
+27,"Polyurethane (flexible polyurethane)","Polyurethane, flexible foam, at plant ",kg,4.8524,petroleum
+28,"Polyurethane (rigid urethane board)","Polyurethane, rigid foam, at plant ",kg,4.3229,petroleum
+29,Xylene,"Xylene, at plant ",kg,1.6338,petroleum
+30,"Bisphenol A","Bisphenol A, powder, at plant ",kg,4.9162,petroleum
+31,"Ethylene Glycol","Ethylene glycol, at plant ",kg,1.428,petroleum
+32,"Ethylene oxide","Ethylene oxide, at plant ",kg,1.5746,petroleum
+33,"Nylon 6","Nylon 6, at plant ",kg,9.2691,petroleum
+34,"Paraffin wax","Paraffin, at plant ",kg,0.7982,petroleum
+35,"Alkylbenzene sulfonate","Alkylbenzene sulfonate, linear, petrochemical, at plant ",kg,1.3586,petroleum
+36,"Anticrease agent","Ethoxylated alcohols (AE7), petrochemical, at plant ",kg,2.1671,petroleum
+37,"Ethoxylated alcohols (AE7)","Ethoxylated alcohols (AE7), petrochemical, at plant ",kg,2.1671,petroleum
+38,"Leveling agent","Ethoxylated alcohols (AE7), petrochemical, at plant ",kg,2.1671,petroleum
+39,"Soaping agent","Fatty alcohol sulfate, petrochemical, at plant ",kg,2.3372,petroleum
+40,"Wetting agent","Fatty alcohol sulfate, petrochemical, at plant ",kg,2.3372,petroleum
+41,"Carbon dioxide",ก๊าซคาร์บอนไดออกไซด์ที่ได้จากการกระบวนการแยกก๊าซธรรมชาติ,kg,1.0506,"natural gas"
+42,Propane,โพรเพนที่ได้จากการกระบวนการแยกก๊าซธรรมชาติ,kg,1.1692,"natural gas"
+43,Methane,"ก๊าซธรรมชาติ (มีเทน) ที่ได้จากการกระบวนการแยกก๊าซธรรมชาติ",kg,1.1283,"natural gas"
+44,Ethane,อีเทนที่ได้จากการกระบวนการแยกก๊าซธรรมชาติ,kg,1.1608,"natural gas"
+45,"Natural Gas Liquid",ก๊าซธรรมชาติเหลวที่ได้จากการกระบวนการแยกก๊าซธรรมชาติ,kg,1.156,"natural gas"
+46,"Cooking Gas",ก๊าซหุงต้มที่ได้จากกระบวนการแยกก๊าซธรรมชาติ,kg,1.1839,"natural gas"
+47,"Mixed Gas","ก๊าซธรรมชาติที่นำเข้ามาจากประเทศพม่าและ LNG จากการนำเข้า",kg,0.7544,"natural gas"
+48,"Mixed Gas","ก๊าซธรรมชาติที่นำเข้ามาจากประเทศพม่าและ LNG จากการนำเข้า",m3,0.5767,"natural gas"
+49,"Liquefied Petroleum Gas,LPG Mixed",ก๊าซหุงต้มผสมก๊าซหุงต้มจากกระบวนการกลั่นน้ำมันดิบและก๊าซหุงต้มจากกระบวนการแยกก๊าซธรรมชาติ,kg,0.8582,"liquid and solid fuels"
+50,"Naphtha (แนฟทา) ",แนฟทาที่ได้จากกระบวนการกลั่นน้ำมันดิบ,kg,0.2972,"liquid and solid fuels"
+51,"ก๊าซหุงต้ม ",ก๊าซหุงต้มที่ได้จากกระบวนการกลั่นน้ำมันดิบ,kg,0.4267,"liquid and solid fuels"
+52,"Gasoline (แก๊สโซลีน)","แก๊สโซลีน (น้ำมันเบนซิน ) ที่ได้จากกระบวนการกลั่นน้ำมันดิบ",kg,0.4024,"liquid and solid fuels"
+53,"Kerosene or Jet oil",น้ำมันก๊าดหรือน้ำมันเครื่องบินที่ได้จากกระบวนการกลั่นน้ำมันดิบ,kg,0.3284,"liquid and solid fuels"
+54,"Fuel oil (น้ำมันเตา) ",น้ำมันเตาที่ได้จากกระบวนการกลั่นน้ำมันดิบ,kg,0.3743,"liquid and solid fuels"
+55,"Diesel (น้ำมันดีเซล / น้ำมันโซล่าร์)",น้ำมันดีเซลที่ได้จากกระบวนการกลั่นน้ำมันดิบ,kg,0.3522,"liquid and solid fuels"
+56,"ซัลเฟอร์ ","ซัลเฟอรท์ ที่ได้จากกระบวนการกลั่นน้ามันดิบ",kg,0.239,"liquid and solid fuels"
+57,"Charcoal (ถ่านไม้) ","Charcoal, at plant ",kg,1.0054,"liquid and solid fuels"
+58,การผลิตถ่านหิน,"Lignite coal, at surface mine ",kg,0.1187,"liquid and solid fuels"
+59,"Electricity, grid mix (ไฟฟ้า)","ไฟฟ้าแบบ grid mix ปี 2016-2018",kWh,0.5986,Electrical
+60,น้ำประปา-การประปานครหลวง,ผลิตโดยใช้น้ำผิวดิน,m3,0.7948,"Tap and industrial water"
+61,น้ำประปา-การประปาส่วนภูมิภาค,"ผลิตโดยใช้น้ำผิวดิน น้ำใต้ดิน และน้ำทะเล",m3,0.541,"Tap and industrial water"
+62,"น้ำประปา-การนิคมอุตสาหกรรม ","ผลิตโดยใช้น้ำผิวดิน และน้ำประปา",m3,0.2575,"Tap and industrial water"
+63,น้ำอ่อนสำหรับหม้อไอน้ำ,ผลิตโดยใช้น้ำประปา,m3,1.0301,"Tap and industrial water"
+64,"น้ำผลิตโดยเทคโนโลยี Reverse Osmosis",ผลิตโดยใช้น้ำอ่อน,m3,2.1555,"Tap and industrial water"
+65,"น้ำผลิตโดยเทคโนโลยี Ion Exchange",ผลิตโดยใช้น้ำประปา,m3,2.0432,"Tap and industrial water"
+66,"ยางก้อนถ้วย (DRC 55%)","DRC 55%; ได้จากการเติมกรดซัลฟูริก ลงในน้ำยางสด",kg,0.0863,"Natural rubber industry"
+67,"น้ำยางข้น (DRC 60%)","DRC 60%; ใช้เทคโนโลยีการผลิตโดยการปั่นแยก",kg,0.2059,"Natural rubber industry"
+68,ยางสกิม,"DRC 90%; ผลิตภัณฑ์ยางสกิมคละประเภทและคุณภาพ",kg,0.3903,"Natural rubber industry"
+69,"ยางแท่ง STR 10/20","ผลิตจากกระบวนการสับบดย่อย ล้างทำความสะอาด อบแห้ง อัดแท่ง",kg,0.2966,"Natural rubber industry"
+70,"ยางแท่ง STR XL/5L/5CV",ผลิตภจากน้ำยางสดและผ่านกระบวนการจับตัวด้วยกรดตัดย่อยและอบแห้ง,kg,0.2071,"Natural rubber industry"
+71,กล้ายางชาถุง,"ครอบคลุมตั้งแต่การดูแลต้นพันธุ์ยาง การเพาะกล้ายางในแปลง และการติดตายางและชาถุง",kg,0.347,"Natural rubber industry"
+72,"Synthetic rubber","Synthetic rubber, at plant ",kg,3.5138,"Natural rubber industry"
+73,"Styrene butadiene rubber (SBR) ",-,kg,0.9732,"Natural rubber industry"
+74,ไม้ยางพาราสด,"การปลูกไม้ยางพาราตลอดช่วงอายุ 25 ปี",kg,0.0363,"Rubber wood industry"
+75,ไม้ยางพาราท่อนสด,การตัดโค่นต้นยางพาราที่ผ่านการกรีดน้ำยางจนไม่สามารถให้ผลผลิตน้ำยางได้อีก,kg,0.0471,"Rubber wood industry"
+76,กิ่งไม้ยางพารา,การตัดโค่นต้นยางพาราที่ผ่านการกรีดน้ำยางจนไม่สามารถให้ผลผลิตน้ำยางได้อีก,kg,0.0471,"Rubber wood industry"
+77,"ไม้ยางพาราแปรรูปเกรด AB",NULL,kg,0.0829,"Rubber wood industry"
+78,"ไม้ยางพาราแปรรูปเกรด C",NULL,kg,0.0829,"Rubber wood industry"
+79,ปีกไม้ยางพารา,NULL,kg,0.0829,"Rubber wood industry"
+80,"ไม้ยางพาราประสานเกรด AB",NULL,kg,0.2309,"Rubber wood industry"
+81,"ไม้ยางพาราประสานเกรด C",NULL,kg,0.2309,"Rubber wood industry"
+82,"ไม้ยางพาราอัดประสานเกรด AB",NULL,kg,0.3841,"Rubber wood industry"
+83,"ไม้ยางพาราอัดประสานเกรด C",NULL,kg,0.3841,"Rubber wood industry"
+84,พาเลทไม้ยางพารา,NULL,kg,0.093,"Rubber wood industry"
+85,ขี้เลื่อยจากไม้ยางพาราแปรรูป,NULL,kg,0.0829,"Rubber wood industry"
+86,ขี้เลื่อยจากไม้ยางพาราประสาน,NULL,kg,0.2309,"Rubber wood industry"
+87,ขี้เลื่อยจากไม้ยางพาราอัดประสาน,NULL,kg,0.3841,"Rubber wood industry"
+88,ขี้เลื่อยจากพาเลทไม้ยางพารา,NULL,kg,0.093,"Rubber wood industry"
+89,น้ำยางสด,NULL,kg,0.0363,"Rubber wood industry"
+90,เศษยาง,NULL,kg,0.0364,"Rubber wood industry"
+91,น้ำมันปาล์มดิบ,NULL,kg,0.9067,"Oil palms"
+92,"น้ำมันปาล์มดิบ ระบบผลิตก๊าซชีวภาพ",NULL,kg,0.7564,"Oil palms"
+93,"น้ำมันปาล์มดิบ ไม่มีระบบผลิตก๊าซชีวภาพ",NULL,kg,1.2482,"Oil palms"
+94,กะลาปาล์ม,NULL,kg,0.3965,"Oil palms"
+95,"กะลาปาล์ม ระบบผลิตก๊าซชีวภาพ",NULL,kg,0.321,"Oil palms"
+96,"กะลาปาล์ม ไม่มีระบบผลิตก๊าซชีวภาพ",NULL,kg,0.5294,"Oil palms"
+97,เมล็ดในปาล์ม,NULL,kg,0.6167,"Oil palms"
+98,"เมล็ดในปาล์ม ระบบผลิตก๊าซชีวภาพ",NULL,kg,0.5006,"Oil palms"
+99,"เมล็ดในปาล์ม ไม่มีระบบผลิตก๊าซชีวภาพ",NULL,kg,0.8259,"Oil palms"
+100,"น้ำมันปาล์มบริสุทธิ์ (RBDPO)",NULL,kg,1.399,"Oil palms"
+101,"กรดไขมันปาล์ม (PFAD)",NULL,kg,1.4511,"Oil palms"
+102,"น้ำมันปาล์มโอเลอิน (Olein)",NULL,kg,1.4124,"Oil palms"
+103,"ไขมันปาล์ม (Strearin)",NULL,kg,1.5328,"Oil palms"
+104,ไบโอดีเซล,NULL,kg,1.3571,"Oil palms"
+105,"Lubricating oil (น้ำมันหล่อลื่น)","Liquid lubricating oil production",kg,0.8319,Chemical
+106,Lime,"Quicklime, in pieces, loose, at plant",kg,0.9985,Chemical
+107,"Lime ","Quicklime, milled, loose, at plant",kg,1.0154,Chemical
+108,"Lime ","Quicklime, milled, packed, at plant ",kg,1.0215,Chemical
+109,"Lime (Ca(OH)2)","Lime, hydrated, loose, at plant",kg,0.7759,Chemical
+110,"Lime (Ca(OH)2)","Lime, hydrated, packed, at plant",kg,0.782,Chemical
+111,"Soda powder","Soda, powder, at plant",kg,0.4449,Chemical
+112,"Kaolin (ดินขาว)","Kaolin, at plant",kg,0.2167,Chemical
+113,Silicone,"Silicone product, at plant",kg,2.8649,Chemical
+114,"Aluminium hydroxide","Aluminium hydroxide, at plant",kg,0.647,Chemical
+115,Acetaldehyde,"Acetaldehyde, at plant",kg,1.3639,Chemical
+116,"Acetic acid","Acetic acid from acetaldehyde, at plant",kg,2.5702,Chemical
+117,"Acrylic acid ","Acrylic acid, at plant",kg,1.9493,Chemical
+118,Alcohol,"Ethanol from ethylene, at plant ",kg,1.2381,Chemical
+119,Ammonia,"Ammonia, steam reforming, liquid, at plant ",kg,1.8876,Chemical
+120,Ammonia,"Ammonia, liquid, at regional storehouse",kg,2.052,Chemical
+121,Ammonia,"Ammonia, partial oxidation, liquid, at plant",kg,2.7907,Chemical
+122,"Butyl Cellosolve","Butyl acetate, at plant ",kg,3.5273,Chemical
+123,"Calcium carbonate","Limestone, crushed, washed",kg,0.0025,Chemical
+124,"Calcium carbonate","Limestone, milled, loose, at plant",kg,0.0305,Chemical
+125,"Calcium carbonate","Limestone, milled, packed, at plant",kg,0.0366,Chemical
+126,"Calcium chloride","Calcium chloride, CaCl2, at plant",kg,0.8729,Chemical
+127,"Carbon Tetrachloride","Carbon Tetrachloride at, plant",kg,1.639,Chemical
+128,Chlorine,"Chlorine, gaseous, diaphragm cell, at plant",kg,1.0548,Chemical
+129,Ethanol,"Ethanol, 95% in H2O, from sugarcane molasses, at sugar refinery",kg,0.3962,Chemical
+130,Ethanol,"Ethanol, 95% in H2O, from sugarcane, at fermentation plant",kg,0.3727,Chemical
+131,"Ethyl Acetate","Ethyl acetate, at plant",kg,2.811,Chemical
+132,"Ferro Manganese","Ferromanganese, high-coal, 74.5% Mn, at regional storage",kg,1.9734,Chemical
+133,"HCl 100%","Hydrochloric acid, from Mannheim process, at plant",kg,0.4094,Chemical
+134,"Hydrogen Peroxide 50%","Hydrogen peroxide, 50% in H2O, at plant",kg,1.1239,Chemical
+135,"Iso Butyl Alcohol","Isobutanol, at plant",kg,2.3547,Chemical
+136,K2CO3,"Potassium carbonate, at plant",kg,2.2173,Chemical
+137,Magnesium,"Magnesium, at plant",kg,83.1368,Chemical
+138,Methanol,"Methanol, at plant",kg,0.7212,Chemical
+139,"Methyl acrylate","Methyl acrylate, at plant",kg,2.8008,Chemical
+140,"Monosodium Phosphate","Sodium phosphate, at plant",kg,2.8586,Chemical
+141,"MTBE (methyl tert-butyl ether)","Methyl tert-butyl ether, at plant",kg,1.1288,Chemical
+142,"Nitric acid","Nitric acid",kg,0.6504,Chemical
+143,"Nitric acid","Nitric acid, 50% in H2O, at plant",kg,3.1596,Chemical
+144,Phenol,"Phenol, at plant",kg,3.8971,Chemical
+145,"Potassium hydroxide","Potassium hydroxide, at regional storag",kg,1.9272,Chemical
+146,"Preservative (Bisphenol A)","Preservative (Bisphenol A), powder, at plant",kg,4.9162,Chemical
+147,"Preservative (Benzaldehyde)","Preservative (Benzaldehyde), at plant",kg,4.9355,Chemical
+148,"Preservative (Wood preservative)","Wood preservative, creosote, at plant",kg,1.6545,Chemical
+149,Silica,"Silica sand, at plant",kg,0.0223,Chemical
+150,"Silicon tetrahydride","silicon tetrahydride, at plant",kg,79.8509,Chemical
+151,"Sodium chlorate","Sodium chlorate, powder, at plant",kg,4.2407,Chemical
+152,"Sodium hydroxide","Sodium hydroxide, 50% in H2O, membrane
+cell, at plant",kg,1.1148,Chemical
+153,"Sodium hypochlorite","Sodium hypochlorite, 15% in H2O, at plant",kg,0.8712,Chemical
+154,"Sodium Silicate","Sodium silicate, spray powder 80%, at plant",kg,1.5922,Chemical
+155,"Sodium tripolyphosphate","Sodium tripolyphosphate, at plant",kg,5.8902,Chemical
+156,Sulfur,"Sulfur from Refinery",kg,0.4529,Chemical
+157,"Sulfuric acid","Sulphuric acid, liquid, at plant",kg,0.1219,Chemical
+158,"Urea (การผลิต)","Urea, as N, at regional storehouse",kg,3.2826,Chemical
+159,Varnish,"Vanish (Acrylic varnish, 87.5% in H2O, at
+plant)",kg,1.8823,Chemical
+160,Zinc,"Zinc, primary, at regional storage",kg,4.5455,Chemical
+161,Acetylene,"Acetylene, at regional storehouse",kg,2.2804,Chemical
+162,"สารส้ม (Aluminium Sulphate ALUM (Al2(SO4)3))","Aluminium sulphate, powder, at plant",kg,0.5311,Chemical
+163,Solvents,"Solvents, organic, unspecified, at plant",kg,2.3893,Chemical
+164,"Magnesium sulphate","Magnesium sulphate, at plant",kg,0.3385,Chemical
+165,"Sodium chloride","Sodium chloride, powder, at plant",kg,0.1937,Chemical
+166,"Phosphoric acid","Phosphoric acid, industrial grade, 85% in
+H2O, at plant",kg,1.4067,Chemical
+167,"Sodium hydroxide diaphram","Sodium hydroxide, 50% in H2O, diaphragm
+cell, at plant",kg,1.3711,Chemical
+168,Sulphite,"Sulphite, at plant",kg,1.4528,Chemical
+169,"Benzyl alcohol","Benzyl alcohol, at plant",kg,3.661,Chemical
+170,"Benzyl chloride","Benzyl chloride, at plant",kg,2.1148,Chemical
+171,"Ammonium nitrate","Ammonium nitrate, as N, at regional
+storehouse",kg,8.4819,Chemical
+172,"Phthalic anhydride","Phthalic anhydride, at plant",kg,2.5663,Chemical
+173,"Purified terephthalic acid","Purified terephthalic acid, at plant",kg,1.8983,Chemical
+174,"Hydrochloric acid","Hydrochloric acid, 30% in H2O, at plant",kg,0.8709,Chemical
+175,"Hydrochloric acid","Hydrochloric acid, from the reaction of
+hydrogen with chlorine, at plant",kg,1.3325,Chemical
+176,"Chlorodifluoromethane, R22","สารทำความเย็น, R22",kg,75.786,Chemical
+177,"Refrigerant R134a","สารทำความเย็น, R134a",kg,103.332,Chemical
+178,"Copper oxide","Copper oxide, at plant",kg,1.9568,Chemical
+179,"Phosphoric acid","Fertiliser grade, 70% in H2O,at plant",kg,0.9207,Chemical
+180,"Phosphoric acid","Fertiliser grade, 70% in H2O,at plant/Malaysia database using Thai Electricity 2009",kg,0.9677,Chemical
+181,"Phosphoric acid","Fertiliser grade, 70% in H2O,at plant/US database using Thai Electricity 2009",kg,0.8931,Chemical
+182,"Phosphoric acid","Phosphoric acid, industrial grade, 85% in
+H2O,
+at plant",kg,1.4063,Chemical
+183,"Sodium sulphate","Sodium sulphate, from Mannheim process, at plant",kg,0.4695,Chemical
+184,"Sodium sulphate","Sodium sulphate, from natural sources, at
+plant",kg,0.1454,Chemical
+185,"Sulphur dioxide, liquid","Sulphur dioxide, liquid, at plant",kg,0.5202,Chemical
+186,"Zinc oxide","Zinc oxide, at plant",kg,2.9066,Chemical
+187,"Soap (สบู่)","Soap, at plant",kg,1.6685,Chemical
+188,Nitrogen,"Nitrogen, liquid, at plant",kg,0.497,Chemical
+189,Oxygen,"Oxygen, liquid, at plant",kg,0.469,Chemical
+190,"Sinter iron (เหล็กซินเตอร์)","Sinter, iron, at plant",kg,0.3493,"Ferous Metals"
+191,"Cast iron (เหล็กหล่อ)","Cast iron, at plant",kg,1.6382,"Ferous Metals"
+192,"Pig iron (เหล็กพิก / เหล็กดิบ)","Pig iron, at plant",kg,1.5143,"Ferous Metals"
+193,"Galvanized steel sheet","Galvanized steel sheet, at plant",kg,2.7073,"Ferous Metals"
+194,"Alumnium Sheet","Aluminium sheet, primary prod., prod. mix,
+aluminium semi-finished sheet product",kg,3.2231,"Non-Ferous Metals"
+195,"Aluminium Primary","Aluminium, primary, at plant",kg,12.2359,"Non-Ferous Metals"
+196,"Aluminium Secondary","Aluminium, secondary, from new scrap, at
+plant",kg,0.4329,"Non-Ferous Metals"
+197,"Aluminium Secondary","Aluminium, secondary, from old scrap, at
+plant",kg,1.4682,"Non-Ferous Metals"
+198,"Aluminium alloy (AlMg3)","Aluminium alloy, AlMg3, at plant",kg,6.3369,"Non-Ferous Metals"
+199,Brass,"Brass, at plant",kg,2.4528,"Non-Ferous Metals"
+200,"Brick (อิฐ) ","Brick, at plant",kg,0.2414,Construction
+201,"Clay (ดินเหนียว)","Clay, at mine",kg,0.0004,Construction
+202,"Sanitary ceramics (สุขภัณฑ์)","Sanitary ceramics, at regional storage",kg,2.4092,Construction
+203,Magnetite,-,kg,0.825,Other
+204,"PE Foam",-,kg,2.1,Other
+205,"ถุงมือ (ผ้าฝ้าย)",-,kg,2.11,Other
+206,ทินเนอร์,-,kg,2.1222,Other
+207,สติกเกอร์ปิดกล่อง,-,kg,0.51,Other
+208,แผ่นวงจรพิมพ์,-,kg,27.7,Other
+209,ตัวเก็บประจุ,-,kg,83.1,Other
