@@ -3,7 +3,7 @@ from utils.window import getCenterPosition
 #from utils.database import DatabaseUtil
 
 class BreakController:
-    width = 350
+    width = 550
     height = 400
 
     def __init__(self, app):
@@ -16,5 +16,7 @@ class BreakController:
         self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
         self.breakpoint_view.pack(padx=10, pady=10, expand=True)
     
-    
+    def back_main(self):
+        self.breakpoint_view.pack_forget()
+        self.app.show_main()    
     

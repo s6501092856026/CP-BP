@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-#controller = None
+controller = None
 
 class DetailView(ttk.Frame):
 
@@ -25,12 +25,12 @@ class DetailView(ttk.Frame):
         self.cancel_button.grid(row=3, column=2, columnspan=2, padx=10, pady=10)
 
 # สร้าง root window
-#root = tk.Tk()
-#root.title("Detail View")
+root = tk.Tk()
+root.title("Detail View")
 
 # สร้างอ็อบเจกต์ของ BreakpointView แล้วแสดงหน้าต่าง
-#detail_view = DetailView(controller=None, app=root)
-#detail_view.pack()
+detail_view = DetailView(controller=None, app=root)
+detail_view.pack()
 
 # เริ่ม main loop
-#root.mainloop()
+root.mainloop()

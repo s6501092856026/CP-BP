@@ -23,7 +23,6 @@ class App(tk.Tk):
     def show_break(self):
         self.controller = BreakController(self)
         self.controller.show_break()
-    
 
 if __name__ == "__main__":
     app=App()
