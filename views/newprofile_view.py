@@ -77,19 +77,29 @@ class NewprofileView(ttk.Frame):
 
         def on_select(event):
             select_item = self.list_treeview.focus
-            values = self.list_treeview.item(select_item)["values"]
-            print(values)
+            #values = self.list_treeview.item(select_item)["values"]
+            #print(values)
 
         self.combo_box.bind("<<ComboboxSelected>>", on_combobox_select)
 
-        self.list_treeview.bind("<<TreeviewSelect>>",on_select)
+        #self.list_treeview.bind("<<TreeviewSelect>>",on_select)
 
-        self.detail_treeview = ttk.Treeview(self)
-        self.detail_treeview.grid(row=3, rowspan=4, column=1, padx=5, pady=5, ipadx=40, ipady=75)
+        self.select_treeview = ttk.Treeview(self)
+        self.select_treeview.grid(row=3, rowspan=4, column=1, padx=5, pady=5, ipadx=40, ipady=75)
     
     def back(self):
         self.controller.back_main()
 
+    def set_profile_new(self, rawmats, transpots):
+        self.list_treeview.delete(*self.list_treeview.get_children())
+
+        for rawmat in rawmats:
+            (rawmat_id, name_raw) = rawmat
+            self.list_treeview.insert("", "end", values=(rawmat_id, name_raw,)) 
+
+        for transpot in transpots:
+            (transpot_id, transpot_name) = transpot
+            self.list_treeview.insert("", "end", values=(transpot_id, transpot_name,)) 
 
 
 

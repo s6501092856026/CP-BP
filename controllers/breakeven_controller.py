@@ -4,7 +4,7 @@ from utils.window import getCenterPosition
 
 class BreakController:
     width = 550
-    height = 400
+    height = 350
 
     def __init__(self, app):
         self.app = app

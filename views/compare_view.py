@@ -78,5 +78,12 @@ class CompareView(ttk.Frame):
     def back(self):
         self.controller.back_main()
 
+    def set_profile(self, products):
+        self.list_treeview.delete(*self.list_treeview.get_children())
+        # [(1, 'machine', None, None), (2, 'not', None, None)]
+
+        for product in products:
+            (product_id, product_name) = product
+            self.list_treeview.insert("", "end", values=(product_id, product_name))
 
 

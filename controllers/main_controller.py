@@ -17,7 +17,7 @@ class MainController:
         self.show_detail()
 
 
-    
+
     def show_main(self):
         self.main_view.pack(padx=10, pady=10)
         x, y = getCenterPosition(self.app,width=self.width, height=self.height)
@@ -51,11 +51,20 @@ class MainController:
     
     def show_profile(self):
         db = DatabaseUtil.getInstance()
-        result = db.fetch_data("SELECT product_id, product_name, raw_mat, transpotation FROM product")
+        result = db.fetch_data("SELECT product_id, product_name FROM product")
         self.main_view.set_profile(result)
 
     def show_detail(self):
         db = DatabaseUtil.getInstance()
-        rawmats = db.fetch_data("select p.product_id, r.rawmat_id, name_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and  pr.rawmat_id = r.rawmat_id")
-        transpots = db.fetch_data("select p.product_id, pt.transpot_id, transpot_name from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and  pt.transpot_id = t.transpot_id")
+        rawmats = db.fetch_data("select name_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id")
+        transpots = db.fetch_data("select transpot_name from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id")
         self.main_view.set_detail(rawmats, transpots)
+
+        # p.product_id, r.rawmat_id,
+        # p.product_id, pt.transpot_id,
+    
+    def show_profile_new(self):
+        db = DatabaseUtil.getInstance()
+        rawmats = db.fetch_data("SELECT rawmat_id, name_raw FROM raw_mat")
+        transpots = db.fetch_data("SELECT transpot_id, transpot_name FROM transpotation")
+        self.newprofile_view.set_profile_new(rawmats, transpots)

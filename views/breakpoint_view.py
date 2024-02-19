@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 
-#controller = None
-
 class BreakpointView(ttk.Frame):
 
     def __init__(self, controller, app):
@@ -76,14 +74,3 @@ class BreakpointView(ttk.Frame):
 
     def back(self):
         self.controller.back_main()
-
-# สร้าง root window
-#root = tk.Tk()
-#root.title("Breakpoint View")
-
-# สร้างอ็อบเจกต์ของ BreakpointView แล้วแสดงหน้าต่าง
-#breakpoint_view = BreakpointView(controller=None, app=root)
-#breakpoint_view.pack()
-
-# เริ่ม main loop
-#root.mainloop()

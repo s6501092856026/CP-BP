@@ -5,7 +5,6 @@ from controllers.breakeven_controller import BreakController
 
 class App(tk.Tk):
 
-
     def __init__(self):
         super().__init__()
         self.controller = None
