@@ -1,39 +1,11 @@
 import tkinter as tk
-from tkinter import ttk, Radiobutton
+from tkinter import ttk
 
 class CompareView(ttk.Frame):
 
     def __init__(self, controller, app):
         super().__init__(app)
         self.controller = controller
-
-        def filter():
-            print (self.radio_state.get())
-            gender = self.radio_state.get()
-            self.list_treeview.delete(*self.list_treeview.get_children())
-
-        # RadioButton
-            
-            # Material
-            #if gender == 1:
-                #for row in data :
-                    #self.list_treeview.insert("", "end", values=row)
-            # Transpotation
-            #elif gender == 2:
-                #for row[2] == "Transpotation"
-                    #self.list_treeview.insert("", "end", values=row)
-            # Performance
-            #elif gender == 3:
-                #for row[2] == "Perfoemance"
-                    #self.list_treeview.insert("", "end", values=row)
-        
-        self.radio_state = tk.IntVar()
-        self.radio_material = Radiobutton(self, value=1, text="Material", variable=self.radio_state, command=filter)
-        self.radio_material.grid(row=0,column=0, padx=10, pady=10, sticky='')
-        self.radio_transpot = Radiobutton(self, value=2, text="Transpotation", variable=self.radio_state, command=filter)
-        self.radio_transpot.grid(row=0,column=0, padx=10, pady=10, sticky='E')
-        self.radio_performance = Radiobutton(self, value=3, text="Performance", variable=self.radio_state, command=filter)
-        self.radio_performance.grid(row=0,column=1, padx=10, pady=10, sticky='')
 
         # Window
 
@@ -65,15 +37,8 @@ class CompareView(ttk.Frame):
         self.list_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5, ipadx=40, ipady=75)
         # self.treeview1.insert("", "end")
 
-        def on_select(event):
-            select_item = self.list_treeview.focus
-            values = self.list_treeview.item(select_item)["values"]
-            print(values)
-
-        self.list_treeview.bind("<<TreeviewSelect>>",on_select)
-
-        self.treeview2 = ttk.Treeview(self)
-        self.treeview2.grid(row=3, rowspan=2, column=1, padx=5, pady=5, ipadx=40, ipady=75)
+        self.select_treeview = ttk.Treeview(self)
+        self.select_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5, ipadx=40, ipady=75)
 
     def back(self):
         self.controller.back_main()
