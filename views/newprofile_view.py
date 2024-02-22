@@ -52,7 +52,7 @@ class NewprofileView(ttk.Frame):
         self.back_button = ttk.Button(self, text="Back", command=self.back)
         self.back_button.grid(row=0, column=0, padx=5, pady=10, sticky='W')
 
-        self.add_button = ttk.Button(self, text="Add")
+        self.add_button = ttk.Button(self, text="Add", command=self.show_detail_view)
         self.add_button.grid(row=4,column=2, padx=10, pady=10, sticky='S')
 
         self.delete_button = ttk.Button(self, text="Delete")
@@ -90,15 +90,20 @@ class NewprofileView(ttk.Frame):
     def back(self):
         self.controller.back_main()
 
+    def show_detail_view(self):
+        self.controller.show_detail_view()
+
     def set_profile_new(self, rawmats, transpots):
         self.list_treeview.delete(*self.list_treeview.get_children())
 
         for rawmat in rawmats:
             (rawmat_id, name_raw) = rawmat
+            print(rawmat)
             self.list_treeview.insert("", "end", values=(rawmat_id, name_raw,)) 
 
         for transpot in transpots:
             (transpot_id, transpot_name) = transpot
+            print(transpot)
             self.list_treeview.insert("", "end", values=(transpot_id, transpot_name,)) 
 
 

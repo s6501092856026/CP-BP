@@ -16,8 +16,6 @@ class MainController:
         self.show_profile()
         self.show_detail()
 
-
-
     def show_main(self):
         self.main_view.pack(padx=10, pady=10)
         x, y = getCenterPosition(self.app,width=self.width, height=self.height)
@@ -48,7 +46,13 @@ class MainController:
     def show_break(self):
         self.main_view.pack_forget()
         self.app.show_break()
-    
+
+    def show_detail_view(self):
+        self.newprofile_view.pack_forget()
+        self.app.show_detail_view()
+
+
+
     def show_profile(self):
         db = DatabaseUtil.getInstance()
         result = db.fetch_data("SELECT product_id, product_name FROM product")

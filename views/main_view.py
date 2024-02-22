@@ -57,10 +57,12 @@ class MainView(ttk.Frame):
 
         for rawmat in rawmats:
             (name_raw) = rawmat
+            print(rawmat)
             self.detail_treeview.insert("", "end", values=(name_raw)) 
 
         for transpot in transpots:
             (transpot_name) = transpot
+            print(transpot)
             self.detail_treeview.insert("", "end", values=(transpot_name)) 
 
 
