@@ -67,8 +67,8 @@ class MainController:
         # p.product_id, r.rawmat_id,
         # p.product_id, pt.transpot_id,
     
-    def show_profile_new(self):
+    def show_profile_name(self):
         db = DatabaseUtil.getInstance()
-        rawmats = db.fetch_data("SELECT rawmat_id, name_raw FROM raw_mat")
-        transpots = db.fetch_data("SELECT transpot_id, transpot_name FROM transpotation")
-        self.newprofile_view.set_profile_new(rawmats, transpots)
+        rawmats_name = db.fetch_data("SELECT rawmat_id, name_raw FROM raw_mat")
+        transpots_name = db.fetch_data("SELECT transpot_id, transpot_name FROM transpotation")
+        self.newprofile_view.set_profile_name(rawmats_name, transpots_name)

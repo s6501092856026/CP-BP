@@ -20,8 +20,8 @@ class DetailController:
         self.detail_view.pack_forget()
         self.app.show_newprofile()
     
-    # def cancel(self):
-        # self.detail_view.pack_forget()
-        # self.app.show_newprofile()
+    def cancel(self):
+        self.detail_view.pack_forget()
+        self.app.show_newprofile()
     
     
