@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-#controller = None
+# controller = None
 
 class DetailView(ttk.Frame):
 

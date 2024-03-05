@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+controller = None
+
 class ConnewView(ttk.Frame):
 
     def __init__(self, controller, app):
@@ -9,40 +11,44 @@ class ConnewView(ttk.Frame):
 
        # Window
 
-        self.entry_amout = ttk.Entry(self)
-        self.entry_amout.grid(row=3,column=2, padx=10, pady=10, sticky='NEW')
+        self.label_totalcf = ttk.Label(self, text = "Total CF", justify='center')
+        self.label_totalcf.grid(row=4,column=0, padx=10, pady=10)
+
+        self.label_cf = ttk.Label(self, text = "CF", justify='center')
+        self.label_cf.grid(row=4,column=1, padx=10, pady=10)
 
         self.label_unit = ttk.Label(self, text = "Unit", justify='center')
-        self.label_unit.grid(row=3,column=2, padx=10, pady=10)
-
-        self.back_button = ttk.Button(self, text="Back")
-        self.back_button.grid(row=0, column=0, padx=5, pady=10, sticky='W')
-
-        self.add_button = ttk.Button(self, text="Add")
-        self.add_button.grid(row=4,column=2, padx=10, pady=10, sticky='NEW')
-
-        self.delete_button = ttk.Button(self, text="Delete")
-        self.delete_button.grid(row=4,column=2, padx=10, pady=10, sticky='EW')
+        self.label_unit.grid(row=4,column=2, padx=10, pady=10)
         
-        self.bp_button = ttk.Button(self, text="Break-even Point")
-        self.bp_button.grid(row=5, column=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
+        self.backtomain_button = ttk.Button(self, text="Back to Main")
+        self.backtomain_button.grid(row=5, column=2, padx=10, pady=10, ipadx=10, ipady=10)
 
-        self.complete_button = ttk.Button(self, text="Complete")
-        self.complete_button.grid(row=5, column=2, padx=10, pady=10, ipadx=10, ipady=20, sticky='SEW')
+        self.complete_button = ttk.Button(self, text="Export")
+        self.complete_button.grid(row=5, column=1, padx=10, pady=10, ipadx=10, ipady=10)
 
         # Budgets
-        self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
-        self.list_treeview.heading("ID", text="ID" )
-        self.list_treeview.heading("Name", text="Name")
-        self.list_treeview.grid(row=3, rowspan=3, column=0, padx=5, pady=5, ipadx=40, ipady=75)
-        self.list_treeview.insert("", "end")
+        self.listmat_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.listmat_treeview.heading("Detail", text="Detail" )
+        self.listmat_treeview.grid(row=0, rowspan=2, column=0, padx=5, pady=5)
+        self.listmat_treeview.insert("", "end")
+
+        self.listtranspot_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.listtranspot_treeview.heading("Detail", text="Detail" )
+        self.listtranspot_treeview.grid(row=0, rowspan=2, column=1, padx=5, pady=5)
+        self.listtranspot_treeview.insert("", "end")
+
+        self.listbreakeven_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.listbreakeven_treeview.heading("Detail", text="Detail" )
+        self.listbreakeven_treeview.grid(row=2, rowspan=2, column=0, columnspan=2 , padx=5, pady=5)
+        self.listbreakeven_treeview.insert("", "end")
         
-# Create the main application window
+# สร้าง root window
 root = tk.Tk()
-root.title("Your Window Title")
+root.title("Connew View")
 
-# Create an instance of the ConnewView class and pass the controller and app as parameters
-app = ConnewView(controller=None, app=root)
+# สร้างอ็อบเจกต์ของ BreakpointView แล้วแสดงหน้าต่าง
+connew_view = ConnewView(controller=None, app=root)
+connew_view.pack()
 
-# Run the Tkinter main loop
+# เริ่ม main loop
 root.mainloop()

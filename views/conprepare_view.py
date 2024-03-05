@@ -1,49 +1,54 @@
 import tkinter as tk
+from tkinter import ttk
 
-def calculate_footprint():
-    # ฟังก์ชันนี้จะทำการคำนวณ carbon footprint ตามที่ต้องการ
+controller = None
 
-    # ในที่นี้คุณสามารถเขียนโค้ดเพิ่มเติมเพื่อทำการคำนวณ carbon footprint ได้
+class ConprepareView(ttk.Frame):
 
-    # ตัวอย่างการคำนวณ
-    # ค่าการใช้พลังงาน
-    electricity = float(entry_electricity.get())
-    transportation = float(entry_transportation.get())
-    waste = float(entry_waste.get())
+    def __init__(self, controller, app):
+        super().__init__(app)
+        self.controller = controller
 
-    # ปริมาณ carbon footprint
-    carbon_footprint = electricity + transportation + waste
+       # Window
 
-    # แสดงผลใน Label
-    lbl_result.config(text=f"Carbon Footprint: {carbon_footprint} tons CO2e")
+        self.label_totalcf = ttk.Label(self, text = "Total CF", justify='center')
+        self.label_totalcf.grid(row=4,column=0, padx=10, pady=10)
 
-# สร้างหน้าต่างหลัก
+        self.label_cf = ttk.Label(self, text = "CF", justify='center')
+        self.label_cf.grid(row=4,column=1, padx=10, pady=10)
+
+        self.label_unit = ttk.Label(self, text = "Unit", justify='center')
+        self.label_unit.grid(row=4,column=2, padx=10, pady=10)
+        
+        self.backtomain_button = ttk.Button(self, text="Back to Main")
+        self.backtomain_button.grid(row=5, column=2, padx=10, pady=10, ipadx=10, ipady=10)
+
+        self.complete_button = ttk.Button(self, text="Export")
+        self.complete_button.grid(row=5, column=1, padx=10, pady=10, ipadx=10, ipady=10)
+
+        # Budgets
+        self.listmat_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.listmat_treeview.heading("Detail", text="Detail" )
+        self.listmat_treeview.grid(row=0, rowspan=2, column=0, padx=5, pady=5)
+        self.listmat_treeview.insert("", "end")
+
+        self.listtranspot_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.listtranspot_treeview.heading("Detail", text="Detail" )
+        self.listtranspot_treeview.grid(row=0, rowspan=2, column=1, padx=5, pady=5)
+        self.listtranspot_treeview.insert("", "end")
+
+        self.listbreakeven_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.listbreakeven_treeview.heading("Detail", text="Detail" )
+        self.listbreakeven_treeview.grid(row=2, rowspan=2, column=0, columnspan=2 , padx=5, pady=5)
+        self.listbreakeven_treeview.insert("", "end")
+        
+# สร้าง root window
 root = tk.Tk()
-root.title("Carbon Footprint Calculator")
+root.title("Conprepare View")
 
-# สร้าง Label และ Entry สำหรับใส่ข้อมูล
-lbl_electricity = tk.Label(root, text="Electricity usage (tons CO2e):")
-lbl_electricity.pack()
-entry_electricity = tk.Entry(root)
-entry_electricity.pack()
+# สร้างอ็อบเจกต์ของ BreakpointView แล้วแสดงหน้าต่าง
+conprepare_view = ConprepareView(controller=None, app=root)
+conprepare_view.pack()
 
-lbl_transportation = tk.Label(root, text="Transportation (tons CO2e):")
-lbl_transportation.pack()
-entry_transportation = tk.Entry(root)
-entry_transportation.pack()
-
-lbl_waste = tk.Label(root, text="Waste (tons CO2e):")
-lbl_waste.pack()
-entry_waste = tk.Entry(root)
-entry_waste.pack()
-
-# สร้างปุ่มคำนวณ
-btn_calculate = tk.Button(root, text="Calculate", command=calculate_footprint)
-btn_calculate.pack()
-
-# Label สำหรับแสดงผลลัพธ์
-lbl_result = tk.Label(root, text="")
-lbl_result.pack()
-
-# เริ่มต้นโปรแกรม
+# เริ่ม main loop
 root.mainloop()
