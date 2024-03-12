@@ -2,7 +2,7 @@ import tkinter as tk
 from controllers.authen_controller import AuthenController
 from controllers.main_controller import MainController
 from controllers.breakeven_controller import BreakController
-from controllers.detail_controller import DetailController
+# from controllers.detail_controller import DetailController
 
 class App(tk.Tk):
 
@@ -24,9 +24,9 @@ class App(tk.Tk):
         self.controller = BreakController(self)
         self.controller.show_break()
     
-    def show_detail_view(self):
-        self.controller = DetailController(self)
-        self.controller.show_detail_view()
+    # def show_detail_view(self):
+        # self.controller = DetailController(self)
+        # self.controller.show_detail_view()
 
 if __name__ == "__main__":
     app=App()
