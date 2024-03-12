@@ -12,7 +12,7 @@ class MainView(ttk.Frame):
         self.edit_profile = ttk.Button(self, text = "Edit Profile")
         self.edit_profile.grid(row=0, column=2, padx=10, pady=10, ipady=10, sticky='N')
 
-        self.delete_button = ttk.Button(self, text="Delete Profile")
+        self.delete_button = ttk.Button(self, text="Delete Profile", command=self.delete_selected_item)
         self.delete_button.grid(row=0, column=2, padx=10, pady=10, ipady=5, sticky='S')
 
         self.breakeven_button = ttk.Button(self, text="Break-even Point", command=self.breakeven)
@@ -26,10 +26,12 @@ class MainView(ttk.Frame):
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
-        self.list_treeview.heading("ID", text="ID" )
+        self.list_treeview.heading("ID", text="ID")
+        self.list_treeview.column("ID", width=10)
         self.list_treeview.heading("Name", text="Name")
         self.list_treeview.grid(row=0, rowspan=3, column=0, padx=5, pady=5, ipadx=40, ipady=75)
         
+        self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
         self.detail_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
         self.detail_treeview.heading("Detail", text="Detail")
@@ -57,13 +59,23 @@ class MainView(ttk.Frame):
 
         for rawmat in rawmats:
             (name_raw) = rawmat
-            print(rawmat)
             self.detail_treeview.insert("", "end", values=(name_raw)) 
 
         for transpot in transpots:
             (transpot_name) = transpot
-            print(transpot)
             self.detail_treeview.insert("", "end", values=(transpot_name)) 
 
+    def get_selected_item(self):
+        selected_item = self.list_treeview.focus()  # Get the item that is currently selected
+        if  selected_item:  # If an item is selected
+            item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
+            self.controller.show_detail(item_text[0])
 
+    def delete_selected_item(self):
+        selected_item = self.list_treeview.focus()  # Get the item that is currently selected
+        if  selected_item:  # If an item is selected
+            item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
+            self.controller.delete_profile(item_text[0])
+            self.controller.show_profile()
 
+   
