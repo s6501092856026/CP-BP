@@ -56,6 +56,24 @@ class NewprofileView(ttk.Frame):
         self.list_treeview.heading("Name", text="Name")
         self.list_treeview.grid(row=3, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
 
+        # self.mat_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
+        # self.mat_treeview.heading("ID", text="ID" )
+        # self.mat_treeview.column("ID", width=10)
+        # self.mat_treeview.heading("Name", text="Name")
+        # self.mat_treeview.grid(row=3, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
+
+        # self.transpot_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
+        # self.transpot_treeview.heading("ID", text="ID" )
+        # self.transpot_treeview.column("ID", width=10)
+        # self.transpot_treeview.heading("Name", text="Name")
+        # self.transpot_treeview.grid(row=3, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
+
+        # self.performance_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
+        # self.performance_treeview.heading("ID", text="ID" )
+        # self.performance_treeview.column("ID", width=10)
+        # self.performance_treeview.heading("Name", text="Name")
+        # self.performance_treeview.grid(row=3, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
+
         self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", ), show="headings")
         self.select_treeview.heading('Type', text="Type")
         self.select_treeview.heading("ID", text="ID" )
