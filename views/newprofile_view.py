@@ -74,11 +74,12 @@ class NewprofileView(ttk.Frame):
         # self.performance_treeview.heading("Name", text="Name")
         # self.performance_treeview.grid(row=3, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
 
-        self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", ), show="headings")
+        self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", ), show="headings")
         self.select_treeview.heading('Type', text="Type")
         self.select_treeview.heading("ID", text="ID" )
-        self.list_treeview.column("ID", width=10)
+        self.select_treeview.column("ID", width=10)
         self.select_treeview.heading("Name", text="Name")
+        self.select_treeview.heading("Amount", text="Amount")
         self.select_treeview.grid(row=3, rowspan=4, column=1, padx=5, pady=5, ipadx=40, ipady=75)
         
     def filter(self, event = None):
@@ -99,7 +100,8 @@ class NewprofileView(ttk.Frame):
         self.list_treeview.delete(*self.list_treeview.get_children())
         for rawmat in rawmats:
             (rawmat_id, name_raw) = rawmat
-            self.list_treeview.insert("", "end", values=(rawmat_id, name_raw,)) 
+            self.list_treeview.insert("", "end", values=(rawmat_id, name_raw,))
+
         for transpot in transpots:
             (transpot_id, transpot_name) = transpot
             self.list_treeview.insert("", "end", values=(transpot_id, transpot_name,)) 
