@@ -96,6 +96,7 @@ class NewprofileView(ttk.Frame):
         self.controller.show_detail_view()
 
     def set_profile_name(self, rawmats, type_rawmats , transpots, performances, type_performances):
+        
         # TREEVIEW
         self.list_treeview.delete(*self.list_treeview.get_children())
         for rawmat in rawmats:
