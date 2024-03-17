@@ -47,6 +47,7 @@ class SignupView(ttk.Frame):
 
         button_signup = ttk.Button(self, text="Signup",command=self.signup)
         button_signup.grid(row=7, column=0, padx=10, pady=10)
+        
         button_back = ttk.Button(self, text="Back", command=self.controller.show_login)
         button_back.grid(row=7, column=1, padx=10, pady=10, sticky='E')
 

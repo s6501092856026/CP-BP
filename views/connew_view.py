@@ -42,6 +42,9 @@ class ConnewView(ttk.Frame):
         self.listbreakeven_treeview.grid(row=2, rowspan=2, column=0, columnspan=2 , padx=5, pady=5)
         self.listbreakeven_treeview.insert("", "end")
         
+    def breakeven(self):
+        self.controller.show_break()
+
 # สร้าง root window
 root = tk.Tk()
 root.title("Connew View")

@@ -8,10 +8,13 @@ class NewprofileView(ttk.Frame):
         self.controller = controller
         
         self.radio_state = tk.IntVar(value=1)
+
         self.radio_material = Radiobutton(self, value=1, text="Material", variable=self.radio_state, command=self.filter)
         self.radio_material.grid(row=0,column=0, padx=10, pady=10, sticky='')
+
         self.radio_transpot = Radiobutton(self, value=2, text="Transpotation", variable=self.radio_state, command=self.filter)
         self.radio_transpot.grid(row=0,column=1, padx=10, pady=10, sticky='W')
+
         self.radio_performance = Radiobutton(self, value=3, text="Performance", variable=self.radio_state, command=self.filter)
         self.radio_performance.grid(row=0,column=1, padx=10, pady=10, sticky='')
 
@@ -21,7 +24,6 @@ class NewprofileView(ttk.Frame):
         self.combo_box.bind("<<ComboboxSelected>>", self.filter)
 
         # Window
-
         self.entry_name = ttk.Entry(self)
         self.entry_name.grid(row=0,column=2, padx=10, pady=10, sticky='NEW')
 
@@ -43,7 +45,7 @@ class NewprofileView(ttk.Frame):
         self.delete_button = ttk.Button(self, text="Delete", command=self.delete_profile_item)
         self.delete_button.grid(row=4,column=3, padx=15, pady=10, sticky='')
         
-        self.bp_button = ttk.Button(self, text="Break-even Point")
+        self.bp_button = ttk.Button(self, text="Break-even Point", command=self.breakeven)
         self.bp_button.grid(row=5, column=2, columnspan=2, padx=10, pady=10, ipadx=20, ipady=10, sticky='S')
 
         self.complete_button = ttk.Button(self, text="Complete")
@@ -83,8 +85,10 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.grid(row=3, rowspan=4, column=1, padx=5, pady=5, ipadx=40, ipady=75)
         
     def filter(self, event = None):
+        
         # radio button
         filter_cate = self.radio_state.get()
+        
         # combobox
         filter_type = self.combo_box.get()
         self.controller.show_profile_name(filter_cate, filter_type)
@@ -94,6 +98,9 @@ class NewprofileView(ttk.Frame):
 
     def show_detail_view(self):
         self.controller.show_detail_view()
+
+    def breakeven(self):
+        self.controller.show_break()
 
     def set_profile_name(self, rawmats, type_rawmats , transpots, performances, type_performances):
         
@@ -145,4 +152,3 @@ class NewprofileView(ttk.Frame):
         selected_item = self.select_treeview.focus()  # Get the item that is currently selected
         if  selected_item:  # If an item is selected
             self.select_treeview.delete(selected_item)
-

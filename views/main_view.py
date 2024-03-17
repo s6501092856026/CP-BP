@@ -77,5 +77,3 @@ class MainView(ttk.Frame):
             item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
             self.controller.delete_profile(item_text[0])
             self.controller.show_profile()
-
-   
