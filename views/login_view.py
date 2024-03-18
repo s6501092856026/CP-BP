@@ -6,10 +6,10 @@ class LoginView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
-        self.label_email = ttk.Label(self, text = "Username", font=("Arial", 9, "bold"))
+        self.label_email = ttk.Label(self, text = "Username", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_email.grid(row=0, column=0, pady=(20, 0))
 
-        self.label_password = ttk.Label(self, text = "Password", font=("Arial", 9, "bold"))
+        self.label_password = ttk.Label(self, text = "Password", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_password.grid(row=2, column=0, padx=10, pady=10)
 
         self.warning_msg = ttk.Label(self, text = "",foreground="red")

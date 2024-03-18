@@ -11,6 +11,8 @@ class App(tk.Tk):
         super().__init__()
         self.controller = None
         self.title("CF&BP")
+        self.iconbitmap('icon.ico')
+
         self.show_login()
 
     def show_login(self):
@@ -32,10 +34,6 @@ class App(tk.Tk):
     def show_conprepare(self):
         self.controller = ConprepareController(self)
         self.controller.show_conprepare()
-    
-    # def show_detail_view(self):
-        # self.controller = DetailController(self)
-        # self.controller.show_detail_view()
 
 if __name__ == "__main__":
     app=App()

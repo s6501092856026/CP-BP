@@ -18,7 +18,6 @@ class NewprofileView(ttk.Frame):
         self.radio_performance = Radiobutton(self, value=3, text="Performance", variable=self.radio_state, command=self.filter)
         self.radio_performance.grid(row=0,column=2, padx=10, pady=10, sticky='')
 
-
         self.combo_box = ttk.Combobox(self,)
         self.combo_box.grid(row=0,column=2, padx=10, pady=10, sticky='E')
         self.combo_box.bind("<<ComboboxSelected>>", self.filter)

@@ -1,3 +1,4 @@
+import tkinter as tk
 from views.signup_view import SignupView
 from views.login_view import LoginView
 from utils.window import getCenterPosition
@@ -50,12 +51,14 @@ class AuthenController:
         self.signup_view.pack_forget()
         x, y = getCenterPosition(self.app,width=self.width, height=self.height)
         self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
+
         self.login_view.pack(padx=10, pady=10, expand=True)
     
     def show_signup(self):
         self.login_view.pack_forget()
         x, y = getCenterPosition(self.app,width=self.width, height=self.height)
         self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
+        
         self.signup_view.pack(padx=10, pady=10, expand=True)
     
     

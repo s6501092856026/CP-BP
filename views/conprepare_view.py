@@ -9,26 +9,26 @@ class ConprepareView(ttk.Frame):
 
        # Window
 
-        self.label_input = ttk.Label(self, text = "Input", justify='center', font=("Arial", 9, "bold"))
+        self.label_input = ttk.Label(self, text = "Input", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_input.grid(row=0, column=0, padx=10, pady=10, sticky='N')
 
-        self.label_process = ttk.Label(self, text = "Process", justify='center', font=("Arial", 9, "bold"))
+        self.label_process = ttk.Label(self, text = "Process", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_process.grid(row=0, column=1, padx=10, pady=10, sticky='N')
 
-        self.label_output = ttk.Label(self, text = "Output", justify='center', font=("Arial", 9, "bold"))
+        self.label_output = ttk.Label(self, text = "Output", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_output.grid(row=0, column=2, padx=10, pady=10, sticky='N')
 
-        self.label_totalcf = ttk.Label(self, text = "Total CF", justify='center', font=("Arial", 9, "bold"))
+        self.label_totalcf = ttk.Label(self, text = "Total CF", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_totalcf.grid(row=7,column=0, padx=10, pady=10)
 
-        self.label_cf = ttk.Label(self, text = "CF", justify='center', font=("Arial", 9, "bold"))
+        self.label_cf = ttk.Label(self, text = "CF", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_cf.grid(row=7,column=1, padx=10, pady=10)
 
-        self.label_unit = ttk.Label(self, text = "Unit", justify='center', font=("Arial", 9, "bold"))
+        self.label_unit = ttk.Label(self, text = "Unit", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_unit.grid(row=7,column=2, padx=10, pady=10)
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
-        self.return_button.grid(row=8, column=2, padx=10, pady=10, ipadx=10, ipady=10)
+        self.return_button.grid(row=8, column=3, padx=10, pady=10, ipadx=10, ipady=10)
 
         # self.complete_button = ttk.Button(self, text="Export")
         # self.complete_button.grid(row=5, column=1, padx=10, pady=10, ipadx=10, ipady=10)

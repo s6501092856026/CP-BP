@@ -5,7 +5,7 @@ from utils.database import DatabaseUtil
 from utils.window import getCenterPosition
 class MainController:
     width = 800
-    height = 450
+    height = 425
 
     def __init__(self, app):
         self.app = app
@@ -33,15 +33,15 @@ class MainController:
     def show_newprofile(self):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1225, height=self.height)
-        self.app.geometry(f"{1225}x{self.height}+{x}+{y}")
+        x, y = getCenterPosition(self.app,width=1225, height=450)
+        self.app.geometry(f"{1225}x{450}+{x}+{y}")
         self.newprofile_view.pack(padx=10, pady=10)
 
     def show_compare(self):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=self.width, height=self.height)
-        self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
+        x, y = getCenterPosition(self.app,width=self.width, height=450)
+        self.app.geometry(f"{self.width}x{450}+{x}+{y}")
         self.compare_view.pack(padx=10, pady=10)
 
     def show_break(self):
