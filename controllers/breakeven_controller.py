@@ -1,6 +1,6 @@
 from views.breakpoint_view import BreakpointView
 from utils.window import getCenterPosition
-#from utils.database import DatabaseUtil
+from utils.database import DatabaseUtil
 
 class BreakController:
     width = 550
@@ -20,3 +20,7 @@ class BreakController:
         self.breakpoint_view.pack_forget()
         self.app.show_main()
     
+    def show_nameprofile(self):
+        db = DatabaseUtil.getInstance()
+        result = db.fetch_data("SELECT product_name FROM product")
+        self.breakpoint_view.set_nameprofile(result)
