@@ -26,13 +26,13 @@ class NewprofileView(ttk.Frame):
         self.entry_name = ttk.Entry(self)
         self.entry_name.grid(row=0,column=3, padx=10, pady=10, sticky='NEW')
 
-        self.label_name = ttk.Label(self, text = "Name Profile")
+        self.label_name = ttk.Label(self, text = "Name Profile", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_name.grid(row=0,column=4, padx=10, pady=10, sticky= 'W')
 
         self.back_button = ttk.Button(self, text="Back", command=self.back)
         self.back_button.grid(row=0, column=0, padx=5, pady=10, sticky='W')
 
-        self.label_unit = ttk.Label(self, text = "Unit")
+        self.label_unit = ttk.Label(self, text = "Unit", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_unit.grid(row=3,column=4, padx=10, pady=10, sticky='W')
 
         self.entry_unit = ttk.Entry(self)
@@ -55,7 +55,7 @@ class NewprofileView(ttk.Frame):
         self.list_treeview.heading("ID", text="ID")
         self.list_treeview.column("ID", width=30)
         self.list_treeview.heading("Name", text="Name")
-        self.list_treeview.column("Name", width=300)
+        self.list_treeview.column("Name", width=310)
         self.list_treeview.grid(row=3, rowspan=4, column=0, ipady=75)
 
         # สร้าง Scrollbar แนวแกน Y
@@ -87,7 +87,7 @@ class NewprofileView(ttk.Frame):
 
         self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", ), show="headings")
         self.select_treeview.heading('Type', text="Type")
-        self.select_treeview.column("Type", width=75)
+        self.select_treeview.column("Type", width=85)
         self.select_treeview.heading("ID", text="ID" )
         self.select_treeview.column("ID", width=30)
         self.select_treeview.heading("Name", text="Name")

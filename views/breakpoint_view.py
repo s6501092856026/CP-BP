@@ -80,7 +80,6 @@ class BreakpointView(ttk.Frame):
         self.conclusion_button.grid(row=12, column=2, padx=10, pady=10)
     
     def set_nameprofile(self, products):
-
     
         # self.combo_box.delete(0, tk.END)
         

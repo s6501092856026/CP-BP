@@ -33,15 +33,15 @@ class MainController:
     def show_newprofile(self):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1225, height=450)
-        self.app.geometry(f"{1225}x{450}+{x}+{y}")
+        x, y = getCenterPosition(self.app,width=1250, height=450)
+        self.app.geometry(f"{1250}x{450}+{x}+{y}")
         self.newprofile_view.pack(padx=10, pady=10)
 
     def show_compare(self):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=self.width, height=450)
-        self.app.geometry(f"{self.width}x{450}+{x}+{y}")
+        x, y = getCenterPosition(self.app,width=815, height=450)
+        self.app.geometry(f"{815}x{450}+{x}+{y}")
         self.compare_view.pack(padx=10, pady=10)
 
     def show_break(self):
