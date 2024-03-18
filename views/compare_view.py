@@ -38,8 +38,11 @@ class CompareView(ttk.Frame):
         self.list_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5, ipadx=40, ipady=75)
         # self.treeview1.insert("", "end")
 
-        self.select_treeview = ttk.Treeview(self)
-        self.select_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5, ipadx=40, ipady=75)
+        self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
+
+        self.detail_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.detail_treeview.heading("Detail", text="Detail")
+        self.detail_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5, ipadx=40, ipady=75)
 
     def back(self):
         self.controller.back_main()
@@ -54,5 +57,22 @@ class CompareView(ttk.Frame):
         for product in products:
             (product_id, product_name) = product
             self.list_treeview.insert("", "end", values=(product_id, product_name))
+
+    def set_detail(self, rawmats, transpots):
+        self.detail_treeview.delete(*self.detail_treeview.get_children())
+
+        for rawmat in rawmats:
+            (name_raw) = rawmat
+            self.detail_treeview.insert("", "end", values=(name_raw)) 
+
+        for transpot in transpots:
+            (transpot_name) = transpot
+            self.detail_treeview.insert("", "end", values=(transpot_name))
+        
+    def get_selected_item(self):
+        selected_item = self.list_treeview.focus()  # Get the item that is currently selected
+        if  selected_item:  # If an item is selected
+            item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
+            self.controller.show_detail(item_text[0])
 
 
