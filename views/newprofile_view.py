@@ -91,7 +91,7 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.heading("ID", text="ID" )
         self.select_treeview.column("ID", width=30)
         self.select_treeview.heading("Name", text="Name")
-        self.select_treeview.column("Name", width=300)
+        self.select_treeview.column("Name", width=310)
         self.select_treeview.heading("Amount", text="Amount")
         self.select_treeview.grid(row=3, rowspan=4, column=2, padx=5, pady=5, ipady=75)
         
