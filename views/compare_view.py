@@ -24,8 +24,8 @@ class CompareView(ttk.Frame):
         self.delete_button = ttk.Button(self, text="Delete")
         self.delete_button.grid(row=4,column=3, padx=10, pady=10, sticky='N')
         
-        self.bp_button = ttk.Button(self, text="Break-even Point")
-        self.bp_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='EW')
+        # self.bp_button = ttk.Button(self, text="Break-even Point", command=self.breakeven)
+        # self.bp_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='EW')
 
         self.complete_button = ttk.Button(self, text="Complete")
         self.complete_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=20, sticky='SEW')

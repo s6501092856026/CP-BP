@@ -78,11 +78,13 @@ class NewprofileView(ttk.Frame):
 
         self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", ), show="headings")
         self.select_treeview.heading('Type', text="Type")
+        self.select_treeview.column("Type", width=75)
         self.select_treeview.heading("ID", text="ID" )
         self.select_treeview.column("ID", width=10)
         self.select_treeview.heading("Name", text="Name")
+        self.select_treeview.column("Name", width=300)
         self.select_treeview.heading("Amount", text="Amount")
-        self.select_treeview.grid(row=3, rowspan=4, column=1, padx=5, pady=5, ipadx=40, ipady=75)
+        self.select_treeview.grid(row=3, rowspan=4, column=1, padx=5, pady=5, ipady=75)
         
     def filter(self, event = None):
         
