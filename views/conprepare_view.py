@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-controller = None
+# controller = None
 
 class ConprepareView(ttk.Frame):
 
@@ -20,11 +20,11 @@ class ConprepareView(ttk.Frame):
         self.label_unit = ttk.Label(self, text = "Unit", justify='center')
         self.label_unit.grid(row=4,column=2, padx=10, pady=10)
         
-        self.backtomain_button = ttk.Button(self, text="Back to Main")
+        self.backtomain_button = ttk.Button(self, text="Return to Profile")
         self.backtomain_button.grid(row=5, column=2, padx=10, pady=10, ipadx=10, ipady=10)
 
-        self.complete_button = ttk.Button(self, text="Export")
-        self.complete_button.grid(row=5, column=1, padx=10, pady=10, ipadx=10, ipady=10)
+        # self.complete_button = ttk.Button(self, text="Export")
+        # self.complete_button.grid(row=5, column=1, padx=10, pady=10, ipadx=10, ipady=10)
 
         # Budgets
         self.listmat_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
@@ -43,12 +43,12 @@ class ConprepareView(ttk.Frame):
         self.listbreakeven_treeview.insert("", "end")
         
 # สร้าง root window
-root = tk.Tk()
-root.title("Conprepare View")
+# root = tk.Tk()
+# root.title("Conprepare View")
 
 # สร้างอ็อบเจกต์ของ BreakpointView แล้วแสดงหน้าต่าง
-conprepare_view = ConprepareView(controller=None, app=root)
-conprepare_view.pack()
+# conprepare_view = ConprepareView(controller=None, app=root)
+# conprepare_view.pack()
 
 # เริ่ม main loop
-root.mainloop()
+# root.mainloop()

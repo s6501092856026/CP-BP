@@ -18,5 +18,5 @@ class BreakController:
     
     def back_main(self):
         self.breakpoint_view.pack_forget()
-        self.app.show_main()    
+        self.app.show_main()
     

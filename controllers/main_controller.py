@@ -50,6 +50,18 @@ class MainController:
         self.compare_view.pack_forget()
         self.app.show_break()
 
+    def show_connew(self):
+        self.main_view.pack_forget()
+        self.newprofile_view.pack_forget()
+        self.compare_view.pack_forget()
+        self.app.show_connew()
+    
+    def show_conprepare(self):
+        self.main_view.pack_forget()
+        self.newprofile_view.pack_forget()
+        self.compare_view.pack_forget()
+        self.app.show_conprepare()
+
     def show_detail_view(self):
         self.newprofile_view.pack_forget()
         self.app.show_detail_view()

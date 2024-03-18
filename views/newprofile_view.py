@@ -48,7 +48,7 @@ class NewprofileView(ttk.Frame):
         self.bp_button = ttk.Button(self, text="Break-even Point", command=self.breakeven)
         self.bp_button.grid(row=5, column=2, columnspan=2, padx=10, pady=10, ipadx=20, ipady=10, sticky='S')
 
-        self.complete_button = ttk.Button(self, text="Complete")
+        self.complete_button = ttk.Button(self, text="Complete", command=self.connew)
         self.complete_button.grid(row=6, column=2, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='')
 
         # Budgets
@@ -103,6 +103,9 @@ class NewprofileView(ttk.Frame):
 
     def breakeven(self):
         self.controller.show_break()
+    
+    def connew(self):
+        self.controller.show_connew()
 
     def set_profile_name(self, rawmats, type_rawmats , transpots, performances, type_performances):
         

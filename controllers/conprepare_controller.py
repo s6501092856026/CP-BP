@@ -1,24 +1,28 @@
-from views.connew_view import ConnewView
+# from views.connew_view import ConnewView
 from views.conprepare_view import ConprepareView
 from utils.database import DatabaseUtil
 from utils.window import getCenterPosition
-class MainController:
-    width = 775
-    height = 450
+class ConprepareController:
+    width = 1000
+    height = 600
 
     def __init__(self, app):
         self.app = app
 
-        self.connew_view = ConnewView(self, app)
+        # self.connew_view = ConnewView(self, app)
         self.conprepare_view = ConprepareView(self, app)
-        self.show_profile()
-        self.show_profile_name(1, '')
+        # self.show_profile()
+        # self.show_profile_name(1, '')
 
-    def show_connew(self):
-        self.connew_view.pack(padx=10, pady=10)
+    def show_conprepare(self):
+        self.conprepare_view.pack_forget()
         x, y = getCenterPosition(self.app,width=self.width, height=self.height)
         self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
-        self.connew_view.pack(padx=10, pady=10)
+        self.conprepare_view.pack(padx=10, pady=10)
+
+    def back_main(self):
+        self.conprepare_view.pack_forget()
+        self.app.show_main()
     
     # def back_main(self):
         # self.compare_view.pack_forget()
@@ -27,11 +31,11 @@ class MainController:
         # self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
         # self.main_view.pack(padx=10, pady=10)
     
-    def show_conprepare(self):
-        self.conprepare_view.pack(padx=10, pady=10)
-        x, y = getCenterPosition(self.app,width=1275, height=self.height)
-        self.app.geometry(f"{1275}x{self.height}+{x}+{y}")
-        self.conprepare_view.pack(padx=10, pady=10)
+    #def show_conprepare(self):
+        # self.conprepare_view.pack_forget()
+        # x, y = getCenterPosition(self.app,width=1275, height=self.height)
+        # self.app.geometry(f"{1275}x{self.height}+{x}+{y}")
+        # self.conprepare_view.pack(padx=10, pady=10)
 
     # def show_break(self):
         # self.connew_view.pack_forget()
