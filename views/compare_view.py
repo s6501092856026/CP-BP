@@ -25,10 +25,10 @@ class CompareView(ttk.Frame):
         self.entry_product2.grid(row=4, column=3, columnspan=2 , padx=10, pady=10, sticky='N')
 
         self.add_button = ttk.Button(self, text="Add")
-        self.add_button.grid(row=4, column=3, padx=10, pady=10, sticky='S')
+        self.add_button.grid(row=4, column=3, padx=10, pady=10, ipady=10, sticky='S')
 
         self.delete_button = ttk.Button(self, text="Delete")
-        self.delete_button.grid(row=4, column=4, padx=10, pady=10, sticky='S')
+        self.delete_button.grid(row=4, column=4, padx=10, pady=10, ipady=10, sticky='S')
 
         self.complete_button = ttk.Button(self, text="Complete", command=self.conprepare)
         self.complete_button.grid(row=5, column=3, columnspan=2 , padx=10, pady=10, ipadx=10, ipady=15, sticky='SEW')

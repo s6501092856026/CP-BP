@@ -13,7 +13,7 @@ class MainView(ttk.Frame):
         self.label_delete.grid(row=2, column=2, padx=10, pady=10, ipady=10, sticky='NEW')
 
         self.delete_button = ttk.Button(self, text="Delete", command=self.delete_selected_item)
-        self.delete_button.grid(row=2, column=2, padx=10, pady=10, sticky='S')
+        self.delete_button.grid(row=2, column=2, padx=10, pady=10, ipady=10, sticky='S')
 
         self.label_break = ttk.Label(self, text="Calculate Break-even Point", justify='center', anchor='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_break.grid(row=0, column=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
