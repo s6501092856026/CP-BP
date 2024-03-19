@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import matplotlib.pyplot as plt
 
 # controller = None
 
@@ -36,6 +37,15 @@ class ConnewView(ttk.Frame):
         # self.complete_button.grid(row=5, column=1, padx=10, pady=10, ipadx=10, ipady=10)
 
         # Budgets
+
+        # Input Graph Frame (new)
+        # self.input_graph_frame = ttk.Frame(self)
+        # self.input_graph_frame.grid(row=1, rowspan=2, column=0)
+
+        # Placeholder label for the graph (initially)
+        # self.input_graph_label = ttk.Label(self.input_graph_frame, text="Input Graph")
+        # self.input_graph_label.grid(row=0, rowspan=2, column=0, sticky='nsew')
+
         self.input_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
         self.input_treeview.heading("Graph", text="Graph" )
         self.input_treeview.grid(row=1, rowspan=2, column=0)
@@ -44,27 +54,22 @@ class ConnewView(ttk.Frame):
         self.detail1_treeview = ttk.Treeview(self, columns=("Input"), show="headings")
         self.detail1_treeview.heading("Input", text="Input" )
         self.detail1_treeview.grid(row=3, rowspan=2, column=0)
-        self.detail1_treeview.insert("", "end")
-
+        
         self.process_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
         self.process_treeview.heading("Graph", text="Graph" )
         self.process_treeview.grid(row=1, rowspan=2, column=1)
-        self.process_treeview.insert("", "end")
 
         self.detail2_treeview = ttk.Treeview(self, columns=("Process"), show="headings")
         self.detail2_treeview.heading("Process", text="Process" )
         self.detail2_treeview.grid(row=3, rowspan=2, column=1)
-        self.detail2_treeview.insert("", "end")
 
         self.output_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
         self.output_treeview.heading("Graph", text="Graph" )
         self.output_treeview.grid(row=1, rowspan=2, column=2)
-        self.output_treeview.insert("", "end")
 
         self.detail3_treeview = ttk.Treeview(self, columns=("Output"), show="headings")
         self.detail3_treeview.heading("Output", text="Output" )
         self.detail3_treeview.grid(row=3, rowspan=2, column=2)
-        self.detail3_treeview.insert("", "end")
 
         # self.listbreakeven_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
         # self.listbreakeven_treeview.heading("Detail", text="Detail" )
