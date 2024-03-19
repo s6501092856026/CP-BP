@@ -39,16 +39,16 @@ class NewprofileView(ttk.Frame):
         self.entry_unit.grid(row=3,column=3, padx=10, pady=10, sticky='EW')
 
         self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)
-        self.add_button.grid(row=4,column=3, padx=15, pady=10, sticky='')
+        self.add_button.grid(row=4,column=3, padx=10, pady=10, ipady=10, sticky='')
 
         self.delete_button = ttk.Button(self, text="Remove", command=self.delete_profile_item)
-        self.delete_button.grid(row=4,column=4, padx=15, pady=10, sticky='')
+        self.delete_button.grid(row=4,column=4, padx=10, pady=10, ipady=10, sticky='')
         
         self.bp_button = ttk.Button(self, text="Break-even Point", command=self.breakeven)
-        self.bp_button.grid(row=5, column=3, columnspan=2, padx=10, pady=10, ipadx=20, ipady=10, sticky='S')
+        self.bp_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=20, ipady=10, sticky='N')
 
         self.complete_button = ttk.Button(self, text="Complete", command=self.connew)
-        self.complete_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='')
+        self.complete_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='S')
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")

@@ -16,16 +16,16 @@ class MainView(ttk.Frame):
         self.delete_button.grid(row=2, column=2, padx=10, pady=10, sticky='S')
 
         self.label_break = ttk.Label(self, text="Calculate Break-even Point", justify='center', anchor='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_break.grid(row=0, column=2, padx=10, pady=10, ipady=10, sticky='NEW')
+        self.label_break.grid(row=0, column=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
 
         self.breakeven_button = ttk.Button(self, text="Break-even Point", command=self.breakeven)
-        self.breakeven_button.grid(row=0, column=2, padx=10, pady=10, ipady=10, sticky='S')
+        self.breakeven_button.grid(row=0, column=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='S')
 
         self.label_create = ttk.Label(self, text="Create New Profile", justify='center', anchor='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_create.grid(row=1, column=2, padx=10, pady=10, ipady=10, sticky='NEW')
 
         self.newprofile_button = ttk.Button(self, text="New Profile", command=self.newprofile)
-        self.newprofile_button.grid(row=1, column=2, padx=10, pady=10, ipady=10, sticky='S')
+        self.newprofile_button.grid(row=1, column=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='S')
 
         self.label_compare = ttk.Label(self, text="Compare Product", justify='center', anchor='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_compare.grid(row=3, column=2, padx=10, pady=10, ipady=10, sticky='NEW')
