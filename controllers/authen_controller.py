@@ -49,8 +49,8 @@ class AuthenController:
 
     def show_login(self):
         self.signup_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=self.width, height=self.height)
-        self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
+        x, y = getCenterPosition(self.app,width=self.width + 100, height=self.height + 100)
+        self.app.geometry(f"{self.width + 100}x{self.height + 100}+{x}+{y}")
 
         self.login_view.pack(padx=10, pady=10, expand=True)
     
