@@ -61,7 +61,7 @@ class CompareView(ttk.Frame):
             (product_id, product_name) = product
             self.list_treeview.insert("", "end", values=(product_id, product_name))
 
-    def set_detail(self, rawmats, transpots):
+    def set_detail(self, rawmats, transpots, performances):
         self.detail_treeview.delete(*self.detail_treeview.get_children())
 
         for rawmat in rawmats:
@@ -71,6 +71,10 @@ class CompareView(ttk.Frame):
         for transpot in transpots:
             (transpot_name) = transpot
             self.detail_treeview.insert("", "end", values=(transpot_name))
+
+        for performance in performances:
+            (performance_name) = performance
+            self.detail_treeview.insert("", "end", values=(performance_name)) 
         
     def get_selected_item(self):
         selected_item = self.list_treeview.focus()  # Get the item that is currently selected

@@ -61,7 +61,6 @@ class NewprofileView(ttk.Frame):
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(self, orient='vertical', command=self.list_treeview.yview)
         self.list_treeview.configure(yscrollcommand=scroll_y.set)
-
         scroll_y.grid(row=3,rowspan=4, column=1, sticky='NS')
 
         self.grid_rowconfigure(0, weight=1)
@@ -93,7 +92,7 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.heading("Name", text="Name")
         self.select_treeview.column("Name", width=310)
         self.select_treeview.heading("Amount", text="Amount")
-        self.select_treeview.grid(row=3, rowspan=4, column=2, padx=5, pady=5, ipady=75)
+        self.select_treeview.grid(row=3, rowspan=4, column=2, ipady=75)
         
     def filter(self, event = None):
         

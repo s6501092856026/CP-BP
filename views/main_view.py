@@ -36,16 +36,16 @@ class MainView(ttk.Frame):
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ID")
-        self.list_treeview.column("ID", width=15)
+        self.list_treeview.column("ID", width=10)
         self.list_treeview.heading("Name", text="Name")
         self.list_treeview.column("Name", width=200)
-        self.list_treeview.grid(row=0, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
+        self.list_treeview.grid(row=0, rowspan=4, column=0, padx=0, pady=0, ipadx=40, ipady=75)
         
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
         self.detail_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
         self.detail_treeview.heading("Detail", text="Detail")
-        self.detail_treeview.grid(row=0, rowspan=4, column=1, padx=5, pady=5, ipadx=40, ipady=75)
+        self.detail_treeview.grid(row=0, rowspan=4, column=1, padx=0, pady=0, ipadx=40, ipady=75)
     
     def newprofile(self):
         self.controller.show_newprofile()
@@ -64,7 +64,7 @@ class MainView(ttk.Frame):
             (product_id, product_name) = product
             self.list_treeview.insert("", "end", values=(product_id, product_name))
             
-    def set_detail(self, rawmats, transpots):
+    def set_detail(self, rawmats, transpots, performances):
         self.detail_treeview.delete(*self.detail_treeview.get_children())
 
         for rawmat in rawmats:
@@ -73,7 +73,11 @@ class MainView(ttk.Frame):
 
         for transpot in transpots:
             (transpot_name) = transpot
-            self.detail_treeview.insert("", "end", values=(transpot_name)) 
+            self.detail_treeview.insert("", "end", values=(transpot_name))
+
+        for performance in performances:
+            (performance_name) = performance
+            self.detail_treeview.insert("", "end", values=(performance_name)) 
 
     def get_selected_item(self):
         selected_item = self.list_treeview.focus()  # Get the item that is currently selected

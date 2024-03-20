@@ -82,8 +82,9 @@ class MainController:
         db = DatabaseUtil.getInstance()
         rawmats = db.fetch_data("select name_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
         transpots = db.fetch_data("select transpot_name from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
-        self.main_view.set_detail(rawmats, transpots)
-        self.compare_view.set_detail(rawmats, transpots)
+        performances = db.fetch_data("select performance_name from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
+        self.main_view.set_detail(rawmats, transpots, performances)
+        self.compare_view.set_detail(rawmats, transpots, performances)
     
     def show_profile_name(self, filter_cate, filter_type):
         db = DatabaseUtil.getInstance()
