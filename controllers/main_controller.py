@@ -4,8 +4,8 @@ from views.newprofile_view import NewprofileView
 from utils.database import DatabaseUtil
 from utils.window import getCenterPosition
 class MainController:
-    width = 1100
-    height = 450
+    width = 1000
+    height = 425
 
     def __init__(self, app):
         self.app = app
