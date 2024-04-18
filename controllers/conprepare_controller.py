@@ -1,4 +1,3 @@
-# from views.connew_view import ConnewView
 from views.conprepare_view import ConprepareView
 from utils.database import DatabaseUtil
 from utils.window import getCenterPosition

@@ -39,13 +39,16 @@ class MainView(ttk.Frame):
         self.list_treeview.column("ID", width=10)
         self.list_treeview.heading("Name", text="Name")
         self.list_treeview.column("Name", width=200)
-        self.list_treeview.grid(row=0, rowspan=4, column=0, padx=0, pady=0, ipadx=40, ipady=75)
+        self.list_treeview.grid(row=0, rowspan=4, column=0, padx=5, pady=5, ipadx=20, ipady=80)
         
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
-        self.detail_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
+        self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Amount"), show="headings")
         self.detail_treeview.heading("Detail", text="Detail")
-        self.detail_treeview.grid(row=0, rowspan=4, column=1, padx=0, pady=0, ipadx=40, ipady=75)
+        self.detail_treeview.column("Detail", width=200)
+        self.detail_treeview.heading("Amount", text="Amount")
+        self.detail_treeview.column("Amount", width=20)
+        self.detail_treeview.grid(row=0, rowspan=4, column=1, padx=5, pady=5, ipadx=180, ipady=80)
     
     def newprofile(self):
         self.controller.show_newprofile()
