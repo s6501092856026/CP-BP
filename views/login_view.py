@@ -16,7 +16,6 @@ class LoginView(ttk.Frame):
         # canvas.create_image(0, 0, anchor=tk.CENTER, image=image)  # ปรับตำแหน่งรูปภาพตามต้องการ
         # canvas.grid(row=0, column=0)
 
-
         self.image_frame = ttk.Frame(self)
         self.image_frame.grid(row=0, column=0, columnspan=2, sticky="")
 
@@ -48,6 +47,7 @@ class LoginView(ttk.Frame):
 
         self.button_signup = ttk.Button(self, text="Signup", command=self.controller.show_signup)
         self.button_signup.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky='')
+
     
     def login(self):
         self.controller.authen(self.entry_email.get(), self.entry_password.get())
