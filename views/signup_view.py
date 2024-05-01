@@ -1,5 +1,6 @@
 from tkinter import ttk,END
 from tkinter import messagebox
+
 class SignupView(ttk.Frame):
 
     def __init__(self, controller, app):

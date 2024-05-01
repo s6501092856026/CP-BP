@@ -1,12 +1,22 @@
 import tkinter as tk
 from tkinter import ttk # , PhotoImage, Canvas
 from PIL import Image, ImageTk
+from ttkthemes import ThemedStyle
 
 class LoginView(ttk.Frame):
 
     def __init__(self, controller, app):
         super().__init__(app)
         self.controller = controller
+
+        # self.style = ttk.Style()
+        # self.style.theme_use('winnative')
+
+        # self.style = ThemedStyle(self)
+        # self.style.set_theme("breeze")
+
+        # self.style = ThemedStyle(self)
+        # self.style.set_theme("plastik") # ("adapta") ("radiance") ("scidblue") ("plastik")
 
         # โหลดรูปภาพ
         # image = PhotoImage(file="background.png")  # เปลี่ยน "image.png" เป็นชื่อไฟล์รูปภาพของคุณ
