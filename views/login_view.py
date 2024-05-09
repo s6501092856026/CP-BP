@@ -15,8 +15,8 @@ class LoginView(ttk.Frame):
         # self.style = ThemedStyle(self)
         # self.style.set_theme("breeze")
 
-        # self.style = ThemedStyle(self)
-        # self.style.set_theme("plastik") # ("adapta") ("radiance") ("scidblue") ("plastik")
+        self.style = ThemedStyle(self)
+        self.style.set_theme("plastik") # ("adapta") ("radiance") ("scidblue") ("plastik")
 
         # โหลดรูปภาพ
         # image = PhotoImage(file="background.png")  # เปลี่ยน "image.png" เป็นชื่อไฟล์รูปภาพของคุณ
