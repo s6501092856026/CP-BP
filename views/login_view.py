@@ -1,22 +1,12 @@
 import tkinter as tk
 from tkinter import ttk # , PhotoImage, Canvas
 from PIL import Image, ImageTk
-from ttkthemes import ThemedStyle
 
 class LoginView(ttk.Frame):
 
     def __init__(self, controller, app):
         super().__init__(app)
         self.controller = controller
-
-        # self.style = ttk.Style()
-        # self.style.theme_use('winnative')
-
-        # self.style = ThemedStyle(self)
-        # self.style.set_theme("breeze")
-
-        self.style = ThemedStyle(self)
-        self.style.set_theme("plastik") # ("adapta") ("radiance") ("scidblue") ("plastik")
 
         # โหลดรูปภาพ
         # image = PhotoImage(file="background.png")  # เปลี่ยน "image.png" เป็นชื่อไฟล์รูปภาพของคุณ
@@ -26,13 +16,13 @@ class LoginView(ttk.Frame):
         # canvas.create_image(0, 0, anchor=tk.CENTER, image=image)  # ปรับตำแหน่งรูปภาพตามต้องการ
         # canvas.grid(row=0, column=0)
 
-        self.image_frame = ttk.Frame(self)
-        self.image_frame.grid(row=0, column=0, columnspan=2, sticky="")
+        # self.image_frame = ttk.Frame(self)
+        # self.image_frame.grid(row=0, column=0, columnspan=2, sticky="")
 
         self.image = Image.open(r"C:\Users\User\Desktop\Project\CF&BP\image.png")  # Replace with your image path
         self.photo_image = ImageTk.PhotoImage(self.image)  # Convert image to PhotoImage
 
-        self.image_label = ttk.Label(self.image_frame, image=self.photo_image)
+        self.image_label = ttk.Label(self, image=self.photo_image)
         self.image_label.grid(row=0, column=0, columnspan=2)  # Use grid layout within image_frame
 
         self.label_email = ttk.Label(self, text = "Username", foreground="black", font=("Times New Roman", 10, "bold"))

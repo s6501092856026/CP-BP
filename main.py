@@ -4,6 +4,7 @@ from controllers.main_controller import MainController
 from controllers.breakeven_controller import BreakController
 from controllers.connew_controller import ConnewController
 from controllers.conprepare_controller import ConprepareController
+# from ttkthemes import ThemedStyle
 
 class App(tk.Tk):
 
@@ -12,6 +13,10 @@ class App(tk.Tk):
         self.controller = None
         self.title("CF&BP")
         self.iconbitmap('icon.ico')
+        # self.resizable(width=False ,height=False)
+
+        # self.style = ThemedStyle(self)
+        # self.style.set_theme("breeze") # ("adapta") ("radiance") ("scidblue") ("plastik") ("breeze")
 
         self.show_login()
 

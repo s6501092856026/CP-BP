@@ -19,7 +19,7 @@ class MainController:
 
     def show_main(self):
         self.main_view.pack(padx=10, pady=10)
-        x, y = getCenterPosition(self.app,width=self.width, height=self.height)
+        x, y = getCenterPosition(self.app,width=self.width, height=550)
         self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
         self.main_view.pack(padx=10, pady=10)
     
@@ -35,6 +35,21 @@ class MainController:
         self.main_view.pack_forget()
         x, y = getCenterPosition(self.app,width=1260, height=450)
         self.app.geometry(f"{1260}x{450}+{x}+{y}")
+        self.newprofile_view.pack(padx=10, pady=10)
+
+    def show_editprofile(self, product_id):
+        self.compare_view.pack_forget()
+        self.main_view.pack_forget()
+        x, y = getCenterPosition(self.app,width=1260, height=450)
+        self.app.geometry(f"{1260}x{450}+{x}+{y}")
+        db = DatabaseUtil.getInstance()
+        product = db.fetch_data("select product_name from product where product_id = " + product_id)
+        rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, amount, unit from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
+        transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
+        performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
+        self.newprofile_view.set_select(product, rawmats, transpots, performances)
+
+
         self.newprofile_view.pack(padx=10, pady=10)
 
     def show_compare(self):
@@ -80,9 +95,9 @@ class MainController:
 
     def show_detail(self, product_id):
         db = DatabaseUtil.getInstance()
-        rawmats = db.fetch_data("select name_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
-        transpots = db.fetch_data("select transpot_name from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
-        performances = db.fetch_data("select performance_name from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
+        rawmats = db.fetch_data("select name_raw, amount, unit from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
+        transpots = db.fetch_data("select transpot_name, amount, unit from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
+        performances = db.fetch_data("select performance_name, amount, unit from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
         self.main_view.set_detail(rawmats, transpots, performances)
         self.compare_view.set_detail(rawmats, transpots, performances)
     

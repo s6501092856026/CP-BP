@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # controller = None
 
@@ -10,7 +11,8 @@ class ConnewView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
-       # Window
+        # Window
+        self.main_frame =  ttk.Frame(self)
 
         self.label_input = ttk.Label(self, text = "Input", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_input.grid(row=0, column=0, padx=10, pady=10, sticky='N')
@@ -33,39 +35,28 @@ class ConnewView(ttk.Frame):
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
         self.return_button.grid(row=8, column=3, padx=10, pady=10, ipadx=10, ipady=10)
 
-        # self.complete_button = ttk.Button(self, text="Export")
-        # self.complete_button.grid(row=5, column=1, padx=10, pady=10, ipadx=10, ipady=10)
+        
+        # GRAPH
 
-        # Budgets
 
-        # Input Graph Frame (new)
-        # self.input_graph_frame = ttk.Frame(self)
-        # self.input_graph_frame.grid(row=1, rowspan=2, column=0)
 
-        # Placeholder label for the graph (initially)
-        # self.input_graph_label = ttk.Label(self.input_graph_frame, text="Input Graph")
-        # self.input_graph_label.grid(row=0, rowspan=2, column=0, sticky='nsew')
+        # self.process_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
+        # self.process_treeview.heading("Graph", text="Graph" )
+        # self.process_treeview.grid(row=1, rowspan=2, column=1)
 
-        self.input_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
-        self.input_treeview.heading("Graph", text="Graph" )
-        self.input_treeview.grid(row=1, rowspan=2, column=0)
-        self.input_treeview.insert("", "end")
+        # self.output_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
+        # self.output_treeview.heading("Graph", text="Graph" )
+        # self.output_treeview.grid(row=1, rowspan=2, column=2)
 
+
+        # TREE VIEW
         self.detail1_treeview = ttk.Treeview(self, columns=("Input"), show="headings")
         self.detail1_treeview.heading("Input", text="Input" )
         self.detail1_treeview.grid(row=3, rowspan=2, column=0)
-        
-        self.process_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
-        self.process_treeview.heading("Graph", text="Graph" )
-        self.process_treeview.grid(row=1, rowspan=2, column=1)
 
         self.detail2_treeview = ttk.Treeview(self, columns=("Process"), show="headings")
         self.detail2_treeview.heading("Process", text="Process" )
         self.detail2_treeview.grid(row=3, rowspan=2, column=1)
-
-        self.output_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
-        self.output_treeview.heading("Graph", text="Graph" )
-        self.output_treeview.grid(row=1, rowspan=2, column=2)
 
         self.detail3_treeview = ttk.Treeview(self, columns=("Output"), show="headings")
         self.detail3_treeview.heading("Output", text="Output" )
@@ -75,7 +66,70 @@ class ConnewView(ttk.Frame):
         # self.listbreakeven_treeview.heading("Detail", text="Detail" )
         # self.listbreakeven_treeview.grid(row=5, rowspan=2, column=0)
         # self.listbreakeven_treeview.insert("", "end")
+        self.setInputGraph()
+        self.setOutputGraph()
+        self.setProcessGraph()
+
+    def setProcessGraph(self):
+
+        # Create a Matplotlib figure
+        figure = Figure(figsize=(4,2), dpi=70)
+        subplot = figure.add_subplot(111)
+
+        # Query from database
+        # Line data
+        x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
+        y = [2, 4, 1]
+
+        # Create graph
+        subplot.plot(x,y)
+
+        # Create a FigurecanvasTkAgg widget
+        canvas = FigureCanvasTkAgg(figure, master=self)
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=1, rowspan=2, column=1) 
         
+
+    def setOutputGraph(self):
+
+        # Create a Matplotlib figure
+        figure = Figure(figsize=(4,2), dpi=70)
+        subplot = figure.add_subplot(111)
+
+        # Query from database
+        # Line data
+        x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
+        y = [2, 4, 1]
+
+        # Create graph
+        subplot.plot(x,y)
+
+        # Create a FigurecanvasTkAgg widget
+        canvas = FigureCanvasTkAgg(figure, master=self)
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=1, rowspan=2, column=2) 
+        
+
+    def setInputGraph(self):
+
+        # Create a Matplotlib figure
+        figure = Figure(figsize=(4,2), dpi=70)
+        subplot = figure.add_subplot(111)
+
+        # Query from database
+        # Line data
+        x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
+        y = [2, 4, 1]
+
+        # Create graph
+        subplot.plot(x,y)
+
+        # Create a FigurecanvasTkAgg widget
+        canvas = FigureCanvasTkAgg(figure, master=self)
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0) 
+        
+
     def breakeven(self):
         self.controller.show_break()
 

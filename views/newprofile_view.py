@@ -23,7 +23,7 @@ class NewprofileView(ttk.Frame):
         self.combo_box.bind("<<ComboboxSelected>>", self.filter)
 
         # Window
-        self.entry_name = ttk.Entry(self)
+        self.entry_name = ttk.Entry(self, text = "", )
         self.entry_name.grid(row=0,column=3, padx=10, pady=10, sticky='NEW')
 
         self.label_name = ttk.Label(self, text = "Name Profile", foreground="black", font=("Times New Roman", 10, "bold"))
@@ -44,10 +44,7 @@ class NewprofileView(ttk.Frame):
         self.delete_button = ttk.Button(self, text="Remove", command=self.delete_profile_item)
         self.delete_button.grid(row=4,column=4, padx=10, pady=10, ipady=10, sticky='')
         
-        self.bp_button = ttk.Button(self, text="Break-even Point", command=self.breakeven)
-        self.bp_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=20, ipady=10, sticky='N')
-
-        self.complete_button = ttk.Button(self, text="Complete", command=self.connew)
+        self.complete_button = ttk.Button(self, text="Complete", command=self.show_complete)
         self.complete_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='S')
 
         # Budgets
@@ -84,7 +81,7 @@ class NewprofileView(ttk.Frame):
         # self.performance_treeview.heading("Name", text="Name")
         # self.performance_treeview.grid(row=3, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
 
-        self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", ), show="headings")
+        self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", "Unit"), show="headings")
         self.select_treeview.heading('Type', text="Type")
         self.select_treeview.column("Type", width=85)
         self.select_treeview.heading("ID", text="ID" )
@@ -92,6 +89,9 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.heading("Name", text="Name")
         self.select_treeview.column("Name", width=310)
         self.select_treeview.heading("Amount", text="Amount")
+        self.select_treeview.column("Amount", width=100)
+        self.select_treeview.heading("Unit", text="Unit")
+        self.select_treeview.column("Unit", width=40)
         self.select_treeview.grid(row=3, rowspan=4, column=2, ipady=75)
         
     def filter(self, event = None):
@@ -109,11 +109,28 @@ class NewprofileView(ttk.Frame):
     def show_detail_view(self):
         self.controller.show_detail_view()
 
-    def breakeven(self):
-        self.controller.show_break()
-    
-    def connew(self):
+    def show_complete(self):
+        
         self.controller.show_connew()
+
+    def set_select(self, products, rawmats, transpots, performances):
+        self.select_treeview.delete(*self.select_treeview.get_children())
+
+        for product in products:
+            (product_name) = product
+            self.entry_name.insert(0, product_name)
+
+        for rawmat in rawmats:
+            (name_raw) = rawmat
+            self.select_treeview.insert("", "end", values=(name_raw)) 
+
+        for transpot in transpots:
+            (transpot_name) = transpot
+            self.select_treeview.insert("", "end", values=(transpot_name))
+
+        for performance in performances:
+            (performance_name) = performance
+            self.select_treeview.insert("", "end", values=(performance_name)) 
 
     def set_profile_name(self, rawmats, type_rawmats , transpots, performances, type_performances):
         
