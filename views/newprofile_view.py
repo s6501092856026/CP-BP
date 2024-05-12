@@ -23,7 +23,7 @@ class NewprofileView(ttk.Frame):
         self.combo_box.bind("<<ComboboxSelected>>", self.filter)
 
         # Window
-        self.entry_name = ttk.Entry(self, text = "", )
+        self.entry_name = ttk.Entry(self, text = "")
         self.entry_name.grid(row=0,column=3, padx=10, pady=10, sticky='NEW')
 
         self.label_name = ttk.Label(self, text = "Name Profile", foreground="black", font=("Times New Roman", 10, "bold"))
@@ -35,7 +35,7 @@ class NewprofileView(ttk.Frame):
         self.label_unit = ttk.Label(self, text = "Unit", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_unit.grid(row=3,column=4, padx=10, pady=10, sticky='W')
 
-        self.entry_unit = ttk.Entry(self)
+        self.entry_unit = ttk.Entry(self, text = "")
         self.entry_unit.grid(row=3,column=3, padx=10, pady=10, sticky='EW')
 
         self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)

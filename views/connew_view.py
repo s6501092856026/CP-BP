@@ -33,34 +33,23 @@ class ConnewView(ttk.Frame):
         self.label_unit.grid(row=7,column=2, padx=10, pady=10)
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
-        self.return_button.grid(row=8, column=3, padx=10, pady=10, ipadx=10, ipady=10)
+        self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10)
 
-        
-        # GRAPH
-
-
-
-        # self.process_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
-        # self.process_treeview.heading("Graph", text="Graph" )
-        # self.process_treeview.grid(row=1, rowspan=2, column=1)
-
-        # self.output_treeview = ttk.Treeview(self, columns=("Graph"), show="headings")
-        # self.output_treeview.heading("Graph", text="Graph" )
-        # self.output_treeview.grid(row=1, rowspan=2, column=2)
-
+        self.export_button = ttk.Button(self, text="Export to Excel")
+        self.export_button.grid(row=8, column=2, padx=10, pady=10, ipadx=10, ipady=10)
 
         # TREE VIEW
         self.detail1_treeview = ttk.Treeview(self, columns=("Input"), show="headings")
         self.detail1_treeview.heading("Input", text="Input" )
-        self.detail1_treeview.grid(row=3, rowspan=2, column=0)
+        self.detail1_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5)
 
         self.detail2_treeview = ttk.Treeview(self, columns=("Process"), show="headings")
         self.detail2_treeview.heading("Process", text="Process" )
-        self.detail2_treeview.grid(row=3, rowspan=2, column=1)
+        self.detail2_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5)
 
         self.detail3_treeview = ttk.Treeview(self, columns=("Output"), show="headings")
         self.detail3_treeview.heading("Output", text="Output" )
-        self.detail3_treeview.grid(row=3, rowspan=2, column=2)
+        self.detail3_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
 
         # self.listbreakeven_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
         # self.listbreakeven_treeview.heading("Detail", text="Detail" )
@@ -73,7 +62,7 @@ class ConnewView(ttk.Frame):
     def setProcessGraph(self):
 
         # Create a Matplotlib figure
-        figure = Figure(figsize=(4,2), dpi=70)
+        figure = Figure(figsize=(5,3), dpi=70)
         subplot = figure.add_subplot(111)
 
         # Query from database
@@ -81,19 +70,22 @@ class ConnewView(ttk.Frame):
         x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
         y = [2, 4, 1]
 
+        #  Set font
+        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
+        
         # Create graph
         subplot.plot(x,y)
 
         # Create a FigurecanvasTkAgg widget
         canvas = FigureCanvasTkAgg(figure, master=self)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=1) 
+        canvas.get_tk_widget().grid(row=1, rowspan=2, column=1, padx=5, pady=5) 
         
 
     def setOutputGraph(self):
 
         # Create a Matplotlib figure
-        figure = Figure(figsize=(4,2), dpi=70)
+        figure = Figure(figsize=(5,3), dpi=70)
         subplot = figure.add_subplot(111)
 
         # Query from database
@@ -101,19 +93,23 @@ class ConnewView(ttk.Frame):
         x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
         y = [2, 4, 1]
 
+        
+        #  Set font
+        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
+
         # Create graph
         subplot.plot(x,y)
 
         # Create a FigurecanvasTkAgg widget
         canvas = FigureCanvasTkAgg(figure, master=self)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=2) 
+        canvas.get_tk_widget().grid(row=1, rowspan=2, column=2, padx=5, pady=5) 
         
 
     def setInputGraph(self):
 
         # Create a Matplotlib figure
-        figure = Figure(figsize=(4,2), dpi=70)
+        figure = Figure(figsize=(5,3), dpi=70)
         subplot = figure.add_subplot(111)
 
         # Query from database
@@ -121,13 +117,16 @@ class ConnewView(ttk.Frame):
         x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
         y = [2, 4, 1]
 
+        #  Set font
+        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
+
         # Create graph
         subplot.plot(x,y)
 
         # Create a FigurecanvasTkAgg widget
         canvas = FigureCanvasTkAgg(figure, master=self)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0) 
+        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0, padx=5, pady=5)
         
 
     def breakeven(self):
