@@ -13,7 +13,7 @@ class App(tk.Tk):
         self.controller = None
         self.title("CF&BP")
         self.iconbitmap('icon.ico')
-        # self.resizable(width=False ,height=False)
+        self.resizable(width=False ,height=False)
 
         # self.style = ThemedStyle(self)
         # self.style.set_theme("breeze") # ("adapta") ("radiance") ("scidblue") ("plastik") ("breeze")
