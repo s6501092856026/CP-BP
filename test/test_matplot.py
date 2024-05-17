@@ -8,7 +8,7 @@ y = [452.56, 256.29, 348.86, 568.12, 682.22]
 plt.plot(x, y)
 
 # Customize the plot
-plt.title("Line Plot")
+plt.title("Carbon Footprint")
 plt.xlabel("X-axis")
 plt.ylabel("Y-axis")
 
