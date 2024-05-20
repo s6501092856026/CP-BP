@@ -48,14 +48,12 @@ class MainController:
         transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
         performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
         self.newprofile_view.set_select(product, rawmats, transpots, performances)
-
-
         self.newprofile_view.pack(padx=10, pady=10)
 
     def show_compare(self):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=815, height=450)
+        x, y = getCenterPosition(self.app,width=1260, height=450)
         self.app.geometry(f"{815}x{450}+{x}+{y}")
         self.compare_view.pack(padx=10, pady=10)
 
@@ -65,11 +63,11 @@ class MainController:
         self.compare_view.pack_forget()
         self.app.show_break()
 
-    def show_connew(self):
+    def show_connew(self, items):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.compare_view.pack_forget()
-        self.app.show_connew()
+        self.app.show_connew(items)
     
     def show_conprepare(self):
         self.main_view.pack_forget()

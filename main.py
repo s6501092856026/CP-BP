@@ -14,7 +14,7 @@ class App(tk.Tk):
         self.title("CF&BP")
         self.iconbitmap('icon.ico')
         
-        self.resizable(width=False ,height=False)
+        # self.resizable(width=False ,height=False)
 
         # self.style = ThemedStyle(self)
         # self.style.set_theme("breeze") # ("adapta") ("radiance") ("scidblue") ("plastik") ("breeze")
@@ -33,9 +33,9 @@ class App(tk.Tk):
         self.controller = BreakController(self)
         self.controller.show_break()
 
-    def show_connew(self):
+    def show_connew(self, items):
         self.controller = ConnewController(self)
-        self.controller.show_connew()
+        self.controller.show_connew(items)
     
     def show_conprepare(self):
         self.controller = ConprepareController(self)

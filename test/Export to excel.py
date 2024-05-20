@@ -9,6 +9,7 @@ data = {
     'อาชีพ': ['นักเรียน', 'ครู', 'แพทย์']
 }
 df = pd.DataFrame(data)
+print(df)
 
 # ฟังก์ชันสำหรับเปิดหน้าต่างเลือกไฟล์
 def save_file_dialog():

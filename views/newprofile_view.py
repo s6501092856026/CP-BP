@@ -109,9 +109,14 @@ class NewprofileView(ttk.Frame):
     def show_detail_view(self):
         self.controller.show_detail_view()
 
+
     def show_complete(self):
-        
-        self.controller.show_connew()
+        items = []
+        children = self.select_treeview.get_children()
+        for child in children:
+            items.append(self.select_treeview.item(child)['values'] )
+        self.controller.show_connew(items)
+
 
     def set_select(self, products, rawmats, transpots, performances):
         self.select_treeview.delete(*self.select_treeview.get_children())
