@@ -260,10 +260,6 @@ class ConnewView(ttk.Frame):
         for row_index, row in enumerate(data):
             for col_index, value in enumerate(row):
                 sheet.cell(row=row_index + 2, column=col_index + 1, value=value)
-
-        
-
-
         
         file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
         

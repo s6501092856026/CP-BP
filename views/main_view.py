@@ -50,9 +50,9 @@ class MainView(ttk.Frame):
         self.detail_treeview.heading("Detail", text="Detail")
         self.detail_treeview.column("Detail", width=200)
         self.detail_treeview.heading("Amount", text="Amount")
-        self.detail_treeview.column("Amount", width=20)
+        self.detail_treeview.column("Amount", width=30)
         self.detail_treeview.heading("Unit", text="Unit")
-        self.detail_treeview.column("Unit", width=20)
+        self.detail_treeview.column("Unit", width=5)
         self.detail_treeview.grid(row=0, rowspan=5, column=1, padx=5, pady=5, ipadx=170, ipady=80)
     
     def newprofile(self):
