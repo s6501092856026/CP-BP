@@ -81,7 +81,7 @@ class ConnewView(ttk.Frame):
     def setProcessGraph(self, items):
 
         # Create a Matplotlib figure
-        figure = Figure(figsize=(5,3), dpi=70)
+        figure = Figure(figsize=(6.5,3), dpi=70)
         subplot = figure.add_subplot(111)
 
         # Query from database
@@ -109,7 +109,7 @@ class ConnewView(ttk.Frame):
     def setOutputGraph(self, items):
 
         # Create a Matplotlib figure
-        figure = Figure(figsize=(5,3), dpi=70)
+        figure = Figure(figsize=(6.5,3), dpi=70)
         subplot = figure.add_subplot(111)
 
         # Query from database
@@ -137,7 +137,7 @@ class ConnewView(ttk.Frame):
     def setInputGraph(self , items):
         print(items)
         # Create a Matplotlib figure
-        figure = Figure(figsize=(5,3), dpi=70)
+        figure = Figure(figsize=(6.5,3), dpi=70)
         subplot = figure.add_subplot(111)
 
         # Query from database

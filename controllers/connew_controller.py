@@ -2,12 +2,11 @@ from views.connew_view import ConnewView
 from utils.database import DatabaseUtil
 from utils.window import getCenterPosition
 class ConnewController:
-    width = 1000
-    height = 625
+    width = 1400
+    height = 700
 
     def __init__(self, app):
         self.app = app
-
         self.connew_view = ConnewView(self, app)
 
     def show_connew(self, items):
