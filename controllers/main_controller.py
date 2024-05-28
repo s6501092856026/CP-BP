@@ -54,7 +54,7 @@ class MainController:
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         x, y = getCenterPosition(self.app,width=1260, height=450)
-        self.app.geometry(f"{815}x{450}+{x}+{y}")
+        self.app.geometry(f"{1050}x{450}+{x}+{y}")
         self.compare_view.pack(padx=10, pady=10)
 
     def show_break(self):
