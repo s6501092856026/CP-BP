@@ -38,6 +38,8 @@ class CompareView(ttk.Frame):
         self.list_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5, ipadx=40, ipady=75)
         # self.treeview1.insert("", "end")
 
+        self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
+
         self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="Detail")
         self.detail_treeview.column("Detail", width=200)
