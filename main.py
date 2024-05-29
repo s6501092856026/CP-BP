@@ -17,7 +17,7 @@ class App(tk.Tk):
         # self.resizable(width=False ,height=False)
 
         # self.style = ThemedStyle(self)
-        # self.style.set_theme("breeze") # ("adapta") ("radiance") ("scidblue") ("plastik") ("breeze")
+        # self.style.set_theme("plastik") # ("adapta") ("radiance") ("scidblue") ("plastik") ("breeze")
 
         self.show_login()
 
