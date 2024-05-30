@@ -19,67 +19,50 @@ class ConprepareView(ttk.Frame):
         # Window
         self.main_frame =  ttk.Frame(self)
 
-        self.label_input = ttk.Label(self, text = "Input", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_input.grid(row=0, column=0, padx=10, pady=10, sticky='N')
-
-        self.label_process = ttk.Label(self, text = "Process", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_process.grid(row=0, column=1, padx=10, pady=10, sticky='N')
-
-        self.label_output = ttk.Label(self, text = "Output", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_output.grid(row=0, column=2, padx=10, pady=10, sticky='N')
-
         self.label_totalcf = ttk.Label(self, text = "Total CF", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_totalcf.grid(row=7,column=0, padx=10, pady=10)
 
-        self.label_cf = ttk.Label(self, text = "CF", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_cf.grid(row=7,column=1, padx=10, pady=10)
+        self.label_cf = ttk.Label(self, text = "CF")
+        self.label_cf.grid(row=7,column=1, padx=10, pady=10, sticky = 'W')
 
-        self.label_unit = ttk.Label(self, text = "Unit", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_unit.grid(row=7,column=2, padx=10, pady=10)
+        self.label_unit = ttk.Label(self, text = "Unit", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_unit.grid(row=7,column=1, padx=10, pady=10, sticky = 'E')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
-        self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10)
+        self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
 
         self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
-        self.export_button.grid(row=8, column=2, padx=10, pady=10, ipadx=10, ipady=10)
+        self.export_button.grid(row=8, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # TREE VIEW
-        self.input_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
-        self.input_treeview.heading("Name", text="Name")
-        self.input_treeview.column("Name", width=310)
-        self.input_treeview.heading("Amount", text="Amount")
-        self.input_treeview.column("Amount", width=100)
-        self.input_treeview.heading("Unit", text="Unit")
-        self.input_treeview.column("Unit", width=40)
-        self.input_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5)
+        self.profile01_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
+        self.profile01_treeview.heading("Name", text="Name")
+        self.profile01_treeview.column("Name", width=310)
+        self.profile01_treeview.heading("Amount", text="Amount")
+        self.profile01_treeview.column("Amount", width=100)
+        self.profile01_treeview.heading("Unit", text="Unit")
+        self.profile01_treeview.column("Unit", width=40)
+        self.profile01_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5)
 
-        self.process_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
-        self.process_treeview.heading("Name", text="Name")
-        self.process_treeview.column("Name", width=310)
-        self.process_treeview.heading("Amount", text="Amount")
-        self.process_treeview.column("Amount", width=100)
-        self.process_treeview.heading("Unit", text="Unit")
-        self.process_treeview.column("Unit", width=40)
-        self.process_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5)
+        self.profile02_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
+        self.profile02_treeview.heading("Name", text="Name")
+        self.profile02_treeview.column("Name", width=310)
+        self.profile02_treeview.heading("Amount", text="Amount")
+        self.profile02_treeview.column("Amount", width=100)
+        self.profile02_treeview.heading("Unit", text="Unit")
+        self.profile02_treeview.column("Unit", width=40)
+        self.profile02_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5)
 
-        self.output_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
-        self.output_treeview.heading("Name", text="Name")
-        self.output_treeview.column("Name", width=310)
-        self.output_treeview.heading("Amount", text="Amount")
-        self.output_treeview.column("Amount", width=100)
-        self.output_treeview.heading("Unit", text="Unit")
-        self.output_treeview.column("Unit", width=40)
-        self.output_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
-
+       
         # self.listbreakeven_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
         # self.listbreakeven_treeview.heading("Detail", text="Detail" )
         # self.listbreakeven_treeview.grid(row=5, rowspan=2, column=0)
         # self.listbreakeven_treeview.insert("", "end")
 
-    def setProcessGraph(self, items):
+    def setCompareGraph(self, items):
 
         # Create a Matplotlib figure
-        figure = Figure(figsize=(6.5,3), dpi=70)
+        figure = Figure(figsize=(8,4), dpi=70)
         subplot = figure.add_subplot(111)
 
         # Query from database
@@ -104,63 +87,6 @@ class ConprepareView(ttk.Frame):
         canvas.get_tk_widget().grid(row=1, rowspan=2, column=1, padx=5, pady=5) 
         
 
-    def setOutputGraph(self, items):
-
-        # Create a Matplotlib figure
-        figure = Figure(figsize=(6.5,3), dpi=70)
-        subplot = figure.add_subplot(111)
-
-        # Query from database
-        # Line data
-        # x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
-        # y = [2, 4, 1]
-        x = []
-        y = []
-        for item in items:
-            x.append(item[0])
-            y.append(float(item[1]))
-        
-        #  Set font
-        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
-
-        # Create graph
-        subplot.plot(x,y)
-
-        # Create a FigurecanvasTkAgg widget
-        canvas = FigureCanvasTkAgg(figure, master=self)
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=2, padx=5, pady=5) 
-        
-
-    def setInputGraph(self , items):
-        print(items)
-        # Create a Matplotlib figure
-        figure = Figure(figsize=(6.5,3), dpi=70)
-        subplot = figure.add_subplot(111)
-
-        # Query from database
-        # Line data
-        # x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
-        # y = [2, 4, 1]
-        x = []
-        y = []
-        for item in items:
-            x.append(item[0])
-            y.append(float(item[1]))
-
-
-        #  Set font
-        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
-
-        # Create graph
-        subplot.plot(x,y)
-
-        # Create a FigurecanvasTkAgg widget
-        canvas = FigureCanvasTkAgg(figure, master=self)
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0, padx=5, pady=5)
-        
-
     def breakeven(self):
         self.controller.show_break()
 
@@ -168,8 +94,8 @@ class ConprepareView(ttk.Frame):
         self.controller.back_main()
 
     def setConclusion(self, items) :
-        self.input_treeview.delete(*self.input_treeview.get_children())
-        self.process_treeview.delete(*self.process_treeview.get_children())
+        self.profile01_treeview.delete(*self.profile01_treeview.get_children())
+        self.profile01_treeview.delete(*self.profile01_treeview.get_children())
         self.output_treeview.delete(*self.output_treeview.get_children())
         inputGraph = []
         outputGraph = []
@@ -178,21 +104,19 @@ class ConprepareView(ttk.Frame):
         for item in items:
             category, _, name, amount, unit = item
             
-            # self.input_treeview
+            # self.profile01_treeview
             if category == 'Material':
                 processGraph.append((name, amount))
-                self.process_treeview.insert("", "end", values=(name, amount, unit))
+                self.profile01_treeview.insert("", "end", values=(name, amount, unit))
             elif category == 'Transpotation':
                 inputGraph.append((name, amount))
                 outputGraph.append((name, amount))
-                self.input_treeview.insert("", "end", values=(name, amount, unit))
+                self.profile01_treeview.insert("", "end", values=(name, amount, unit))
                 self.output_treeview.insert("", "end", values=(name, amount, unit))
             elif category == 'Performance':
                 processGraph.append((name, amount))
-                self.process_treeview.insert("", "end", values=(name, amount, unit))
-        self.setInputGraph(inputGraph)
-        self.setOutputGraph(outputGraph)
-        self.setProcessGraph(processGraph)
+                self.profile01_treeview.insert("", "end", values=(name, amount, unit))
+        self.setCompareGraph(processGraph)
         self.items = items
 
     def export(self):

@@ -27,7 +27,7 @@ class CompareView(ttk.Frame):
         self.bp_button = ttk.Button(self, text="Break-even Point")
         self.bp_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='EW')
 
-        self.complete_button = ttk.Button(self, text="Complete")
+        self.complete_button = ttk.Button(self, text="Complete", command=self.conprepare)
         self.complete_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=20, sticky='SEW')
 
         # Budgets
@@ -51,6 +51,9 @@ class CompareView(ttk.Frame):
 
     def back(self):
         self.controller.back_main()
+
+    def conprepare(self):
+        self.controller.show_conprepare()
         
     def set_profile(self, products):
         self.list_treeview.delete(*self.list_treeview.get_children())

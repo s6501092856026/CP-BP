@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 import openpyxl.drawing
 import openpyxl.drawing.image
 import openpyxl.styles
@@ -40,10 +41,10 @@ class ConnewView(ttk.Frame):
         self.label_unit.grid(row=7,column=2, padx=10, pady=10)
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
-        self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10)
+        self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
 
         self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
-        self.export_button.grid(row=8, column=2, padx=10, pady=10, ipadx=10, ipady=10)
+        self.export_button.grid(row=8, column=2, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # TREE VIEW
         self.input_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
@@ -80,23 +81,21 @@ class ConnewView(ttk.Frame):
 
     def setProcessGraph(self, items):
 
-        # Create a Matplotlib figure
+         # Create a Matplotlib figure
         figure = Figure(figsize=(6.5,3), dpi=70)
         subplot = figure.add_subplot(111)
-
+        
         # Query from database
         # Line data
-        # x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
-        # y = [2, 4, 1]
         x = []
         y = []
         for item in items:
             x.append(item[0])
             y.append(float(item[1]))
 
-        #  Set font
+        #  Set font
         subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
-        
+
         # Create graph
         subplot.plot(x,y)
 
@@ -104,7 +103,6 @@ class ConnewView(ttk.Frame):
         canvas = FigureCanvasTkAgg(figure, master=self)
         canvas.draw()
         canvas.get_tk_widget().grid(row=1, rowspan=2, column=1, padx=5, pady=5) 
-        
 
     def setOutputGraph(self, items):
 
@@ -114,8 +112,6 @@ class ConnewView(ttk.Frame):
 
         # Query from database
         # Line data
-        # x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
-        # y = [2, 4, 1]
         x = []
         y = []
         for item in items:
@@ -142,8 +138,6 @@ class ConnewView(ttk.Frame):
 
         # Query from database
         # Line data
-        # x = ["รถตู้", "รถกระบะ", "รถตู้พ่วง"]
-        # y = [2, 4, 1]
         x = []
         y = []
         for item in items:
