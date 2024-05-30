@@ -53,7 +53,7 @@ class MainController:
     def show_compare(self):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1260, height=450)
+        x, y = getCenterPosition(self.app,width=1050, height=450)
         self.app.geometry(f"{1050}x{450}+{x}+{y}")
         self.compare_view.pack(padx=10, pady=10)
 
