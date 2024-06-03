@@ -15,7 +15,8 @@ class BreakpointView(ttk.Frame):
 
         self.combo_box = ttk.Combobox(self,)
         self.combo_box.grid(row=0, column=1, columnspan=2, padx=10, pady=10, sticky='')
-        self.combo_box.bind("<<ComboboxSelected>>", self.set_nameprofile)
+        self.combo_box.bind("<<ComboboxSelected>>", self.filter)
+        # self.combo_box.bind("<<ComboboxSelected>>", self.set_nameprofile)
 
         self.label_fixedcost = ttk.Label(self, text = "Fixed Cost", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_fixedcost.grid(row=1, column=0, padx=10, pady=10)
@@ -78,14 +79,35 @@ class BreakpointView(ttk.Frame):
 
         self.conclusion_button = ttk.Button(self, text = "Conclusion")
         self.conclusion_button.grid(row=12, column=2, padx=10, pady=10)
+
+    def filter(self, event = None):
+
+        # combobox
+        filter_type = self.combo_box.get()
+        self.controller.show_profile_name(filter_type)
     
-    def set_nameprofile(self, products):
+    def set_profile_name(self, rawmats, type_rawmats , transpots, performances, type_performances):
+
+        # COMBOBOX
+        self.combo_box.delete(0, tk.END)
+        if len(type_rawmats) > 0:
+            values = []
+            for type_rawmat in type_rawmats:
+                values.append(type_rawmat[0])
+            self.combo_box['values'] = values
+        if len(type_performances) > 0:
+            values = []
+            for type_performance in type_performances:
+                values.append(type_performance[0])
+            self.combo_box['values'] = values
+
+    # def set_nameprofile(self, products):
     
         # self.combo_box.delete(0, tk.END)
         
-        for product in products:
-            (product_name) = product
-            self.combo_box.insert("", "end", values=(product_name))
+        #for product in products:
+            # (product_name) = product
+            # self.combo_box.insert("", "end", values=(product_name))
 
     def back(self):
         self.controller.back_main()
