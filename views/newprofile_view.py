@@ -51,15 +51,15 @@ class NewprofileView(ttk.Frame):
         self.update_button.grid(row=5, column=3, columnspan=2, padx=10, pady=10, ipadx=10, ipady=10 ,sticky='')
 
         # Budgets
-        self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
+        self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Carbon", "Unit"), show="headings")
         self.list_treeview.heading("ID", text="ID")
         self.list_treeview.column("ID", width=30)
         self.list_treeview.heading("Name", text="Name")
         self.list_treeview.column("Name", width=310)
-        # self.list_treeview.heading("Carbon", text="Carbon")
-        # self.list_treeview.column("Carbon", width=40)
-        # self.list_treeview.heading("Unit", text="Unit")
-        # self.list_treeview.column("Unit", width=40)
+        self.list_treeview.heading("Carbon", text="Carbon")
+        self.list_treeview.column("Carbon", width=50)
+        self.list_treeview.heading("Unit", text="Unit")
+        self.list_treeview.column("Unit", width=40)
         self.list_treeview.grid(row=3, rowspan=4, column=0, ipady=75)
 
         # สร้าง Scrollbar แนวแกน Y
@@ -100,14 +100,12 @@ class NewprofileView(ttk.Frame):
     def show_detail_view(self):
         self.controller.show_detail_view()
 
-
     def show_complete(self):
         items = []
         children = self.select_treeview.get_children()
         for child in children:
             items.append(self.select_treeview.item(child)['values'] )
         self.controller.show_connew(items)
-
 
     def set_select(self, products, rawmats, transpots, performances):
         self.select_treeview.delete(*self.select_treeview.get_children())
@@ -133,16 +131,16 @@ class NewprofileView(ttk.Frame):
         # TREEVIEW
         self.list_treeview.delete(*self.list_treeview.get_children())
         for rawmat in rawmats:
-            (rawmat_id, name_raw) = rawmat
-            self.list_treeview.insert("", "end", values=(rawmat_id, name_raw,))
+            (rawmat_id, name_raw, carbon_per_raw, unit_raw) = rawmat
+            self.list_treeview.insert("", "end", values=(rawmat_id, name_raw, carbon_per_raw, unit_raw,))
 
         for transpot in transpots:
-            (transpot_id, transpot_name) = transpot
-            self.list_treeview.insert("", "end", values=(transpot_id, transpot_name,)) 
+            (transpot_id, transpot_name, carbon_per_transpot, unit_transpot) = transpot
+            self.list_treeview.insert("", "end", values=(transpot_id, transpot_name, carbon_per_transpot, unit_transpot,)) 
         
         for performance in performances:
-            (performance_id, performance_name) = performance
-            self.list_treeview.insert("", "end", values=(performance_id, performance_name,)) 
+            (performance_id, performance_name, carbon_per_performance, unit_performance) = performance
+            self.list_treeview.insert("", "end", values=(performance_id, performance_name, carbon_per_performance, unit_performance,)) 
 
 
         # COMBOBOX

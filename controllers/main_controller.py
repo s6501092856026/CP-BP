@@ -1,3 +1,4 @@
+import tkinter as tk
 from views.main_view import MainView
 from views.compare_view import CompareView
 from views.newprofile_view import NewprofileView
@@ -32,20 +33,28 @@ class MainController:
     def show_newprofile(self):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1260, height=450)
-        self.app.geometry(f"{1260}x{450}+{x}+{y}")
+        x, y = getCenterPosition(self.app,width=1300, height=450)
+        self.app.geometry(f"{1300}x{450}+{x}+{y}")
+
+        # Clear the entry_name field
+        self.newprofile_view.entry_name.delete(0, tk.END)
+
         self.newprofile_view.pack(padx=10, pady=10)
 
     def show_editprofile(self, product_id):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1260, height=450)
-        self.app.geometry(f"{1260}x{450}+{x}+{y}")
+        x, y = getCenterPosition(self.app,width=1300, height=450)
+        self.app.geometry(f"{1300}x{450}+{x}+{y}")
         db = DatabaseUtil.getInstance()
         product = db.fetch_data("select product_name from product where product_id = " + product_id)
         rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
         transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
         performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
+        
+        # Clear the entry_name field
+        self.newprofile_view.entry_name.delete(0, tk.END)
+
         self.newprofile_view.set_select(product, rawmats, transpots, performances)
         self.newprofile_view.pack(padx=10, pady=10)
 
@@ -103,16 +112,16 @@ class MainController:
         type_performances = []
         if filter_cate == 1:
             if filter_type != '' :
-                rawmats = db.fetch_data("SELECT rawmat_id, name_raw FROM raw_mat where type_raw = '" + filter_type +"'")
+                rawmats = db.fetch_data("SELECT rawmat_id, name_raw, carbon_per_raw, unit_raw FROM raw_mat where type_raw = '" + filter_type +"'")
             else: 
-                rawmats = db.fetch_data("SELECT rawmat_id, name_raw FROM raw_mat")
+                rawmats = db.fetch_data("SELECT rawmat_id, name_raw, carbon_per_raw, unit_raw FROM raw_mat")
 
             type_rawmats = db.fetch_data("SELECT distinct(type_raw) FROM raw_mat")
         elif filter_cate == 2:
-            transpots = db.fetch_data("SELECT transpot_id, transpot_name FROM transpotation")
+            transpots = db.fetch_data("SELECT transpot_id, transpot_name, carbon_per_transpot, unit_transpot FROM transpotation")
         elif filter_cate == 3:
             if filter_type  != '':
-                performances = db.fetch_data("SELECT performance_id, performance_name FROM performance where type_performance = '" +  filter_type +"'")
+                performances = db.fetch_data("SELECT performance_id, performance_name, carbon_per_performance, unit_performance FROM performance where type_performance = '" +  filter_type +"'")
             else:
                 performances = db.fetch_data("SELECT performance_id, performance_name FROM performance")
             type_performances = db.fetch_data("SELECT distinct(type_performance) FROM performance")
