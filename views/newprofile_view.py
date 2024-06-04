@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, Radiobutton
+from tkinter import ttk, Radiobutton, messagebox
 
 class NewprofileView(ttk.Frame):
 
@@ -10,42 +10,45 @@ class NewprofileView(ttk.Frame):
         self.radio_state = tk.IntVar(value=1)
 
         self.radio_material = Radiobutton(self, value=1, text="Material", variable=self.radio_state, command=self.filter)
-        self.radio_material.grid(row=0,column=0, padx=10, pady=10, sticky='')
+        self.radio_material.grid(row=0, column=0, padx=10, pady=10, sticky='')
 
         self.radio_transpot = Radiobutton(self, value=2, text="Transpotation", variable=self.radio_state, command=self.filter)
-        self.radio_transpot.grid(row=0,column=2, padx=10, pady=10, sticky='W')
+        self.radio_transpot.grid(row=0, column=2, padx=10, pady=10, sticky='W')
 
         self.radio_performance = Radiobutton(self, value=3, text="Performance", variable=self.radio_state, command=self.filter)
-        self.radio_performance.grid(row=0,column=2, padx=10, pady=10, sticky='')
+        self.radio_performance.grid(row=0, column=2, padx=10, pady=10, sticky='')
 
         self.combo_box = ttk.Combobox(self,)
-        self.combo_box.grid(row=0,column=2, padx=10, pady=10, sticky='E')
+        self.combo_box.grid(row=0, column=2, padx=10, pady=10, sticky='E')
         self.combo_box.bind("<<ComboboxSelected>>", self.filter)
 
         # Window
         self.entry_name = ttk.Entry(self, text = "")
-        self.entry_name.grid(row=0,column=3, padx=10, pady=10, sticky='NEW')
+        self.entry_name.grid(row=0, column=3, padx=10, pady=10, sticky='NEW')
 
         self.label_name = ttk.Label(self, text = "Name Profile", foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_name.grid(row=0,column=4, padx=10, pady=10, sticky= 'W')
+        self.label_name.grid(row=0, column=4, padx=10, pady=10, sticky= 'W')
 
         self.back_button = ttk.Button(self, text="Back", command=self.back)
         self.back_button.grid(row=0, column=0, padx=5, pady=10, sticky='W')
 
         self.label_unit = ttk.Label(self, text = "Unit", foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_unit.grid(row=3,column=4, padx=10, pady=10, sticky='W')
+        self.label_unit.grid(row=3, column=4, padx=10, pady=10, sticky='W')
 
-        self.entry_unit = ttk.Entry(self, text = "")
-        self.entry_unit.grid(row=3,column=3, padx=10, pady=10, sticky='EW')
+        self.entry_amount = ttk.Entry(self, text = "")
+        self.entry_amount.grid(row=3, column=3, padx=10, pady=10, sticky='EW')
 
         self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)
-        self.add_button.grid(row=4,column=3, padx=10, pady=10, ipady=10, sticky='')
+        self.add_button.grid(row=4, column=3, padx=10, pady=10, ipady=10, sticky='N')
 
         self.delete_button = ttk.Button(self, text="Remove", command=self.delete_profile_item)
-        self.delete_button.grid(row=4,column=4, padx=10, pady=10, ipady=10, sticky='')
+        self.delete_button.grid(row=4, column=4, padx=10, pady=10, ipady=10, sticky='N')
         
         self.complete_button = ttk.Button(self, text="Complete", command=self.show_complete)
         self.complete_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='S')
+
+        self.update_button = ttk.Button(self, text="Update Amount", command=self.update_amount)
+        self.update_button.grid(row=5, column=3, columnspan=2, padx=10, pady=10, ipadx=10, ipady=10 ,sticky='')
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
@@ -53,12 +56,16 @@ class NewprofileView(ttk.Frame):
         self.list_treeview.column("ID", width=30)
         self.list_treeview.heading("Name", text="Name")
         self.list_treeview.column("Name", width=310)
+        # self.list_treeview.heading("Carbon", text="Carbon")
+        # self.list_treeview.column("Carbon", width=40)
+        # self.list_treeview.heading("Unit", text="Unit")
+        # self.list_treeview.column("Unit", width=40)
         self.list_treeview.grid(row=3, rowspan=4, column=0, ipady=75)
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(self, orient='vertical', command=self.list_treeview.yview)
         self.list_treeview.configure(yscrollcommand=scroll_y.set)
-        scroll_y.grid(row=3,rowspan=4, column=1, sticky='NS')
+        scroll_y.grid(row=3, rowspan=4, column=1, sticky='NS')
 
         self.grid_rowconfigure(0, weight=1)
         # self.grid_columnconfigure(0, weight=1)
@@ -75,6 +82,8 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.heading("Unit", text="Unit")
         self.select_treeview.column("Unit", width=40)
         self.select_treeview.grid(row=3, rowspan=4, column=2, ipady=75)
+
+        self.select_treeview.bind("<ButtonRelease-1>", self.on_select_treeview_click)
         
     def filter(self, event = None):
         
@@ -162,8 +171,43 @@ class NewprofileView(ttk.Frame):
             else:
                 filter_cate_text = 'Performance'
 
-            item = (filter_cate_text, item_text[0], item_text[1] )
-            self.select_treeview.insert("", "end", values=item) 
+            # ดึงค่าจาก entry_amount และแปลงเป็น float
+            amount = self.entry_amount.get()
+            if not amount:
+                messagebox.showerror("Input Error", "Please enter a value in the amount field.")
+                return
+
+            try:
+                amount = float(amount)
+            except ValueError:
+                messagebox.showerror("Input Error", "Please enter a valid float value in the amount field.")
+                return
+
+            item = (filter_cate_text, item_text[0], item_text[1], amount)
+            self.select_treeview.insert("", "end", values=item)
+    
+    def on_select_treeview_click(self, event):
+        selected_item = self.select_treeview.focus()
+        if selected_item:
+            item_values = self.select_treeview.item(selected_item, 'values')
+            self.entry_amount.delete(0, tk.END)
+            self.entry_amount.insert(0, item_values[3])  # Assume the Amount is at index 3
+
+    def update_amount(self):
+        selected_item = self.select_treeview.focus()
+        if selected_item:
+            try:
+                new_amount = float(self.entry_amount.get())
+            except ValueError:
+                messagebox.showerror("Input Error", "Please enter a valid float value in the amount field.")
+                return
+        
+        # Update the selected item's amount in the treeview
+            item_values = list(self.select_treeview.item(selected_item, 'values'))
+            item_values[3] = new_amount  # Update the Amount
+            self.select_treeview.item(selected_item, values=item_values)
+
+
 
     def delete_profile_item(self):
         selected_item = self.select_treeview.focus()  # Get the item that is currently selected

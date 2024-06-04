@@ -13,10 +13,9 @@ class BreakpointView(ttk.Frame):
         self.label_profile = ttk.Label(self, text = "Profile", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_profile.grid(row=0, column=0, padx=10, pady=10, sticky='E')
 
-        self.combo_box = ttk.Combobox(self,)
-        self.combo_box.grid(row=0, column=1, columnspan=2, padx=10, pady=10, sticky='')
-        self.combo_box.bind("<<ComboboxSelected>>", self.filter)
-        # self.combo_box.bind("<<ComboboxSelected>>", self.set_nameprofile)
+        self.label_add = ttk.Label(self, text = "", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_add.grid(row=0, column=1, columnspan=2, padx=10, pady=10, sticky='')
+        
 
         self.label_fixedcost = ttk.Label(self, text = "Fixed Cost", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_fixedcost.grid(row=1, column=0, padx=10, pady=10)
@@ -74,40 +73,8 @@ class BreakpointView(ttk.Frame):
         self.label_amount_unit.grid(row=11, column=3, padx=10, pady=10)
 
 
-        self.complete_button = ttk.Button(self, text = "Complete")
-        self.complete_button.grid(row=12, column=0, columnspan=2, padx=10, pady=10)
-
-        self.conclusion_button = ttk.Button(self, text = "Conclusion")
-        self.conclusion_button.grid(row=12, column=2, padx=10, pady=10)
-
-    def filter(self, event = None):
-
-        # combobox
-        filter_type = self.combo_box.get()
-        self.controller.show_profile_name(filter_type)
-    
-    def set_profile_name(self, rawmats, type_rawmats , transpots, performances, type_performances):
-
-        # COMBOBOX
-        self.combo_box.delete(0, tk.END)
-        if len(type_rawmats) > 0:
-            values = []
-            for type_rawmat in type_rawmats:
-                values.append(type_rawmat[0])
-            self.combo_box['values'] = values
-        if len(type_performances) > 0:
-            values = []
-            for type_performance in type_performances:
-                values.append(type_performance[0])
-            self.combo_box['values'] = values
-
-    # def set_nameprofile(self, products):
-    
-        # self.combo_box.delete(0, tk.END)
-        
-        #for product in products:
-            # (product_name) = product
-            # self.combo_box.insert("", "end", values=(product_name))
+        self.complete_button = ttk.Button(self, text = "Save as")
+        self.complete_button.grid(row=12, column=3, columnspan=2, padx=10, pady=10)
 
     def back(self):
         self.controller.back_main()
