@@ -39,16 +39,16 @@ class NewprofileView(ttk.Frame):
         self.entry_amount.grid(row=3, column=3, padx=10, pady=10, sticky='EW')
 
         self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)
-        self.add_button.grid(row=4, column=3, padx=10, pady=10, ipady=10, sticky='N')
+        self.add_button.grid(row=4, column=3, padx=10, pady=10, ipady=5, sticky='N')
 
-        self.delete_button = ttk.Button(self, text="Remove", command=self.delete_profile_item)
-        self.delete_button.grid(row=4, column=4, padx=10, pady=10, ipady=10, sticky='N')
+        self.delete_button = ttk.Button(self, text="Delete", command=self.delete_profile_item)
+        self.delete_button.grid(row=4, column=4, padx=10, pady=10, ipady=5, sticky='N')
         
         self.complete_button = ttk.Button(self, text="Complete", command=self.show_complete)
         self.complete_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='S')
 
-        self.update_button = ttk.Button(self, text="Update Amount", command=self.update_amount)
-        self.update_button.grid(row=5, column=3, columnspan=2, padx=10, pady=10, ipadx=10, ipady=10 ,sticky='')
+        self.update_button = ttk.Button(self, text="Update", command=self.update_amount)
+        self.update_button.grid(row=4, column=3, padx=10, pady=10, ipadx=5, ipady=5 ,sticky='S')
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Carbon", "Unit"), show="headings")
@@ -95,12 +95,19 @@ class NewprofileView(ttk.Frame):
         self.controller.show_profile_name(filter_cate, filter_type)
 
     def back(self):
+        self.select_treeview.delete(*self.select_treeview.get_children())
         self.controller.back_main()
 
     def show_detail_view(self):
         self.controller.show_detail_view()
 
     def show_complete(self):
+        if not self.entry_name.get():
+
+        # แสดงกล่องข้อความเตือน
+            messagebox.showwarning("Warning", "Please enter a name in the profile name field.")
+            return
+
         items = []
         children = self.select_treeview.get_children()
         for child in children:
@@ -181,7 +188,7 @@ class NewprofileView(ttk.Frame):
                 messagebox.showerror("Input Error", "Please enter a valid float value in the amount field.")
                 return
 
-            item = (filter_cate_text, item_text[0], item_text[1], amount)
+            item = (filter_cate_text, item_text[0], item_text[1], amount, item_text[3])
             self.select_treeview.insert("", "end", values=item)
     
     def on_select_treeview_click(self, event):
@@ -204,8 +211,6 @@ class NewprofileView(ttk.Frame):
             item_values = list(self.select_treeview.item(selected_item, 'values'))
             item_values[3] = new_amount  # Update the Amount
             self.select_treeview.item(selected_item, values=item_values)
-
-
 
     def delete_profile_item(self):
         selected_item = self.select_treeview.focus()  # Get the item that is currently selected

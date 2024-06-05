@@ -16,7 +16,6 @@ class BreakpointView(ttk.Frame):
         self.label_add = ttk.Label(self, text = "", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_add.grid(row=0, column=1, columnspan=2, padx=10, pady=10, sticky='')
         
-
         self.label_fixedcost = ttk.Label(self, text = "Fixed Cost", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_fixedcost.grid(row=1, column=0, padx=10, pady=10)
 
@@ -34,7 +33,6 @@ class BreakpointView(ttk.Frame):
         
         self.label_amount = ttk.Label(self, text = "Amount of material per product", foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_amount.grid(row=11, column=0, padx=10, pady=10)
-
 
         self.entry_fixedcost = ttk.Entry(self, width=30)
         self.entry_fixedcost.grid(row=1, column=1, columnspan=2, padx=10, pady=10)
@@ -72,9 +70,9 @@ class BreakpointView(ttk.Frame):
         self.label_amount_unit = ttk.Label(self, text = "Unit", foreground="black", font=("Times New Roman", 10))
         self.label_amount_unit.grid(row=11, column=3, padx=10, pady=10)
 
-
-        self.complete_button = ttk.Button(self, text = "Save as")
-        self.complete_button.grid(row=12, column=3, columnspan=2, padx=10, pady=10)
+        self.save_as_button = ttk.Button(self, text = "Save as")
+        self.save_as_button.grid(row=12, column=3, columnspan=2, padx=10, pady=10)
 
     def back(self):
         self.controller.back_main()
+    
