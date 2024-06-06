@@ -95,9 +95,8 @@ class MainController:
         # ล้างข้อมูลที่อยู่ในช่องข้อมูลทั้งหมด
         self.newprofile_view.entry_amount.delete(0, tk.END)
         self.newprofile_view.entry_name.delete(0, tk.END)
-
+        
         self.newprofile_view.set_select(product, rawmats, transpots, performances)
-        # self.newprofile_view.pack(padx=10, pady=10)  # แสดงข้อมูลบนหน้าต่างปัจจุบัน
 
     # def show_editprofile(self, product_id):
     #     self.compare_view.pack_forget()
