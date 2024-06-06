@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, Radiobutton, messagebox
+from utils.database import DatabaseUtil
 
 class NewprofileView(ttk.Frame):
 
@@ -39,16 +40,19 @@ class NewprofileView(ttk.Frame):
         self.entry_amount.grid(row=3, column=3, padx=10, pady=10, sticky='EW')
 
         self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)
-        self.add_button.grid(row=4, column=3, padx=10, pady=10, ipady=5, sticky='N')
+        self.add_button.grid(row=4, column=3, padx=10, pady=10, ipady=5, sticky='WN')
 
         self.delete_button = ttk.Button(self, text="Delete", command=self.delete_profile_item)
-        self.delete_button.grid(row=4, column=4, padx=10, pady=10, ipady=5, sticky='N')
+        self.delete_button.grid(row=4, column=4, padx=10, pady=10, ipady=5, sticky='EN')
+
+        self.save_as_button = ttk.Button(self, text="Save As", command=self.save_as_profile)
+        self.save_as_button.grid(row=5, column=3, columnspan=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='')
         
         self.complete_button = ttk.Button(self, text="Complete", command=self.show_complete)
         self.complete_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='S')
 
         self.update_button = ttk.Button(self, text="Update", command=self.update_amount)
-        self.update_button.grid(row=4, column=3, padx=10, pady=10, ipadx=5, ipady=5 ,sticky='S')
+        self.update_button.grid(row=4, column=3, columnspan=2, padx=10, pady=10, ipadx=5, ipady=5 ,sticky='WES')
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Carbon", "Unit"), show="headings")
@@ -216,3 +220,8 @@ class NewprofileView(ttk.Frame):
         selected_item = self.select_treeview.focus()  # Get the item that is currently selected
         if  selected_item:  # If an item is selected
             self.select_treeview.delete(selected_item)
+
+    def save_as_profile(self):
+        profile_name = self.entry_name.get()
+        items = [self.select_treeview.item(item, 'values') for item in self.select_treeview.get_children()]
+        self.controller.save_as_profile(profile_name, items)

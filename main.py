@@ -4,7 +4,7 @@ from controllers.main_controller import MainController
 from controllers.breakeven_controller import BreakController
 from controllers.connew_controller import ConnewController
 from controllers.conprepare_controller import ConprepareController
-# from ttkthemes import ThemedStyle
+from ttkthemes import ThemedStyle
 
 class App(tk.Tk):
 
@@ -16,8 +16,8 @@ class App(tk.Tk):
         
         # self.resizable(width=False ,height=False)
 
-        # self.style = ThemedStyle(self)
-        # self.style.set_theme("plastik") # ("adapta") ("radiance") ("scidblue") ("plastik") ("breeze")
+        self.style = ThemedStyle(self)
+        self.style.set_theme("plastik") # ("adapta") ("radiance") ("scidblue") ("plastik") ("breeze")
 
         self.show_login()
 

@@ -10,7 +10,7 @@ class BreakController:
         self.app = app
         self.breakpoint_view = BreakpointView(self, app)
 
-    def show_break(self, profile_name):
+    def show_break(self):
         self.breakpoint_view.pack(padx=10, pady=10)
         x, y = getCenterPosition(self.app,width=self.width, height=self.height)
         self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")

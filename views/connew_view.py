@@ -157,19 +157,6 @@ class ConnewView(ttk.Frame):
         canvas = FigureCanvasTkAgg(figure, master=self)
         canvas.draw()
         canvas.get_tk_widget().grid(row=1, rowspan=2, column=0, padx=5, pady=5)
-
-        # Add navigation toolbar
-        toolbar = NavigationToolbar2Tk(canvas, self)
-        toolbar.update()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0, padx=5, pady=5, sticky='nsew')
-        toolbar.grid(row=0, column=0, sticky='ew')
-
-        # Add button to close the graph
-        close_button = ttk.Button(self, text="Close Graph", command=lambda: self.closeGraph(canvas))
-        close_button.grid(row=3, column=0, pady=10)
-
-    def closeGraph(self, canvas):
-        canvas.get_tk_widget().destroy()
         
 
     def breakeven(self):

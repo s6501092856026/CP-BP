@@ -1,11 +1,12 @@
 import tkinter as tk
+from tkinter import messagebox
 from views.main_view import MainView
 from views.compare_view import CompareView
 from views.newprofile_view import NewprofileView
 from utils.database import DatabaseUtil
 from utils.window import getCenterPosition
 class MainController:
-    width = 1000
+    width = 1050
     height = 425
 
     def __init__(self, app):
@@ -123,7 +124,54 @@ class MainController:
             if filter_type  != '':
                 performances = db.fetch_data("SELECT performance_id, performance_name, carbon_per_performance, unit_performance FROM performance where type_performance = '" +  filter_type +"'")
             else:
-                performances = db.fetch_data("SELECT performance_id, performance_name FROM performance")
+                performances = db.fetch_data("SELECT performance_id, performance_name, carbon_per_performance, unit_performance FROM performance")
             type_performances = db.fetch_data("SELECT distinct(type_performance) FROM performance")
         
         self.newprofile_view.set_profile_name(rawmats, type_rawmats, transpots, performances, type_performances)
+
+    def save_as_profile(self, profile_name, items):
+        if not profile_name:
+            messagebox.showwarning("Warning", "Please enter a name in the profile name field.")
+            return
+        
+        db = DatabaseUtil.getInstance()
+
+        # Check if the product_name already exists
+        existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile_name,))
+        if existing_product:
+            product_id = existing_product[0][0]
+            overwrite = messagebox.askyesno("Overwrite", "Product name already exists. Do you want to overwrite it?")
+            if not overwrite:
+                return
+        
+        # Delete existing records
+            db.execute_query("DELETE FROM product_rawmat WHERE product_id = %s", (product_id,))
+            db.execute_query("DELETE FROM product_transpotation WHERE product_id = %s", (product_id,))
+            db.execute_query("DELETE FROM product_performance WHERE product_id = %s", (product_id,))
+
+        # Get the last inserted product_id and increment it by 1
+        last_product_id = db.fetch_data("SELECT MAX(product_id) FROM product")[0][0]
+        if last_product_id is None:
+            new_product_id = 1
+        else:
+            new_product_id = last_product_id + 1
+
+        # Insert the new profile into the product table with the new product_id
+        insert_product_query = "INSERT INTO product (product_id, product_name) VALUES (%s, %s)"
+        db.execute_query(insert_product_query, (new_product_id, profile_name,))
+        
+        # Insert the related materials, transportations, and performances
+        for item in items:
+            item_type, item_id, _, amount, _ = item
+
+            if item_type == 'Material':
+                insert_rawmat_query = "INSERT INTO product_rawmat (product_id, rawmat_id, amount) VALUES (%s, %s, %s)"
+                db.execute_query(insert_rawmat_query, (new_product_id, item_id, amount))
+            elif item_type == 'Transpotation':
+                insert_transpot_query = "INSERT INTO product_transpotation (product_id, transpot_id, amount) VALUES (%s, %s, %s)"
+                db.execute_query(insert_transpot_query, (new_product_id, item_id, amount))
+            elif item_type == 'Performance':
+                insert_performance_query = "INSERT INTO product_performance (product_id, performance_id, amount) VALUES (%s, %s, %s)"
+                db.execute_query(insert_performance_query, (new_product_id, item_id, amount))
+
+        messagebox.showinfo("Success", "Profile saved successfully!")
