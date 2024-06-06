@@ -25,34 +25,34 @@ class NewprofileView(ttk.Frame):
 
         # Window
         self.entry_name = ttk.Entry(self, text = "")
-        self.entry_name.grid(row=0, column=3, padx=10, pady=10, sticky='NEW')
+        self.entry_name.grid(row=0, column=3, padx=5, pady=5, sticky='NSEW')
 
-        self.label_name = ttk.Label(self, text = "Name Profile", foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_name.grid(row=0, column=4, padx=10, pady=10, sticky= 'W')
+        self.label_name = ttk.Label(self, text = "Name Profile")
+        self.label_name.grid(row=0, column=4, padx=5, pady=5, sticky= 'W')
 
         self.back_button = ttk.Button(self, text="Back", command=self.back)
-        self.back_button.grid(row=0, column=0, padx=5, pady=10, sticky='W')
+        self.back_button.grid(row=0, column=0, padx=5, pady=5, sticky='W')
 
-        self.label_unit = ttk.Label(self, text = "Unit", foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_unit.grid(row=3, column=4, padx=10, pady=10, sticky='W')
+        self.label_unit = ttk.Label(self, text = "Unit")
+        self.label_unit.grid(row=3, column=4, padx=5, pady=5, sticky='W')
 
         self.entry_amount = ttk.Entry(self, text = "")
-        self.entry_amount.grid(row=3, column=3, padx=10, pady=10, sticky='EW')
+        self.entry_amount.grid(row=3, column=3, padx=5, pady=5, sticky='NSEW')
 
         self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)
-        self.add_button.grid(row=4, column=3, padx=10, pady=10, ipady=5, sticky='WN')
+        self.add_button.grid(row=4, column=3, padx=5, pady=5, ipady=2, sticky='WN')
 
         self.delete_button = ttk.Button(self, text="Delete", command=self.delete_profile_item)
-        self.delete_button.grid(row=4, column=4, padx=10, pady=10, ipady=5, sticky='EN')
+        self.delete_button.grid(row=4, column=4, padx=5, pady=5, ipady=2, sticky='EN')
 
         self.save_as_button = ttk.Button(self, text="Save As", command=self.save_as_profile)
-        self.save_as_button.grid(row=5, column=3, columnspan=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='')
+        self.save_as_button.grid(row=6, column=3, columnspan=2, padx=5, pady=5, ipadx=5, ipady=5, sticky='')
         
         self.complete_button = ttk.Button(self, text="Complete", command=self.show_complete)
-        self.complete_button.grid(row=6, column=3, columnspan=2, padx=10, pady=10, ipadx=40, ipady=15, sticky='S')
+        self.complete_button.grid(row=7, column=3, columnspan=2, padx=5, pady=5, ipadx=30, ipady=10, sticky='S')
 
         self.update_button = ttk.Button(self, text="Update", command=self.update_amount)
-        self.update_button.grid(row=4, column=3, columnspan=2, padx=10, pady=10, ipadx=5, ipady=5 ,sticky='WES')
+        self.update_button.grid(row=5, column=3, columnspan=2, padx=5, pady=5, ipadx=5, ipady=5 ,sticky='NEW')
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Carbon", "Unit"), show="headings")
@@ -64,12 +64,12 @@ class NewprofileView(ttk.Frame):
         self.list_treeview.column("Carbon", width=50)
         self.list_treeview.heading("Unit", text="Unit")
         self.list_treeview.column("Unit", width=40)
-        self.list_treeview.grid(row=3, rowspan=4, column=0, ipady=75)
+        self.list_treeview.grid(row=3, rowspan=5, column=0, ipady=75)
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(self, orient='vertical', command=self.list_treeview.yview)
         self.list_treeview.configure(yscrollcommand=scroll_y.set)
-        scroll_y.grid(row=3, rowspan=4, column=1, sticky='NS')
+        scroll_y.grid(row=3, rowspan=5, column=1, sticky='NS')
 
         self.grid_rowconfigure(0, weight=1)
         # self.grid_columnconfigure(0, weight=1)
@@ -85,7 +85,7 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.column("Amount", width=100)
         self.select_treeview.heading("Unit", text="Unit")
         self.select_treeview.column("Unit", width=40)
-        self.select_treeview.grid(row=3, rowspan=4, column=2, ipady=75)
+        self.select_treeview.grid(row=3, rowspan=5, column=2, ipady=75)
 
         self.select_treeview.bind("<ButtonRelease-1>", self.on_select_treeview_click)
         
@@ -223,5 +223,5 @@ class NewprofileView(ttk.Frame):
 
     def save_as_profile(self):
         profile_name = self.entry_name.get()
-        items = [self.select_treeview.item(item, 'values') for item in self.select_treeview.get_children()]
+        items = [self.select_treeview.item(child)['values'] for child in self.select_treeview.get_children()]
         self.controller.save_as_profile(profile_name, items)

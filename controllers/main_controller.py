@@ -6,8 +6,6 @@ from views.newprofile_view import NewprofileView
 from utils.database import DatabaseUtil
 from utils.window import getCenterPosition
 class MainController:
-    width = 1050
-    height = 425
 
     def __init__(self, app):
         self.app = app
@@ -20,51 +18,112 @@ class MainController:
 
     def show_main(self):
         self.main_view.pack(padx=10, pady=10)
-        x, y = getCenterPosition(self.app,width=self.width, height=550)
-        self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
-        self.main_view.pack(padx=10, pady=10)
-    
+        self.app.update_idletasks()  # อัพเดตวิดเจ็ต
+        width = self.main_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
+        height = self.main_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
+        x, y = getCenterPosition(self.app, width=width, height=height)
+        self.app.geometry(f"{width}x{height}+{x}+{y}")
+
+    # def show_main(self):
+    #     self.main_view.pack(padx=10, pady=10)
+    #     x, y = getCenterPosition(self.app,width=self.width, height=550)
+    #     self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
+    #     self.main_view.pack(padx=10, pady=10)
+
     def back_main(self):
         self.compare_view.pack_forget()
         self.newprofile_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=self.width, height=self.height)
-        self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
-        self.main_view.pack(padx=10, pady=10)
+        self.main_view.pack_forget()  # ลบการแพ็คของวิดเจต์ main_view เพื่อลบออกจากหน้าต่าง
+        self.main_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ main_view ใหม่ พร้อมกับ Padding
+        self.app.update_idletasks()  # อัพเดตวิดเจต์
+        width = self.main_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
+        height = self.main_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
+        x, y = getCenterPosition(self.app, width=width, height=height)
+        self.app.geometry(f"{width}x{height}+{x}+{y}")
+    
+    # def back_main(self):
+    #     self.compare_view.pack_forget()
+    #     self.newprofile_view.pack_forget()
+    #     x, y = getCenterPosition(self.app,width=self.width, height=self.height)
+    #     self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
+    #     self.main_view.pack(padx=10, pady=10)
     
     def show_newprofile(self):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1300, height=450)
-        self.app.geometry(f"{1300}x{450}+{x}+{y}")
+        self.newprofile_view.pack_forget()  # ลบการแพ็คของวิดเจต์ newprofile_view เพื่อลบออกจากหน้าต่าง
+        self.newprofile_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ newprofile_view ใหม่ พร้อมกับ Padding
+        self.app.update_idletasks()  # อัพเดตวิดเจต์
+        width = self.newprofile_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
+        height = self.newprofile_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
+        x, y = getCenterPosition(self.app, width=width, height=height)
+        self.app.geometry(f"{width}x{height}+{x}+{y}")
 
-        # Clear the entry_name field
+        # ล้างข้อมูลในช่องข้อมูลทั้งหมด
+        self.newprofile_view.entry_amount.delete(0, tk.END)
         self.newprofile_view.entry_name.delete(0, tk.END)
 
-        self.newprofile_view.pack(padx=10, pady=10)
+    # def show_newprofile(self):
+    #     self.compare_view.pack_forget()
+    #     self.main_view.pack_forget()
+    #     x, y = getCenterPosition(self.app,width=1300, height=450)
+    #     self.app.geometry(f"{1300}x{450}+{x}+{y}")
+
+    #     # Clear the entry_name field
+    #     self.newprofile_view.entry_amount.delete(0, tk.END)
+    #     self.newprofile_view.entry_name.delete(0, tk.END)
+    #     self.newprofile_view.pack(padx=10, pady=10)
 
     def show_editprofile(self, product_id):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1300, height=450)
-        self.app.geometry(f"{1300}x{450}+{x}+{y}")
+        self.newprofile_view.clear_select()  # เรียกเมธอดเพื่อล้างข้อมูลที่แสดงอยู่ในหน้าต่าง
         db = DatabaseUtil.getInstance()
         product = db.fetch_data("select product_name from product where product_id = " + product_id)
         rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
         transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
         performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
-        
-        # Clear the entry_name field
+    
+        # ล้างข้อมูลที่อยู่ในช่องข้อมูลทั้งหมด
         self.newprofile_view.entry_name.delete(0, tk.END)
 
         self.newprofile_view.set_select(product, rawmats, transpots, performances)
-        self.newprofile_view.pack(padx=10, pady=10)
+        self.newprofile_view.pack(padx=10, pady=10)  # แสดงข้อมูลบนหน้าต่างปัจจุบัน
+
+    # def show_editprofile(self, product_id):
+    #     self.compare_view.pack_forget()
+    #     self.main_view.pack_forget()
+    #     x, y = getCenterPosition(self.app,width=1300, height=450)
+    #     self.app.geometry(f"{1300}x{450}+{x}+{y}")
+    #     db = DatabaseUtil.getInstance()
+    #     product = db.fetch_data("select product_name from product where product_id = " + product_id)
+    #     rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
+    #     transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
+    #     performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
+        
+    #     # Clear the entry_name field
+    #     self.newprofile_view.entry_name.delete(0, tk.END)
+
+    #     self.newprofile_view.set_select(product, rawmats, transpots, performances)
+    #     self.newprofile_view.pack(padx=10, pady=10)
 
     def show_compare(self):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=1050, height=450)
-        self.app.geometry(f"{1050}x{450}+{x}+{y}")
-        self.compare_view.pack(padx=10, pady=10)
+        self.compare_view.pack_forget()  # ลบการแพ็ควิดเจต์ compare_view เพื่อลบออกจากหน้าต่าง
+        self.compare_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ compare_view ใหม่ พร้อมกับ Padding
+        self.app.update_idletasks()  # อัพเดตวิดเจต์
+        width = self.compare_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
+        height = self.compare_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
+        x, y = getCenterPosition(self.app, width=width, height=height)
+        self.app.geometry(f"{width}x{height}+{x}+{y}")
+
+    # def show_compare(self):
+    #     self.main_view.pack_forget()
+    #     self.newprofile_view.pack_forget()
+    #     x, y = getCenterPosition(self.app,width=1050, height=450)
+    #     self.app.geometry(f"{1050}x{450}+{x}+{y}")
+    #     self.compare_view.pack(padx=10, pady=10)
 
     def show_break(self):
         self.main_view.pack_forget()
@@ -133,7 +192,7 @@ class MainController:
         if not profile_name:
             messagebox.showwarning("Warning", "Please enter a name in the profile name field.")
             return
-        
+
         db = DatabaseUtil.getInstance()
 
         # Check if the product_name already exists
@@ -141,37 +200,41 @@ class MainController:
         if existing_product:
             product_id = existing_product[0][0]
             overwrite = messagebox.askyesno("Overwrite", "Product name already exists. Do you want to overwrite it?")
-            if not overwrite:
+            if overwrite:
+                # Delete existing records
+                db.execute_query("DELETE FROM product_rawmat WHERE product_id = %s", (product_id,))
+                db.execute_query("DELETE FROM product_transpotation WHERE product_id = %s", (product_id,))
+                db.execute_query("DELETE FROM product_performance WHERE product_id = %s", (product_id,))
+
+                # Update the product name (if necessary, this step can be skipped if only associated data is updated)
+                db.execute_query("UPDATE product SET product_name = %s WHERE product_id = %s", (profile_name, product_id))
+            else:
                 return
-        
-        # Delete existing records
-            db.execute_query("DELETE FROM product_rawmat WHERE product_id = %s", (product_id,))
-            db.execute_query("DELETE FROM product_transpotation WHERE product_id = %s", (product_id,))
-            db.execute_query("DELETE FROM product_performance WHERE product_id = %s", (product_id,))
-
-        # Get the last inserted product_id and increment it by 1
-        last_product_id = db.fetch_data("SELECT MAX(product_id) FROM product")[0][0]
-        if last_product_id is None:
-            new_product_id = 1
         else:
-            new_product_id = last_product_id + 1
+            # Get the last inserted product_id and increment it by 1
+            last_product_id = db.fetch_data("SELECT MAX(product_id) FROM product")[0][0]
+            if last_product_id is None:
+                new_product_id = 1
+            else:
+                new_product_id = last_product_id + 1
 
-        # Insert the new profile into the product table with the new product_id
-        insert_product_query = "INSERT INTO product (product_id, product_name) VALUES (%s, %s)"
-        db.execute_query(insert_product_query, (new_product_id, profile_name,))
-        
+            # Insert the new profile into the product table with the new product_id
+            insert_product_query = "INSERT INTO product (product_id, product_name) VALUES (%s, %s)"
+            db.execute_query(insert_product_query, (new_product_id, profile_name))
+            product_id = new_product_id
+
         # Insert the related materials, transportations, and performances
         for item in items:
             item_type, item_id, _, amount, _ = item
 
             if item_type == 'Material':
                 insert_rawmat_query = "INSERT INTO product_rawmat (product_id, rawmat_id, amount) VALUES (%s, %s, %s)"
-                db.execute_query(insert_rawmat_query, (new_product_id, item_id, amount))
+                db.execute_query(insert_rawmat_query, (product_id, item_id, amount))
             elif item_type == 'Transpotation':
                 insert_transpot_query = "INSERT INTO product_transpotation (product_id, transpot_id, amount) VALUES (%s, %s, %s)"
-                db.execute_query(insert_transpot_query, (new_product_id, item_id, amount))
+                db.execute_query(insert_transpot_query, (product_id, item_id, amount))
             elif item_type == 'Performance':
                 insert_performance_query = "INSERT INTO product_performance (product_id, performance_id, amount) VALUES (%s, %s, %s)"
-                db.execute_query(insert_performance_query, (new_product_id, item_id, amount))
+                db.execute_query(insert_performance_query, (product_id, item_id, amount))
 
         messagebox.showinfo("Success", "Profile saved successfully!")

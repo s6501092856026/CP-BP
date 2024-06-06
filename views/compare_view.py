@@ -29,9 +29,10 @@ class CompareView(ttk.Frame):
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
-        self.list_treeview.heading("ID", text="ID" )
+        self.list_treeview.heading("ID", text="ID")
         self.list_treeview.column("ID", width=10)
         self.list_treeview.heading("Name", text="Name")
+        self.list_treeview.column("Name", width=200)
         self.list_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5, ipadx=40, ipady=75)
         # self.treeview1.insert("", "end")
 
