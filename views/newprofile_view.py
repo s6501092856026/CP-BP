@@ -25,7 +25,7 @@ class NewprofileView(ttk.Frame):
 
         # Window
         self.entry_name = ttk.Entry(self, text = "")
-        self.entry_name.grid(row=0, column=3, padx=5, pady=5, sticky='NSEW')
+        self.entry_name.grid(row=0, column=3, padx=5, pady=5, sticky='EW')
 
         self.label_name = ttk.Label(self, text = "Name Profile")
         self.label_name.grid(row=0, column=4, padx=5, pady=5, sticky= 'W')
@@ -37,7 +37,7 @@ class NewprofileView(ttk.Frame):
         self.label_unit.grid(row=3, column=4, padx=5, pady=5, sticky='W')
 
         self.entry_amount = ttk.Entry(self, text = "")
-        self.entry_amount.grid(row=3, column=3, padx=5, pady=5, sticky='NSEW')
+        self.entry_amount.grid(row=3, column=3, padx=5, pady=5, sticky='EW')
 
         self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)
         self.add_button.grid(row=4, column=3, padx=5, pady=5, ipady=2, sticky='WN')

@@ -75,4 +75,13 @@ class BreakpointView(ttk.Frame):
 
     def back(self):
         self.controller.back_main()
+
+    def set_product_name(self, product_name):
+        self.label_add.config(text=product_name)  # กำหนดข้อความให้กับ label_add
     
+    def set_select(self, products):
+        self.label_add.delete(*self.label_add.get_children())
+
+        for product in products:
+            (product_name) = product
+            self.label_add.insert(0, product_name)

@@ -77,18 +77,27 @@ class MainController:
     def show_editprofile(self, product_id):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
-        self.newprofile_view.clear_select()  # เรียกเมธอดเพื่อล้างข้อมูลที่แสดงอยู่ในหน้าต่าง
+
         db = DatabaseUtil.getInstance()
         product = db.fetch_data("select product_name from product where product_id = " + product_id)
         rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
         transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
         performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
-    
+        
+        self.newprofile_view.pack_forget()  # ลบการแพ็คของวิดเจต์ newprofile_view เพื่อลบออกจากหน้าต่าง
+        self.newprofile_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ newprofile_view ใหม่ พร้อมกับ Padding
+        self.app.update_idletasks()  # อัพเดตวิดเจต์
+        width = self.newprofile_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
+        height = self.newprofile_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
+        x, y = getCenterPosition(self.app, width=width, height=height)
+        self.app.geometry(f"{width}x{height}+{x}+{y}")
+
         # ล้างข้อมูลที่อยู่ในช่องข้อมูลทั้งหมด
+        self.newprofile_view.entry_amount.delete(0, tk.END)
         self.newprofile_view.entry_name.delete(0, tk.END)
 
         self.newprofile_view.set_select(product, rawmats, transpots, performances)
-        self.newprofile_view.pack(padx=10, pady=10)  # แสดงข้อมูลบนหน้าต่างปัจจุบัน
+        # self.newprofile_view.pack(padx=10, pady=10)  # แสดงข้อมูลบนหน้าต่างปัจจุบัน
 
     # def show_editprofile(self, product_id):
     #     self.compare_view.pack_forget()

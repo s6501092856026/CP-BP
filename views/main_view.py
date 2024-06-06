@@ -74,12 +74,6 @@ class MainView(ttk.Frame):
     def compare(self):
         self.controller.show_compare()
 
-    # def breakeven(self):
-        # selected_item = self.list_treeview.focus()  # รับไอเท็มที่ถูกเลือก
-        # if selected_item:  # ถ้ามีไอเท็มที่ถูกเลือก
-            # profile_name = self.list_treeview.item(selected_item, 'values')[1]  # รับข้อความของไอเท็มที่ถูกเลือก
-            # self.controller.show_break(profile_name)  # แสดงหน้าจอ Breakpoint โดยส่งชื่อโปรไฟล์ที่เลือกไปด้วย
-
     def breakeven(self):
         self.controller.show_break()
 
