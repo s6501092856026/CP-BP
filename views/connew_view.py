@@ -23,23 +23,23 @@ class ConnewView(ttk.Frame):
         # Window
         self.main_frame =  ttk.Frame(self)
 
-        self.label_input = ttk.Label(self, text = "Input", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_input = ttk.Label(self, text = "วัตถุดิบขาเข้า", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_input.grid(row=0, column=0, padx=10, pady=10, sticky='N')
 
-        self.label_process = ttk.Label(self, text = "Process", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_process = ttk.Label(self, text = "กระบวนการผลิต", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_process.grid(row=0, column=1, padx=10, pady=10, sticky='N')
 
-        self.label_output = ttk.Label(self, text = "Output", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_output = ttk.Label(self, text = "ส่งออกสินค้า", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
         self.label_output.grid(row=0, column=2, padx=10, pady=10, sticky='N')
 
-        self.label_totalcf = ttk.Label(self, text = "Total CF", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_totalcf.grid(row=7,column=0, padx=10, pady=10)
+        self.label_totalcf = ttk.Label(self, text = "ปริมาณค่าคาร์บอนเทียบเท่าทั้งหมด", font=("bold"))
+        self.label_totalcf.grid(row=7,column=0, padx=10, pady=10, sticky='W')
 
-        self.label_cf = ttk.Label(self, text = "CF", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_cf.grid(row=7,column=1, padx=10, pady=10)
+        self.label_cf = ttk.Label(self, text = "0", font=("bold"))
+        self.label_cf.grid(row=7,column=1, padx=10, pady=10, sticky='W')
 
-        self.label_unit = ttk.Label(self, text = "Unit", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
-        self.label_unit.grid(row=7,column=2, padx=10, pady=10)
+        self.label_unit = ttk.Label(self, text = "หน่วย", font=("bold"))
+        self.label_unit.grid(row=7,column=1, padx=10, pady=10, sticky='E')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
         self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
@@ -49,29 +49,29 @@ class ConnewView(ttk.Frame):
 
         # TREE VIEW
         self.input_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
-        self.input_treeview.heading("Name", text="Name")
+        self.input_treeview.heading("Name", text="ชื่อ")
         self.input_treeview.column("Name", width=310)
-        self.input_treeview.heading("Amount", text="Amount")
+        self.input_treeview.heading("Amount", text="ปริมาณ")
         self.input_treeview.column("Amount", width=100)
-        self.input_treeview.heading("Unit", text="Unit")
+        self.input_treeview.heading("Unit", text="หน่วย")
         self.input_treeview.column("Unit", width=40)
         self.input_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5)
 
         self.process_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
-        self.process_treeview.heading("Name", text="Name")
+        self.process_treeview.heading("Name", text="ชื่อ")
         self.process_treeview.column("Name", width=310)
-        self.process_treeview.heading("Amount", text="Amount")
+        self.process_treeview.heading("Amount", text="ปริมาณ")
         self.process_treeview.column("Amount", width=100)
-        self.process_treeview.heading("Unit", text="Unit")
+        self.process_treeview.heading("Unit", text="หน่วย")
         self.process_treeview.column("Unit", width=40)
         self.process_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5)
 
         self.output_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
-        self.output_treeview.heading("Name", text="Name")
+        self.output_treeview.heading("Name", text="ชื่อ")
         self.output_treeview.column("Name", width=310)
-        self.output_treeview.heading("Amount", text="Amount")
+        self.output_treeview.heading("Amount", text="ปริมาณ")
         self.output_treeview.column("Amount", width=100)
-        self.output_treeview.heading("Unit", text="Unit")
+        self.output_treeview.heading("Unit", text="หน่วย")
         self.output_treeview.column("Unit", width=40)
         self.output_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
 
