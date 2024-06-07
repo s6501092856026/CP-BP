@@ -24,12 +24,6 @@ class MainController:
         x, y = getCenterPosition(self.app, width=width, height=height)
         self.app.geometry(f"{width}x{height}+{x}+{y}")
 
-    # def show_main(self):
-    #     self.main_view.pack(padx=10, pady=10)
-    #     x, y = getCenterPosition(self.app,width=self.width, height=550)
-    #     self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
-    #     self.main_view.pack(padx=10, pady=10)
-
     def back_main(self):
         self.compare_view.pack_forget()
         self.newprofile_view.pack_forget()
@@ -40,14 +34,7 @@ class MainController:
         height = self.main_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
         x, y = getCenterPosition(self.app, width=width, height=height)
         self.app.geometry(f"{width}x{height}+{x}+{y}")
-    
-    # def back_main(self):
-    #     self.compare_view.pack_forget()
-    #     self.newprofile_view.pack_forget()
-    #     x, y = getCenterPosition(self.app,width=self.width, height=self.height)
-    #     self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
-    #     self.main_view.pack(padx=10, pady=10)
-    
+ 
     def show_newprofile(self):
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
@@ -62,17 +49,6 @@ class MainController:
         # ล้างข้อมูลในช่องข้อมูลทั้งหมด
         self.newprofile_view.entry_amount.delete(0, tk.END)
         self.newprofile_view.entry_name.delete(0, tk.END)
-
-    # def show_newprofile(self):
-    #     self.compare_view.pack_forget()
-    #     self.main_view.pack_forget()
-    #     x, y = getCenterPosition(self.app,width=1300, height=450)
-    #     self.app.geometry(f"{1300}x{450}+{x}+{y}")
-
-    #     # Clear the entry_name field
-    #     self.newprofile_view.entry_amount.delete(0, tk.END)
-    #     self.newprofile_view.entry_name.delete(0, tk.END)
-    #     self.newprofile_view.pack(padx=10, pady=10)
 
     def show_editprofile(self, product_id):
         self.compare_view.pack_forget()
@@ -98,23 +74,6 @@ class MainController:
         
         self.newprofile_view.set_select(product, rawmats, transpots, performances)
 
-    # def show_editprofile(self, product_id):
-    #     self.compare_view.pack_forget()
-    #     self.main_view.pack_forget()
-    #     x, y = getCenterPosition(self.app,width=1300, height=450)
-    #     self.app.geometry(f"{1300}x{450}+{x}+{y}")
-    #     db = DatabaseUtil.getInstance()
-    #     product = db.fetch_data("select product_name from product where product_id = " + product_id)
-    #     rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
-    #     transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
-    #     performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
-        
-    #     # Clear the entry_name field
-    #     self.newprofile_view.entry_name.delete(0, tk.END)
-
-    #     self.newprofile_view.set_select(product, rawmats, transpots, performances)
-    #     self.newprofile_view.pack(padx=10, pady=10)
-
     def show_compare(self):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
@@ -125,13 +84,6 @@ class MainController:
         height = self.compare_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
         x, y = getCenterPosition(self.app, width=width, height=height)
         self.app.geometry(f"{width}x{height}+{x}+{y}")
-
-    # def show_compare(self):
-    #     self.main_view.pack_forget()
-    #     self.newprofile_view.pack_forget()
-    #     x, y = getCenterPosition(self.app,width=1050, height=450)
-    #     self.app.geometry(f"{1050}x{450}+{x}+{y}")
-    #     self.compare_view.pack(padx=10, pady=10)
 
     def show_break(self):
         self.main_view.pack_forget()
@@ -246,3 +198,29 @@ class MainController:
                 db.execute_query(insert_performance_query, (product_id, item_id, amount))
 
         messagebox.showinfo("Success", "Profile saved successfully!")
+
+    def show_detail_list(self, item_values):
+
+        top = tk.Toplevel(self.app)
+        top.title("รายละเอียด")
+
+        db = DatabaseUtil.getInstance()
+
+        # Determine the appropriate table based on the item_values
+        if item_values[1] == 'Material':
+            # Fetch data from raw_mat table
+            data = db.fetch_data("SELECT rawmat_id, name_raw, detail, carbon_per_raw, unit_raw FROM raw_mat WHERE rawmat_id = %s", (item_values[0],))
+        elif item_values[1] == 'Transpotation':
+            # Fetch data from transportation table
+            data = db.fetch_data("SELECT transpot_id, transpot_name, detail, carbon_per_transpot, unit_transpot FROM transportation WHERE transpot_id = %s", (item_values[0],))
+        elif item_values[1] == 'Performance':
+            # Fetch data from performance table
+            data = db.fetch_data("SELECT performance_id, performance_name, detail, carbon_per_performance, unit_performance FROM performance WHERE performance_id = %s", (item_values[0],))
+        
+
+        # Format the detail_text based on the retrieved data
+        detail_text = f"ID: {data[0][0]}\nName: {data[0][1]}\nDetail: {data[0][2]}\nCarbon: {data[0][3]}\nUnit: {data[0][4]}"
+
+        # Create and pack the detail_label
+        detail_label = tk.Label(top, text=detail_text)
+        detail_label.pack(padx=10, pady=10)

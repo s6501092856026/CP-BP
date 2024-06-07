@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk, Radiobutton, messagebox
-from utils.database import DatabaseUtil
 
 class NewprofileView(ttk.Frame):
 
@@ -66,6 +65,8 @@ class NewprofileView(ttk.Frame):
         self.list_treeview.column("Unit", width=40)
         self.list_treeview.grid(row=3, rowspan=5, column=0, ipady=75)
 
+        self.list_treeview.bind("<<TreeviewSelect>>", self.on_list_treeview)
+
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(self, orient='vertical', command=self.list_treeview.yview)
         self.list_treeview.configure(yscrollcommand=scroll_y.set)
@@ -88,7 +89,14 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.grid(row=3, rowspan=5, column=2, ipady=75)
 
         self.select_treeview.bind("<ButtonRelease-1>", self.on_select_treeview_click)
+
+    def on_list_treeview(self, event):
+        selected_item = self.list_treeview.selection()[0]
+        item_values = self.list_treeview.item(selected_item, "values")
         
+        # เรียกใช้เมธอด show_detail_view ของ controller เพื่อแสดงหน้าต่างรายละเอียด
+        self.controller.show_detail_list(item_values)
+
     def filter(self, event = None):
         
         # radio button
