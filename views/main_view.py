@@ -23,17 +23,6 @@ class MainView(ttk.Frame):
         self.edit_button = ttk.Button(self, text="แก้ไขโปรไฟล์", command=self.edit) 
         self.edit_button.grid(row=1, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
 
-        # button_configs = [{"text": "ลบ", "command": self.delete_selected_item, "row": 3, "column": 3, "sticky": 'EW'},
-        #     {"text": "จุดคุ้มทุน", "command": self.breakeven, "row": 0, "column": 3, "sticky": 'EW'},
-        #     {"text": "สร้างโปรไฟล์ใหม่", "command": self.newprofile, "row": 2, "column": 3, "sticky": 'EW'},
-        #     {"text": "เปรียบเทียบ", "command": self.compare, "row": 4, "column": 3, "sticky": 'EW'},
-        #     {"text": "แก้ไขโปรไฟล์", "command": self.edit, "row": 1, "column": 3, "sticky": 'EW'},]
-
-        # for config in button_configs:
-        #     button = ttk.Button(self, text=config["text"], command=config["command"])
-        #     button.grid(row=config["row"], column=config["column"], padx=10, pady=10, ipadx=10, ipady=10, sticky=config.get("sticky", ''))
-
-
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
