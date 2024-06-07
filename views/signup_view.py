@@ -7,25 +7,25 @@ class SignupView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
-        self.label_firstname = ttk.Label(self, text = "Firstname", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_firstname = ttk.Label(self, text = "ชื่อ")
         self.label_firstname.grid(row=0, column=0, padx=10, pady=10)
 
-        self.label_lastname = ttk.Label(self, text = "Lastname", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_lastname = ttk.Label(self, text = "นามสกุล")
         self.label_lastname.grid(row=1, column=0, padx=10, pady=10)
 
-        self.label_tel = ttk.Label(self, text = "Tel.", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_tel = ttk.Label(self, text = "เบอร์โทร")
         self.label_tel.grid(row=2, column=0, padx=10, pady=10)
 
-        self.label_username = ttk.Label(self, text = "Username", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_username = ttk.Label(self, text = "ชื่อผู้ใช้งาน")
         self.label_username.grid(row=3, column=0, padx=10, pady=10)
 
-        self.label_password = ttk.Label(self, text = "Password", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_password = ttk.Label(self, text = "รหัสผ่าน")
         self.label_password.grid(row=4, column=0, padx=10, pady=10)
 
-        self.label_email = ttk.Label(self, text = "E-mail", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_email = ttk.Label(self, text = "อีเมลล์")
         self.label_email.grid(row=5, column=0, padx=10, pady=10)
 
-        self.warning_msg = ttk.Label(self, text= "",foreground="red", font=("Times New Roman", 10, "bold"))
+        self.warning_msg = ttk.Label(self, text= "",foreground="red")
         self.warning_msg.grid(row=6, column=1, padx=10, pady=10)
 
         self.firstname = ttk.Entry(self, width=30)
@@ -53,7 +53,7 @@ class SignupView(ttk.Frame):
         button_back.grid(row=7, column=1, padx=10, pady=10, sticky='E')
 
     def clear_entries(self):
-        self.agree_msg.configure(text="Signup Sucess")
+        self.agree_msg.configure(text="ลงทะเบียนสำเร็จ")
         self.firstname.delete(0,END)
         self.lastname.delete(0,END)
         self.tel.delete(0,END)

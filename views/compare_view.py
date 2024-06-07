@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 class CompareView(ttk.Frame):
 
@@ -87,4 +87,3 @@ class CompareView(ttk.Frame):
         if  selected_item:  # If an item is selected
             item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
             self.controller.show_detail(item_text[0])
-
