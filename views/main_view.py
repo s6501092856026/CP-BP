@@ -8,37 +8,30 @@ class MainView(ttk.Frame):
 
         # Window
 
-        # Create a style object
-        # style = ttk.Style()
+        self.delete_button = ttk.Button(self, text="ลบ", command=self.delete_selected_item)
+        self.delete_button.grid(row=3, column=3, padx=10, pady=10, ipady=10, sticky='N')
 
-        # Configure the style to have a green background
-        # style.configure("Green.TButton", background="green", font=("Arial", 10))
-        # style.configure("Red.TButton", background="red", font=("Arial", 10))
+        self.breakeven_button = ttk.Button(self, text="จุดคุ้มทุน", command=self.breakeven)
+        self.breakeven_button.grid(row=0, column=3, padx=10, pady=10, ipadx=10, ipady=10)
 
-        # self.delete_button = ttk.Button(self, text="ลบ", command=self.delete_selected_item)
-        # self.delete_button.grid(row=3, column=3, padx=10, pady=10, ipady=10, sticky='N')
+        self.newprofile_button = ttk.Button(self, text="สร้างโปรไฟล์ใหม่", command=self.newprofile)
+        self.newprofile_button.grid(row=2, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
 
-        # self.breakeven_button = ttk.Button(self, text="จุดคุ้มทุน", command=self.breakeven)
-        # self.breakeven_button.grid(row=0, column=3, padx=10, pady=10, ipadx=10, ipady=10)
+        self.compare_button = ttk.Button(self, text="เปรียบเทียบ", command=self.compare)
+        self.compare_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
 
-        # self.newprofile_button = ttk.Button(self, text="สร้างโปรไฟล์ใหม่", command=self.newprofile)
-        # self.newprofile_button.grid(row=2, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
+        self.edit_button = ttk.Button(self, text="แก้ไขโปรไฟล์", command=self.edit) 
+        self.edit_button.grid(row=1, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
 
-        # self.compare_button = ttk.Button(self, text="เปรียบเทียบ", command=self.compare)
-        # self.compare_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
+        # button_configs = [{"text": "ลบ", "command": self.delete_selected_item, "row": 3, "column": 3, "sticky": 'EW'},
+        #     {"text": "จุดคุ้มทุน", "command": self.breakeven, "row": 0, "column": 3, "sticky": 'EW'},
+        #     {"text": "สร้างโปรไฟล์ใหม่", "command": self.newprofile, "row": 2, "column": 3, "sticky": 'EW'},
+        #     {"text": "เปรียบเทียบ", "command": self.compare, "row": 4, "column": 3, "sticky": 'EW'},
+        #     {"text": "แก้ไขโปรไฟล์", "command": self.edit, "row": 1, "column": 3, "sticky": 'EW'},]
 
-        # self.edit_button = ttk.Button(self, text="แก้ไขโปรไฟล์", command=self.edit) 
-        # self.edit_button.grid(row=1, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
-
-        button_configs = [{"text": "ลบ", "command": self.delete_selected_item, "row": 3, "column": 3, "sticky": 'EW'},
-            {"text": "จุดคุ้มทุน", "command": self.breakeven, "row": 0, "column": 3, "sticky": 'EW'},
-            {"text": "สร้างโปรไฟล์ใหม่", "command": self.newprofile, "row": 2, "column": 3, "sticky": 'EW'},
-            {"text": "เปรียบเทียบ", "command": self.compare, "row": 4, "column": 3, "sticky": 'EW'},
-            {"text": "แก้ไขโปรไฟล์", "command": self.edit, "row": 1, "column": 3, "sticky": 'EW'},]
-
-        for config in button_configs:
-            button = ttk.Button(self, text=config["text"], command=config["command"])
-            button.grid(row=config["row"], column=config["column"], padx=10, pady=10, ipadx=10, ipady=10, sticky=config.get("sticky", ''))
+        # for config in button_configs:
+        #     button = ttk.Button(self, text=config["text"], command=config["command"])
+        #     button.grid(row=config["row"], column=config["column"], padx=10, pady=10, ipadx=10, ipady=10, sticky=config.get("sticky", ''))
 
 
         # Budgets

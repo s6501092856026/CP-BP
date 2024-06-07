@@ -17,7 +17,6 @@ class App(tk.Tk):
         self.resizable(width=False ,height=False)
 
         self.style = ttk.Style(self)
-        # self.style.theme_use('clam')  # Use a modern theme
 
         # Customize styles for a white background and light yellow widgets
         white = '#ffffff'

@@ -10,13 +10,13 @@ class NewprofileView(ttk.Frame):
         
         self.radio_state = tk.IntVar(value=1)
 
-        self.radio_material = Radiobutton(self, value=1, text="Material", variable=self.radio_state, command=self.filter)
+        self.radio_material = Radiobutton(self, value=1, text="วัตถุดิบ", variable=self.radio_state, command=self.filter)
         self.radio_material.grid(row=0, column=0, padx=10, pady=10, sticky='')
 
-        self.radio_transpot = Radiobutton(self, value=2, text="Transpotation", variable=self.radio_state, command=self.filter)
+        self.radio_transpot = Radiobutton(self, value=2, text="การขนส่ง", variable=self.radio_state, command=self.filter)
         self.radio_transpot.grid(row=0, column=2, padx=10, pady=10, sticky='W')
 
-        self.radio_performance = Radiobutton(self, value=3, text="Performance", variable=self.radio_state, command=self.filter)
+        self.radio_performance = Radiobutton(self, value=3, text="กระบวนการ", variable=self.radio_state, command=self.filter)
         self.radio_performance.grid(row=0, column=2, padx=10, pady=10, sticky='')
 
         self.combo_box = ttk.Combobox(self,)
@@ -27,42 +27,42 @@ class NewprofileView(ttk.Frame):
         self.entry_name = ttk.Entry(self, text = "")
         self.entry_name.grid(row=0, column=3, padx=5, pady=5, sticky='EW')
 
-        self.label_name = ttk.Label(self, text = "Name Profile")
+        self.label_name = ttk.Label(self, text = "ชื่อโปรไฟล์")
         self.label_name.grid(row=0, column=4, padx=5, pady=5, sticky= 'W')
 
-        self.back_button = ttk.Button(self, text="Back", command=self.back)
+        self.back_button = ttk.Button(self, text="กลับ", command=self.back)
         self.back_button.grid(row=0, column=0, padx=5, pady=5, sticky='W')
 
-        self.label_unit = ttk.Label(self, text = "Unit")
+        self.label_unit = ttk.Label(self, text = "หน่วย")
         self.label_unit.grid(row=3, column=4, padx=5, pady=5, sticky='W')
 
         self.entry_amount = ttk.Entry(self, text = "")
         self.entry_amount.grid(row=3, column=3, padx=5, pady=5, sticky='EW')
 
-        self.add_button = ttk.Button(self, text="Add", command=self.add_profile_item)
+        self.add_button = ttk.Button(self, text="เพิ่ม", command=self.add_profile_item)
         self.add_button.grid(row=4, column=3, padx=5, pady=5, ipady=2, sticky='WN')
 
-        self.delete_button = ttk.Button(self, text="Delete", command=self.delete_profile_item)
+        self.delete_button = ttk.Button(self, text="ลบ", command=self.delete_profile_item)
         self.delete_button.grid(row=4, column=4, padx=5, pady=5, ipady=2, sticky='EN')
 
-        self.save_as_button = ttk.Button(self, text="Save As", command=self.save_as_profile)
+        self.save_as_button = ttk.Button(self, text="บันทึกเป็น", command=self.save_as_profile)
         self.save_as_button.grid(row=6, column=3, columnspan=2, padx=5, pady=5, ipadx=5, ipady=5, sticky='')
         
-        self.complete_button = ttk.Button(self, text="Complete", command=self.show_complete)
+        self.complete_button = ttk.Button(self, text="เสร็จสิ้น", command=self.show_complete)
         self.complete_button.grid(row=7, column=3, columnspan=2, padx=5, pady=5, ipadx=30, ipady=10, sticky='S')
 
-        self.update_button = ttk.Button(self, text="Update", command=self.update_amount)
+        self.update_button = ttk.Button(self, text="อัพเดท", command=self.update_amount)
         self.update_button.grid(row=5, column=3, columnspan=2, padx=5, pady=5, ipadx=5, ipady=5 ,sticky='NEW')
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Carbon", "Unit"), show="headings")
-        self.list_treeview.heading("ID", text="ID")
+        self.list_treeview.heading("ID", text="ไอดี")
         self.list_treeview.column("ID", width=30)
-        self.list_treeview.heading("Name", text="Name")
+        self.list_treeview.heading("Name", text="ชื่อ")
         self.list_treeview.column("Name", width=310)
-        self.list_treeview.heading("Carbon", text="Carbon")
+        self.list_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
         self.list_treeview.column("Carbon", width=50)
-        self.list_treeview.heading("Unit", text="Unit")
+        self.list_treeview.heading("Unit", text="หน่วย")
         self.list_treeview.column("Unit", width=40)
         self.list_treeview.grid(row=3, rowspan=5, column=0, ipady=75)
 
@@ -75,15 +75,15 @@ class NewprofileView(ttk.Frame):
         # self.grid_columnconfigure(0, weight=1)
 
         self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", "Unit"), show="headings")
-        self.select_treeview.heading('Type', text="Type")
+        self.select_treeview.heading('Type', text="ประแภท")
         self.select_treeview.column("Type", width=85)
-        self.select_treeview.heading("ID", text="ID" )
+        self.select_treeview.heading("ID", text="ประเภท" )
         self.select_treeview.column("ID", width=30)
-        self.select_treeview.heading("Name", text="Name")
+        self.select_treeview.heading("Name", text="ชื่อ")
         self.select_treeview.column("Name", width=310)
-        self.select_treeview.heading("Amount", text="Amount")
+        self.select_treeview.heading("Amount", text="ปริมาณ")
         self.select_treeview.column("Amount", width=100)
-        self.select_treeview.heading("Unit", text="Unit")
+        self.select_treeview.heading("Unit", text="หน่วย")
         self.select_treeview.column("Unit", width=40)
         self.select_treeview.grid(row=3, rowspan=5, column=2, ipady=75)
 
