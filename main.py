@@ -13,7 +13,7 @@ class App(tk.Tk):
         self.controller = None
         self.title("CF&BP")
         self.iconbitmap('icon.ico')
-        
+
         self.resizable(width=False ,height=False)
 
         self.style = ttk.Style(self)
@@ -22,8 +22,6 @@ class App(tk.Tk):
         white = '#ffffff'
         light_green = '#ccffcc'
         dark_green = '#99ff99'
-        # light_yellow = '#ffffcc'
-        # dark_yellow = '#ffff99'
         entry_bg = '#ffffe6'
         
         self.configure(bg=white)

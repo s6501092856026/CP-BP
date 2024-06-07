@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 from views.main_view import MainView
 from views.compare_view import CompareView
@@ -13,6 +14,7 @@ class MainController:
         self.main_view = MainView(self, app)
         self.compare_view = CompareView(self, app)
         self.newprofile_view = NewprofileView(self, app)
+
         self.show_profile()
         self.show_profile_name(1, '')
 
@@ -159,7 +161,7 @@ class MainController:
         existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile_name,))
         if existing_product:
             product_id = existing_product[0][0]
-            overwrite = messagebox.askyesno("Overwrite", "Product name already exists. Do you want to overwrite it?")
+            overwrite = messagebox.askyesno("Overwrite", "ชื่อโปรไฟล์มีอยู่แล้ว คุณต้องการบันทึกทับหรือไม่?")
             if overwrite:
                 # Delete existing records
                 db.execute_query("DELETE FROM product_rawmat WHERE product_id = %s", (product_id,))
@@ -197,30 +199,32 @@ class MainController:
                 insert_performance_query = "INSERT INTO product_performance (product_id, performance_id, amount) VALUES (%s, %s, %s)"
                 db.execute_query(insert_performance_query, (product_id, item_id, amount))
 
-        messagebox.showinfo("Success", "Profile saved successfully!")
+        messagebox.showinfo("Success", "บันทึกโปรไฟล์สำเร็จ")
 
     def show_detail_list(self, item_values):
+        # ถ้ามี Toplevel เก่า ให้ทำการลบ
+        if hasattr(self, 'current_top') and self.current_top is not None:
+            self.current_top.destroy()
 
         top = tk.Toplevel(self.app)
         top.title("รายละเอียด")
+        self.current_top = top
 
         db = DatabaseUtil.getInstance()
 
-        # Determine the appropriate table based on the item_values
+        data = None  # ประกาศตัวแปร data ก่อน if
+
+        # กำหนดตารางที่เหมาะสมขึ้นอยู่กับ item_values
         if item_values[1] == 'Material':
-            # Fetch data from raw_mat table
-            data = db.fetch_data("SELECT rawmat_id, name_raw, detail, carbon_per_raw, unit_raw FROM raw_mat WHERE rawmat_id = %s", (item_values[0],))
+            data = db.fetch_data("SELECT rawmat_id, name_raw, detail FROM raw_mat WHERE name_raw = %s", (item_values[0],))
         elif item_values[1] == 'Transpotation':
-            # Fetch data from transportation table
-            data = db.fetch_data("SELECT transpot_id, transpot_name, detail, carbon_per_transpot, unit_transpot FROM transportation WHERE transpot_id = %s", (item_values[0],))
+            data = db.fetch_data("SELECT transpot_id, transpot_name, detail FROM transportation WHERE transpot_name = %s", (item_values[0],))
         elif item_values[1] == 'Performance':
-            # Fetch data from performance table
-            data = db.fetch_data("SELECT performance_id, performance_name, detail, carbon_per_performance, unit_performance FROM performance WHERE performance_id = %s", (item_values[0],))
-        
+            data = db.fetch_data("SELECT performance_id, performance_name, detail FROM performance WHERE performance_name = %s", (item_values[0],))
 
-        # Format the detail_text based on the retrieved data
-        detail_text = f"ID: {data[0][0]}\nName: {data[0][1]}\nDetail: {data[0][2]}\nCarbon: {data[0][3]}\nUnit: {data[0][4]}"
+        # จัดรูปแบบข้อความรายละเอียดขึ้นอยู่กับข้อมูลที่ดึงมา
+        detail_text = f"ID: {data[0][0]}\nName: {data[0][1]}\nDetail: {data[0][2]}"
 
-        # Create and pack the detail_label
+        # สร้างและแสดง detail_label
         detail_label = tk.Label(top, text=detail_text)
         detail_label.pack(padx=10, pady=10)

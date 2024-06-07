@@ -14,13 +14,13 @@ class LoginView(ttk.Frame):
         self.image_label = ttk.Label(self, image=self.photo_image)
         self.image_label.grid(row=0, column=0, columnspan=2)  # Use grid layout within image_frame
 
-        self.label_email = ttk.Label(self, text = "ชื่อผู้ใช้งาน", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_email = ttk.Label(self, text = "ชื่อผู้ใช้งาน")
         self.label_email.grid(row=1, column=0, columnspan=2, pady=(20, 0))
 
-        self.label_password = ttk.Label(self, text = "รหัสผ่าน", foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_password = ttk.Label(self, text = "รหัสผ่าน")
         self.label_password.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-        self.warning_msg = ttk.Label(self, text = "", foreground="red", font=("Times New Roman", 10, "bold"))
+        self.warning_msg = ttk.Label(self, text = "", foreground="red")
         self.warning_msg.grid(row=5, padx=10, pady=10)
 
         self.entry_email = ttk.Entry(self, width=30, justify= "center")
@@ -42,7 +42,7 @@ class LoginView(ttk.Frame):
         self.controller.authen(self.entry_email.get(), self.entry_password.get())
 
     def show_error(self):
-        self.warning_msg.configure(text="Invalid Username/Password")
+        self.warning_msg.configure(text="ชื่อผู้ใช้งาน/รหัสผ่าน ผิดพลาด")
 
     def hide_error(self):
         self.warning_msg.configure(text="")
