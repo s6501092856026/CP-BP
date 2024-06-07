@@ -96,7 +96,16 @@ class MainView(ttk.Frame):
 
     def delete_selected_item(self):
         selected_item = self.list_treeview.focus()  # Get the item that is currently selected
-        if  selected_item:  # If an item is selected
+        if selected_item:  # If an item is selected
             item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
-            self.controller.delete_profile(item_text[0])
-            self.controller.show_profile()
+            confirm = messagebox.askyesno("Confirm Delete", "คุณต้องการลบโปรไฟล์นี้ใช่หรือไม่?")
+            if confirm:
+                self.controller.delete_profile(item_text[0])
+                self.controller.show_profile()
+
+    # def delete_selected_item(self):
+    #     selected_item = self.list_treeview.focus()  # Get the item that is currently selected
+    #     if  selected_item:  # If an item is selected
+    #         item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
+    #         self.controller.delete_profile(item_text[0])
+    #         self.controller.show_profile()

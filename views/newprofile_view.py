@@ -78,7 +78,7 @@ class NewprofileView(ttk.Frame):
         self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", "Unit"), show="headings")
         self.select_treeview.heading('Type', text="ประแภท")
         self.select_treeview.column("Type", width=85)
-        self.select_treeview.heading("ID", text="ประเภท" )
+        self.select_treeview.heading("ID", text="ไอดี" )
         self.select_treeview.column("ID", width=30)
         self.select_treeview.heading("Name", text="ชื่อ")
         self.select_treeview.column("Name", width=310)
