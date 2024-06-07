@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 from tkinter import messagebox
 from views.main_view import MainView
 from views.compare_view import CompareView
@@ -201,30 +200,30 @@ class MainController:
 
         messagebox.showinfo("Success", "บันทึกโปรไฟล์สำเร็จ")
 
-    def show_detail_list(self, item_values):
-        # ถ้ามี Toplevel เก่า ให้ทำการลบ
-        if hasattr(self, 'current_top') and self.current_top is not None:
-            self.current_top.destroy()
+    # def show_detail_list(self, item_values):
+    #     # ถ้ามี Toplevel เก่า ให้ทำการลบ
+    #     if hasattr(self, 'current_top') and self.current_top is not None:
+    #         self.current_top.destroy()
 
-        top = tk.Toplevel(self.app)
-        top.title("รายละเอียด")
-        self.current_top = top
+    #     top = tk.Toplevel(self.app)
+    #     top.title("รายละเอียด")
+    #     self.current_top = top
 
-        db = DatabaseUtil.getInstance()
+    #     db = DatabaseUtil.getInstance()
 
-        data = None  # ประกาศตัวแปร data ก่อน if
+    #     data = None  # ประกาศตัวแปร data ก่อน if
 
-        # กำหนดตารางที่เหมาะสมขึ้นอยู่กับ item_values
-        if item_values[1] == 'Material':
-            data = db.fetch_data("SELECT rawmat_id, name_raw, detail FROM raw_mat WHERE name_raw = %s", (item_values[0],))
-        elif item_values[1] == 'Transpotation':
-            data = db.fetch_data("SELECT transpot_id, transpot_name, detail FROM transportation WHERE transpot_name = %s", (item_values[0],))
-        elif item_values[1] == 'Performance':
-            data = db.fetch_data("SELECT performance_id, performance_name, detail FROM performance WHERE performance_name = %s", (item_values[0],))
+    #     # กำหนดตารางที่เหมาะสมขึ้นอยู่กับ item_values
+    #     if item_values[1] == 'Material':
+    #         data = db.fetch_data("SELECT rawmat_id, name_raw, detail FROM raw_mat WHERE name_raw = %s", (item_values[0],))
+    #     elif item_values[1] == 'Transpotation':
+    #         data = db.fetch_data("SELECT transpot_id, transpot_name, detail FROM transportation WHERE transpot_name = %s", (item_values[0],))
+    #     elif item_values[1] == 'Performance':
+    #         data = db.fetch_data("SELECT performance_id, performance_name, detail FROM performance WHERE performance_name = %s", (item_values[0],))
 
-        # จัดรูปแบบข้อความรายละเอียดขึ้นอยู่กับข้อมูลที่ดึงมา
-        detail_text = f"ID: {data[0][0]}\nName: {data[0][1]}\nDetail: {data[0][2]}"
+    #     # จัดรูปแบบข้อความรายละเอียดขึ้นอยู่กับข้อมูลที่ดึงมา
+    #     detail_text = f"ID: {data[0][0]}\nName: {data[0][1]}\nDetail: {data[0][2]}"
 
-        # สร้างและแสดง detail_label
-        detail_label = tk.Label(top, text=detail_text)
-        detail_label.pack(padx=10, pady=10)
+    #     # สร้างและแสดง detail_label
+    #     detail_label = tk.Label(top, text=detail_text)
+    #     detail_label.pack(padx=10, pady=10)
