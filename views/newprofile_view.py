@@ -54,13 +54,13 @@ class NewprofileView(ttk.Frame):
         self.update_button.grid(row=5, column=3, columnspan=2, padx=5, pady=5, ipadx=5, ipady=5 ,sticky='NEW')
 
         # Budgets
-        self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Carbon", "Unit"), show="headings")
+        self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Emission Factor", "Unit"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
         self.list_treeview.column("ID", width=30)
         self.list_treeview.heading("Name", text="ชื่อ")
         self.list_treeview.column("Name", width=310)
-        self.list_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
-        self.list_treeview.column("Carbon", width=50)
+        self.list_treeview.heading("Emission Factor", text="ค่าสัมประสิทธิ์")
+        self.list_treeview.column("Emission Factor", width=50)
         self.list_treeview.heading("Unit", text="หน่วย")
         self.list_treeview.column("Unit", width=40)
         self.list_treeview.grid(row=3, rowspan=5, column=0, ipady=75)
@@ -75,15 +75,17 @@ class NewprofileView(ttk.Frame):
         self.grid_rowconfigure(0, weight=1)
         # self.grid_columnconfigure(0, weight=1)
 
-        self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Amount", "Unit"), show="headings")
+        self.select_treeview = ttk.Treeview(self, columns=('Type', "ID", "Name", "Emission Factor", "Amount", "Unit"), show="headings")
         self.select_treeview.heading('Type', text="ประแภท")
         self.select_treeview.column("Type", width=85)
         self.select_treeview.heading("ID", text="ไอดี" )
         self.select_treeview.column("ID", width=30)
         self.select_treeview.heading("Name", text="ชื่อ")
         self.select_treeview.column("Name", width=310)
+        self.select_treeview.heading("Emission Factor", text="ค่าสัมประสิทธิ์")
+        self.select_treeview.column("Emission Factor", width=50)
         self.select_treeview.heading("Amount", text="ปริมาณ")
-        self.select_treeview.column("Amount", width=100)
+        self.select_treeview.column("Amount", width=50)
         self.select_treeview.heading("Unit", text="หน่วย")
         self.select_treeview.column("Unit", width=40)
         self.select_treeview.grid(row=3, rowspan=5, column=2, ipady=75)
@@ -117,9 +119,9 @@ class NewprofileView(ttk.Frame):
         if not self.entry_name.get():
 
         # แสดงกล่องข้อความเตือน
-            messagebox.showwarning("Warning", "Please enter a name in the profile name field.")
+            messagebox.showwarning("คำเตือน", "โปรดใส่ชื่อในช่องชื่อโปรไฟล์")
             return
-
+        
         items = []
         children = self.select_treeview.get_children()
         for child in children:
@@ -191,16 +193,16 @@ class NewprofileView(ttk.Frame):
             # ดึงค่าจาก entry_amount และแปลงเป็น float
             amount = self.entry_amount.get()
             if not amount:
-                messagebox.showerror("Input Error", "Please enter a value in the amount field.")
+                messagebox.showerror("ข้อผิดพลาดในการป้อนข้อมูล", "กรุณาใส่ค่าในช่องปริมาณ")
                 return
 
             try:
                 amount = float(amount)
             except ValueError:
-                messagebox.showerror("Input Error", "Please enter a valid float value in the amount field.")
+                messagebox.showerror("ข้อผิดพลาดในการป้อนข้อมูล", "กรุณาใส่ค่าที่เป็นจำนวนทศนิยมที่ถูกต้องในช่องปริมาณ")
                 return
 
-            item = (filter_cate_text, item_text[0], item_text[1], amount, item_text[3])
+            item = (filter_cate_text, item_text[0], item_text[1], item_text[2], amount, item_text[3])
             self.select_treeview.insert("", "end", values=item)
     
     def on_select_treeview_click(self, event):
@@ -216,7 +218,7 @@ class NewprofileView(ttk.Frame):
             try:
                 new_amount = float(self.entry_amount.get())
             except ValueError:
-                messagebox.showerror("Input Error", "Please enter a valid float value in the amount field.")
+                messagebox.showerror("ข้อผิดพลาดในการป้อนข้อมูล", "โปรดป้อนค่าทศนิยมที่ถูกต้องในช่องป้อนตัวเลข")
                 return
         
         # Update the selected item's amount in the treeview

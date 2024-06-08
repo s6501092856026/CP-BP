@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import matplotlib.widgets as ZoomPan
 import openpyxl.drawing
@@ -23,19 +23,19 @@ class ConnewView(ttk.Frame):
         # Window
         self.main_frame =  ttk.Frame(self)
 
-        self.label_input = ttk.Label(self, text = "วัตถุดิบขาเข้า", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_input = ttk.Label(self, text = "วัตถุดิบขาเข้า", justify='center', foreground="black", font=("bold"))
         self.label_input.grid(row=0, column=0, padx=10, pady=10, sticky='N')
 
-        self.label_process = ttk.Label(self, text = "กระบวนการผลิต", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_process = ttk.Label(self, text = "กระบวนการผลิต", justify='center', foreground="black", font=("bold"))
         self.label_process.grid(row=0, column=1, padx=10, pady=10, sticky='N')
 
-        self.label_output = ttk.Label(self, text = "ส่งออกสินค้า", justify='center', foreground="black", font=("Times New Roman", 10, "bold"))
+        self.label_output = ttk.Label(self, text = "ส่งออกสินค้า", justify='center', foreground="black", font=("bold"))
         self.label_output.grid(row=0, column=2, padx=10, pady=10, sticky='N')
 
         self.label_totalcf = ttk.Label(self, text = "ปริมาณค่าคาร์บอนเทียบเท่าทั้งหมด", font=("bold"))
         self.label_totalcf.grid(row=7,column=0, padx=10, pady=10, sticky='W')
 
-        self.label_cf = ttk.Label(self, text = "0", font=("bold"))
+        self.label_cf = ttk.Label(self, text = "", font=(9))
         self.label_cf.grid(row=7,column=1, padx=10, pady=10, sticky='W')
 
         self.label_unit = ttk.Label(self, text = "หน่วย", font=("bold"))
@@ -48,37 +48,32 @@ class ConnewView(ttk.Frame):
         self.export_button.grid(row=8, column=2, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # TREE VIEW
-        self.input_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
+        self.input_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         self.input_treeview.heading("Name", text="ชื่อ")
         self.input_treeview.column("Name", width=310)
-        self.input_treeview.heading("Amount", text="ปริมาณ")
-        self.input_treeview.column("Amount", width=100)
+        self.input_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
+        self.input_treeview.column("Carbon", width=100)
         self.input_treeview.heading("Unit", text="หน่วย")
         self.input_treeview.column("Unit", width=40)
         self.input_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5)
 
-        self.process_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
+        self.process_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         self.process_treeview.heading("Name", text="ชื่อ")
         self.process_treeview.column("Name", width=310)
-        self.process_treeview.heading("Amount", text="ปริมาณ")
-        self.process_treeview.column("Amount", width=100)
+        self.process_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
+        self.process_treeview.column("Carbon", width=100)
         self.process_treeview.heading("Unit", text="หน่วย")
         self.process_treeview.column("Unit", width=40)
         self.process_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5)
 
-        self.output_treeview = ttk.Treeview(self, columns=("Name", "Amount", "Unit"), show="headings")
+        self.output_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         self.output_treeview.heading("Name", text="ชื่อ")
         self.output_treeview.column("Name", width=310)
-        self.output_treeview.heading("Amount", text="ปริมาณ")
-        self.output_treeview.column("Amount", width=100)
+        self.output_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
+        self.output_treeview.column("Carbon", width=100)
         self.output_treeview.heading("Unit", text="หน่วย")
         self.output_treeview.column("Unit", width=40)
         self.output_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
-
-        # self.listbreakeven_treeview = ttk.Treeview(self, columns=("Detail"), show="headings")
-        # self.listbreakeven_treeview.heading("Detail", text="Detail" )
-        # self.listbreakeven_treeview.grid(row=5, rowspan=2, column=0)
-        # self.listbreakeven_treeview.insert("", "end")
 
     def setProcessGraph(self, items):
 
@@ -99,9 +94,11 @@ class ConnewView(ttk.Frame):
 
         # Create graph
         subplot.plot(x,y)
+
+        # เพิ่มหน่วยที่ลูกศรแกน x
+        subplot.set_xlabel('KgCO2eq')  
         
         # Create a FigurecanvasTkAgg widget
-        
         canvas = FigureCanvasTkAgg(figure, master=self)
         canvas.draw()
         canvas.get_tk_widget().grid(row=1, rowspan=2, column=1, padx=5, pady=5) 
@@ -126,6 +123,9 @@ class ConnewView(ttk.Frame):
         # Create graph
         subplot.plot(x,y)
 
+        # เพิ่มหน่วยที่ลูกศรแกน x
+        subplot.set_xlabel('KgCO2eq')  
+
         # Create a FigurecanvasTkAgg widget
         canvas = FigureCanvasTkAgg(figure, master=self)
         canvas.draw()
@@ -148,10 +148,13 @@ class ConnewView(ttk.Frame):
 
 
         #  Set font
-        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
+        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="Tohama")
 
         # Create graph
         subplot.plot(x,y)
+
+        # เพิ่มหน่วยที่ลูกศรแกน x
+        subplot.set_xlabel('KgCO2eq')  
 
         # Create a FigurecanvasTkAgg widget
         canvas = FigureCanvasTkAgg(figure, master=self)
@@ -173,21 +176,31 @@ class ConnewView(ttk.Frame):
         outputGraph = []
         processGraph = []
 
+        total_cf = 0  # ผลรวมของค่า Carbon
+
         for item in items:
-            category, _, name, amount, unit = item
+            category, _, name, factor, amount, _ = item
             
             # self.input_treeview
             if category == 'Material':
-                processGraph.append((name, amount))
-                self.process_treeview.insert("", "end", values=(name, amount, unit))
+                processGraph.append((name, round(float(factor) * float(amount), 3)))
+                self.process_treeview.insert("", "end", values=(name, round(float(factor) * float(amount), 3), "KgCO2eq"))
+                total_cf += float(factor) * float(amount)  # เพิ่มค่า Carbon ลงในผลรวม
+
             elif category == 'Transpotation':
-                inputGraph.append((name, amount))
-                outputGraph.append((name, amount))
-                self.input_treeview.insert("", "end", values=(name, amount, unit))
-                self.output_treeview.insert("", "end", values=(name, amount, unit))
+                inputGraph.append((name, round(float(factor) * float(amount), 3)))
+                outputGraph.append((name, round(float(factor) * float(amount), 3)))
+                self.input_treeview.insert("", "end", values=(name, round(float(factor) * float(amount), 3), "KgCO2eq"))
+                self.output_treeview.insert("", "end", values=(name, round(float(factor) * float(amount), 3), "KgCO2eq"))
+                total_cf += float(factor) * float(amount)  # เพิ่มค่า Carbon ลงในผลรวม
+
             elif category == 'Performance':
-                processGraph.append((name, amount))
-                self.process_treeview.insert("", "end", values=(name, amount, unit))
+                processGraph.append((name, round(float(factor) * float(amount), 3)))
+                self.process_treeview.insert("", "end", values=(name, round(float(factor) * float(amount), 3), "KgCO2eq"))
+                total_cf += float(factor) * float(amount)  # เพิ่มค่า Carbon ลงในผลรวม
+
+        self.label_cf.config(text="{:.3f}".format(total_cf))  # กำหนดผลรวมของค่า Carbon ลงใน label_cf
+
         self.setInputGraph(inputGraph)
         self.setOutputGraph(outputGraph)
         self.setProcessGraph(processGraph)
@@ -232,13 +245,13 @@ class ConnewView(ttk.Frame):
         align = openpyxl.styles.Alignment(horizontal="center")
         
         sheet.merge_cells("A1:C1")
-        sheet["A1"].value = "Input"
+        sheet["A1"].value = "วัตถุดิบนำเข้า"
         sheet["A1"].alignment = align
         sheet.merge_cells("D1:F1")
-        sheet["D1"].value = "Process"
+        sheet["D1"].value = "กระบวนการผลิต"
         sheet["D1"].alignment = align
         sheet.merge_cells("G1:I1")
-        sheet['G1'].value = "Output"
+        sheet['G1'].value = "ส่งออกสินค้า"
         sheet["G1"].alignment = align
 
         data = []
@@ -264,17 +277,3 @@ class ConnewView(ttk.Frame):
             print(f"บันทึกไฟล์ที่: {file_path}")
         else:
             print("การบันทึกไฟล์ถูกยกเลิก")
-        
-
-
-
-        # # df = pd.DataFrame(self.items)
-        # # print(df)
-
-        # file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
-
-        # if file_path:
-        #     df.to_excel(file_path, index=False)
-        #     print(f"บันทึกไฟล์ที่: {file_path}")
-        # else:
-        #     print("การบันทึกไฟล์ถูกยกเลิก")

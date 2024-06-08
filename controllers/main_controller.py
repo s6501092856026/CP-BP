@@ -57,9 +57,9 @@ class MainController:
 
         db = DatabaseUtil.getInstance()
         product = db.fetch_data("select product_name from product where product_id = " + product_id)
-        rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
-        transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
-        performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
+        rawmats = db.fetch_data("select 'Material', r.rawmat_id ,name_raw, carbon_per_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
+        transpots = db.fetch_data("select 'Transpotation', t.transpot_id, transpot_name, carbon_per_transpot, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
+        performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, carbon_per_performance, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
         
         self.newprofile_view.pack_forget()  # ลบการแพ็คของวิดเจต์ newprofile_view เพื่อลบออกจากหน้าต่าง
         self.newprofile_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ newprofile_view ใหม่ พร้อมกับ Padding
@@ -151,7 +151,7 @@ class MainController:
 
     def save_as_profile(self, profile_name, items):
         if not profile_name:
-            messagebox.showwarning("Warning", "Please enter a name in the profile name field.")
+            messagebox.showwarning("Warning", "กรุณาใส่ชื่อในช่องข้อมูลชื่อโปรไฟล์")
             return
 
         db = DatabaseUtil.getInstance()

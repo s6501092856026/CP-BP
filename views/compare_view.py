@@ -24,14 +24,11 @@ class CompareView(ttk.Frame):
         self.entry_profile2 = ttk.Entry(self)
         self.entry_profile2.grid(row=2, column=3, padx=10, pady=10, sticky='S')
 
-        self.add_button = ttk.Button(self, text="เพิ่ม")
+        self.add_button = ttk.Button(self, text="เพิ่ม", command=self.add_profile)
         self.add_button.grid(row=3,column=3, padx=10, pady=10, sticky='')
 
-        self.delete_button = ttk.Button(self, text="ลบ")
-        self.delete_button.grid(row=4,column=3, padx=10, pady=10, sticky='')
-
         self.complete_button = ttk.Button(self, text="เสร็จสิ้น", command=self.conprepare)
-        self.complete_button.grid(row=5, column=3, padx=10, pady=10, ipadx=10, ipady=20, sticky='SEW')
+        self.complete_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=20, sticky='SEW')
 
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
@@ -39,8 +36,7 @@ class CompareView(ttk.Frame):
         self.list_treeview.column("ID", width=10)
         self.list_treeview.heading("Name", text="ชื่อ")
         self.list_treeview.column("Name", width=200)
-        self.list_treeview.grid(row=1, rowspan=5, column=0, padx=5, pady=5, ipadx=40, ipady=75)
-        # self.treeview1.insert("", "end")
+        self.list_treeview.grid(row=1, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
 
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
@@ -51,17 +47,28 @@ class CompareView(ttk.Frame):
         self.detail_treeview.column("Amount", width=20)
         self.detail_treeview.heading("Unit", text="หน่วย")
         self.detail_treeview.column("Unit", width=20)
-        self.detail_treeview.grid(row=1, rowspan=5, column=1, padx=5, pady=5, ipadx=170, ipady=75)
+        self.detail_treeview.grid(row=1, rowspan=4, column=1, padx=5, pady=5, ipadx=170, ipady=75)
 
     def back(self):
         self.controller.back_main()
 
     def conprepare(self):
-        self.controller.show_conprepare()
+        profile1 = self.entry_profile1.get()
+        profile2 = self.entry_profile2.get()
+    
+       # ตรวจสอบว่าช่องใส่ข้อความ entry_profile1 และ entry_profile2 มีค่าหรือไม่
+        if not profile1 or not profile2:
+            messagebox.showwarning("คำเตือน", "โปรดเลือกโปรไฟล์ที่หนึ่งและโปรไฟล์ที่สองก่อนดำเนินการ")
+        else:
+            # ถ้าทั้งสองช่องมีค่า แสดงข้อความพร้อมให้ผู้ใช้ตอบ Yes/No
+            confirm = messagebox.askyesno("ยืนยัน", f"โปรไฟล์ที่หนึ่ง: {profile1}\nโปรไฟล์ที่สอง: {profile2}\nคุณต้องการดำเนินการต่อหรือไม่?")
+
+            # ถ้าผู้ใช้ตอบ Yes ให้เรียกใช้ฟังก์ชัน show_conprepare
+            if confirm:
+                self.controller.show_conprepare()
         
     def set_profile(self, products):
         self.list_treeview.delete(*self.list_treeview.get_children())
-        # [(1, 'machine', None, None), (2, 'not', None, None)]
 
         for product in products:
             (product_id, product_name) = product
@@ -87,3 +94,14 @@ class CompareView(ttk.Frame):
         if  selected_item:  # If an item is selected
             item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
             self.controller.show_detail(item_text[0])
+    
+    def add_profile(self):
+        selected_item = self.list_treeview.focus()
+        if selected_item:
+            item_text = self.list_treeview.item(selected_item, 'values')
+            name = (item_text[1])
+
+            if not self.entry_profile1.get():
+                self.entry_profile1.insert(0, name)
+            else:
+                self.entry_profile2.insert(0, name)
