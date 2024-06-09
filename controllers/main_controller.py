@@ -187,7 +187,7 @@ class MainController:
 
         # Insert the related materials, transportations, and performances
         for item in items:
-            item_type, item_id, _, amount, _ = item
+            item_type, item_id, _, _, amount, _ = item
 
             if item_type == 'Material':
                 insert_rawmat_query = "INSERT INTO product_rawmat (product_id, rawmat_id, amount) VALUES (%s, %s, %s)"

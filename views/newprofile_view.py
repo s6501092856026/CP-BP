@@ -238,4 +238,12 @@ class NewprofileView(ttk.Frame):
     def save_as_profile(self):
         profile_name = self.entry_name.get()
         items = [self.select_treeview.item(child)['values'] for child in self.select_treeview.get_children()]
+
+        # ตรวจสอบจำนวนค่าใน items
+        for item in items:
+            if len(item) != 6:
+                # แสดงข้อความข้อผิดพลาดหรือดำเนินการเพิ่มเติมตามที่เหมาะสม
+                print("Error: Unexpected number of values in item:", item)
+                return
+            
         self.controller.save_as_profile(profile_name, items)
