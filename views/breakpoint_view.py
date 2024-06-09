@@ -10,7 +10,7 @@ class BreakpointView(ttk.Frame):
         self.back_button = ttk.Button(self, text="ย้อนกลับ", command=self.back)
         self.back_button.grid(row=0, column=0, padx=5, pady=10, sticky='W')
 
-        self.label_profile = ttk.Label(self, text = "Profile", font=("Times New Roman", 10, "bold"))
+        self.label_profile = ttk.Label(self, text = "ชื่อโปรไฟล์", font=("Times New Roman", 10, "bold"))
         self.label_profile.grid(row=0, column=0, padx=10, pady=10, sticky='E')
 
         self.entry_add = ttk.Entry(self)

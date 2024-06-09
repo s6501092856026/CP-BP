@@ -121,7 +121,7 @@ class NewprofileView(ttk.Frame):
         if not self.entry_name.get():
 
         # แสดงกล่องข้อความเตือน
-            messagebox.showwarning("คำเตือน", "โปรดใส่ชื่อในช่องชื่อโปรไฟล์")
+            messagebox.showwarning("แจ้งเตือน", "โปรดใส่ชื่อในช่องชื่อโปรไฟล์")
             return
         
         items = []
@@ -243,7 +243,7 @@ class NewprofileView(ttk.Frame):
         for item in items:
             if len(item) != 6:
                 # แสดงข้อความข้อผิดพลาดหรือดำเนินการเพิ่มเติมตามที่เหมาะสม
-                print("Error: Unexpected number of values in item:", item)
+                messagebox.showerror("ข้อผิดพลาด", "มีจำนวนค่าไม่ถูกต้องในรายการ")
                 return
             
         self.controller.save_as_profile(profile_name, items)

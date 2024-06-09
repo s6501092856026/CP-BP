@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from PIL import Image, ImageTk
 from controllers.tooltip_controller import ToolTipController
 
 class LoginView(ttk.Frame):
@@ -9,11 +8,11 @@ class LoginView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
-        self.image = Image.open(r"C:\Users\User\Desktop\Project\CF&BP\image.png")  # Replace with your image path
-        self.photo_image = ImageTk.PhotoImage(self.image)  # Convert image to PhotoImage
+        # Load the image directly using PhotoImage from tkinter
+        self.photo_image = tk.PhotoImage(file=r"C:\Users\User\Desktop\Project\CF&BP\image.png")
 
         self.image_label = ttk.Label(self, image=self.photo_image)
-        self.image_label.grid(row=0, column=0, columnspan=2)  # Use grid layout within image_frame
+        self.image_label.grid(row=0, column=0, columnspan=2)
 
         self.label_email = ttk.Label(self, text = "ชื่อผู้ใช้งาน")
         self.label_email.grid(row=1, column=0, columnspan=2, pady=(20, 0))

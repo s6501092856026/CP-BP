@@ -22,12 +22,6 @@ class BreakController:
     def update_entry_add(self, profile_name):
         self.breakpoint_view.entry_add.delete(0, tk.END)  # ล้างข้อมูลเก่าใน Entry
         self.breakpoint_view.entry_add.insert(0, profile_name)  # เพิ่มข้อมูลใหม่
-
-    # def show_break(self):
-    #     self.breakpoint_view.pack(padx=10, pady=10)
-    #     x, y = getCenterPosition(self.app,width=self.width, height=self.height)
-    #     self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
-    #     self.breakpoint_view.pack(padx=10, pady=10, expand=True)
     
     def back_main(self):
         self.breakpoint_view.pack_forget()

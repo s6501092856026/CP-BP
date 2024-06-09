@@ -77,9 +77,7 @@ class MainView(ttk.Frame):
             profile_name = self.list_treeview.item(selected_item, 'values')[1]
             self.controller.show_break(profile_name)  # ส่ง profile_name ไปยัง show_break
         else:
-            print("No item selected")
-    # def breakeven(self):
-    #     self.controller.show_break()
+            messagebox.showinfo("แจ้งเตือน", "กรุณาเลือกรายการก่อน")
 
     def edit(self):
         selected_item = self.list_treeview.focus()  # Get the item that is currently selected
