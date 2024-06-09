@@ -5,7 +5,6 @@ from controllers.main_controller import MainController
 from controllers.breakeven_controller import BreakController
 from controllers.connew_controller import ConnewController
 from controllers.conprepare_controller import ConprepareController
-from controllers.tooltip_controller import ToolTipController
 
 class App(tk.Tk):
 
@@ -27,7 +26,7 @@ class App(tk.Tk):
         
         self.configure(bg=white)
 
-        self.style.configure('TButton', font=('Tohama', 9), padding=10, background=light_green)
+        self.style.configure('TButton', font=('Tohama', 9), padding=5, background=light_green)
         self.style.map('TButton', background=[('active', dark_green)])
         self.style.configure('TLabel', font=('Tohama', 9), background=white)
         self.style.configure('TEntry', font=('Tohama', 9), fieldbackground=entry_bg)
@@ -43,9 +42,9 @@ class App(tk.Tk):
         self.controller = MainController(self)
         self.controller.show_main()
     
-    def show_break(self):
+    def show_break(self, profile_name):
         self.controller = BreakController(self)
-        self.controller.show_break()
+        self.controller.show_break(profile_name)
 
     def show_connew(self, items):
         self.controller = ConnewController(self)

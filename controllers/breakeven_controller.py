@@ -1,3 +1,4 @@
+import tkinter as tk
 from views.breakpoint_view import BreakpointView
 from utils.window import getCenterPosition
 from utils.database import DatabaseUtil
@@ -8,7 +9,8 @@ class BreakController:
         self.app = app
         self.breakpoint_view = BreakpointView(self, app)
 
-    def show_break(self):
+    def show_break(self, profile_name):
+        self.update_entry_add(profile_name)  # อัปเดตข้อมูลใน entry_add
         self.breakpoint_view.pack_forget()  # ลบการแพ็ควิดเจต์ breakpoint_view เพื่อลบออกจากหน้าต่าง (หากมีการแสดงผลอยู่ก่อนหน้านี้)
         self.breakpoint_view.pack(padx=10, pady=10, expand=True)  # แสดงวิดเจต์ breakpoint_view พร้อมกับการขยายตัวเต็มขอบเต็มหน้าจอ
         self.app.update_idletasks()  # อัพเดตวิดเจต์
@@ -16,6 +18,10 @@ class BreakController:
         height = self.breakpoint_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
         x, y = getCenterPosition(self.app, width=width, height=height)
         self.app.geometry(f"{width}x{height}+{x}+{y}")
+
+    def update_entry_add(self, profile_name):
+        self.breakpoint_view.entry_add.delete(0, tk.END)  # ล้างข้อมูลเก่าใน Entry
+        self.breakpoint_view.entry_add.insert(0, profile_name)  # เพิ่มข้อมูลใหม่
 
     # def show_break(self):
     #     self.breakpoint_view.pack(padx=10, pady=10)

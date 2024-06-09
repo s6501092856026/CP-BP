@@ -30,7 +30,7 @@ class NewprofileView(ttk.Frame):
         self.label_name = ttk.Label(self, text = "ชื่อโปรไฟล์")
         self.label_name.grid(row=0, column=4, padx=5, pady=5, sticky= 'W')
 
-        self.back_button = ttk.Button(self, text="กลับ", command=self.back)
+        self.back_button = ttk.Button(self, text="ย้อนกลับ", command=self.back)
         self.back_button.grid(row=0, column=0, padx=5, pady=5, sticky='W')
 
         self.label_unit = ttk.Label(self, text = "หน่วย")
@@ -68,8 +68,6 @@ class NewprofileView(ttk.Frame):
         self.list_treeview.column("Unit", width=40)
         self.list_treeview.grid(row=3, rowspan=5, column=0, ipady=75)
 
-        # self.list_treeview.bind("<<TreeviewSelect>>", self.on_list_treeview)
-
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(self, orient='vertical', command=self.list_treeview.yview)
         self.list_treeview.configure(yscrollcommand=scroll_y.set)
@@ -94,13 +92,6 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.grid(row=3, rowspan=5, column=2, ipady=75)
 
         self.select_treeview.bind("<ButtonRelease-1>", self.on_select_treeview_click)
-
-    # def on_list_treeview(self, event):
-    #     selected_item = self.list_treeview.selection()[0]
-    #     item_values = self.list_treeview.item(selected_item, "values")
-        
-    #     # เรียกใช้เมธอด show_detail_view ของ controller เพื่อแสดงหน้าต่างรายละเอียด
-    #     self.controller.show_detail_list(item_values)
 
     def add_button_tooltips(self):
         ToolTipController(self.add_button, "เพิ่มรายการ")
@@ -218,34 +209,6 @@ class NewprofileView(ttk.Frame):
             # เรียกใช้ฟังก์ชัน update_amount() เพื่ออัปเดตค่าของรายการที่เพิ่มล่าสุด
             self.update_amount()
 
-    # def add_profile_item(self):
-    #     selected_item = self.list_treeview.focus()  # Get the item that is currently selected
-    #     if  selected_item:  # If an item is selected
-    #         item_text = self.list_treeview.item(selected_item, 'values')
-    #         filter_cate = self.radio_state.get()
-    #         filter_cate_text = ''
-    #         if filter_cate == 1:
-    #             filter_cate_text = 'Material'
-    #         elif filter_cate == 2:
-    #             filter_cate_text = 'Transpotation'
-    #         else:
-    #             filter_cate_text = 'Performance'
-
-    #         # ดึงค่าจาก entry_amount และแปลงเป็น float
-    #         amount = self.entry_amount.get()
-    #         if not amount:
-    #             messagebox.showerror("ข้อผิดพลาดในการป้อนข้อมูล", "กรุณาใส่ค่าในช่องปริมาณ")
-    #             return
-
-    #         try:
-    #             amount = float(amount)
-    #         except ValueError:
-    #             messagebox.showerror("ข้อผิดพลาดในการป้อนข้อมูล", "กรุณาใส่ค่าที่เป็นจำนวนทศนิยมที่ถูกต้องในช่องปริมาณ")
-    #             return
-
-    #         item = (filter_cate_text, item_text[0], item_text[1], item_text[2], amount, item_text[3])
-    #         self.select_treeview.insert("", "end", values=item)
-    
     def on_select_treeview_click(self, event):
         selected_item = self.select_treeview.focus()
         if selected_item:

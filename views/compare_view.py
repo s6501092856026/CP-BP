@@ -9,7 +9,7 @@ class CompareView(ttk.Frame):
 
         # Window
 
-        self.back_button = ttk.Button(self, text="กลับ", command=self.back)
+        self.back_button = ttk.Button(self, text="ย้อนลับ", command=self.back)
         self.back_button.grid(row=0, column=0, padx=5, sticky='SW')
 
         self.label_profile1 = ttk.Label(self, text="โปรไฟล์ที่หนึ่ง")
