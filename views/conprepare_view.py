@@ -95,8 +95,7 @@ class ConprepareView(ttk.Frame):
 
     def setConclusion(self, items) :
         self.profile01_treeview.delete(*self.profile01_treeview.get_children())
-        self.profile01_treeview.delete(*self.profile01_treeview.get_children())
-        self.output_treeview.delete(*self.output_treeview.get_children())
+        self.profile02_treeview.delete(*self.profile02_treeview.get_children())
         inputGraph = []
         outputGraph = []
         processGraph = []

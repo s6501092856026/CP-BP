@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from controllers.tooltip_controller import ToolTipController
+
 class MainView(ttk.Frame):
 
     def __init__(self, controller, app):
@@ -23,11 +25,14 @@ class MainView(ttk.Frame):
         self.edit_button = ttk.Button(self, text="แก้ไขโปรไฟล์", command=self.edit) 
         self.edit_button.grid(row=1, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
 
+        # เรียกใช้งานเมท็อด add_button_tooltips() เพื่อเพิ่ม Tooltip สำหรับปุ่ม
+        self.add_button_tooltips()
+
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
         self.list_treeview.column("ID", width=10)
-        self.list_treeview.heading("Name", text="ชื่อ")
+        self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
         self.list_treeview.column("Name", width=200)
         self.list_treeview.grid(row=0, rowspan=5, column=0, padx=5, pady=5, ipadx=20, ipady=80)
 
@@ -42,18 +47,28 @@ class MainView(ttk.Frame):
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
         self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Amount", "Unit"), show="headings")
-        self.detail_treeview.heading("Detail", text="รายละเอียด")
-        self.detail_treeview.column("Detail", width=200)
+        self.detail_treeview.heading("Detail", text="ชื่อ")
+        self.detail_treeview.column("Detail", width=300)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
         self.detail_treeview.column("Amount", width=30)
         self.detail_treeview.heading("Unit", text="หน่วย")
         self.detail_treeview.column("Unit", width=5)
         self.detail_treeview.grid(row=0, rowspan=5, column=2, padx=5, pady=5, ipadx=170, ipady=80)
+
+    # เมท็อดสำหรับเพิ่ม Tooltip สำหรับปุ่ม
+    def add_button_tooltips(self):
+        ToolTipController(self.delete_button, "คลิกเพื่อลบรายการที่เลือก")
+        ToolTipController(self.breakeven_button, "คลิกเพื่อคำนวณจุดคุ้มทุน")
+        ToolTipController(self.newprofile_button, "คลิกเพื่อสร้างโปรไฟล์ใหม่")
+        ToolTipController(self.compare_button, "คลิกเพื่อเปรียบเทียบโปรไฟล์")
+        ToolTipController(self.edit_button, "คลิกเพื่อแก้ไขโปรไฟล์")
     
     def newprofile(self):
+        self.detail_treeview.delete(*self.detail_treeview.get_children())
         self.controller.show_newprofile()
     
     def compare(self):
+        self.detail_treeview.delete(*self.detail_treeview.get_children())
         self.controller.show_compare()
 
     def breakeven(self):

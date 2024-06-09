@@ -34,14 +34,14 @@ class CompareView(ttk.Frame):
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
         self.list_treeview.column("ID", width=10)
-        self.list_treeview.heading("Name", text="ชื่อ")
+        self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
         self.list_treeview.column("Name", width=200)
         self.list_treeview.grid(row=1, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
 
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
         self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Amount", "Unit"), show="headings")
-        self.detail_treeview.heading("Detail", text="รายละเอียด")
+        self.detail_treeview.heading("Detail", text="ชื่อ")
         self.detail_treeview.column("Detail", width=200)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
         self.detail_treeview.column("Amount", width=20)
@@ -60,12 +60,24 @@ class CompareView(ttk.Frame):
         if not profile1 or not profile2:
             messagebox.showwarning("คำเตือน", "โปรดเลือกโปรไฟล์ที่หนึ่งและโปรไฟล์ที่สองก่อนดำเนินการ")
         else:
-            # ถ้าทั้งสองช่องมีค่า แสดงข้อความพร้อมให้ผู้ใช้ตอบ Yes/No
+            items = []
+
+            # ดึงค่า items จาก entry_profile1
+            profiles1 = self.entry_profile1.get_children()
+            for profile in profiles1:
+                items.append(self.entry_profile1.item(profile)['values'])
+
+            # ดึงค่า items จาก entry_profile2
+            profiles2 = self.entry_profile2.get_children()
+            for profile in profiles2:
+                items.append(self.entry_profile2.item(profile)['values'])
+
+            # แสดงกล่องข้อความให้ผู้ใช้ยืนยัน
             confirm = messagebox.askyesno("ยืนยัน", f"โปรไฟล์ที่หนึ่ง: {profile1}\nโปรไฟล์ที่สอง: {profile2}\nคุณต้องการดำเนินการต่อหรือไม่?")
 
             # ถ้าผู้ใช้ตอบ Yes ให้เรียกใช้ฟังก์ชัน show_conprepare
             if confirm:
-                self.controller.show_conprepare()
+                self.controller.show_conprepare(items)
         
     def set_profile(self, products):
         self.list_treeview.delete(*self.list_treeview.get_children())

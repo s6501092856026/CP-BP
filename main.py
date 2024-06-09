@@ -5,6 +5,7 @@ from controllers.main_controller import MainController
 from controllers.breakeven_controller import BreakController
 from controllers.connew_controller import ConnewController
 from controllers.conprepare_controller import ConprepareController
+from controllers.tooltip_controller import ToolTipController
 
 class App(tk.Tk):
 

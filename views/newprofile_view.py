@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, Radiobutton, messagebox
+from controllers.tooltip_controller import ToolTipController
 
 class NewprofileView(ttk.Frame):
 
@@ -53,6 +54,8 @@ class NewprofileView(ttk.Frame):
         self.update_button = ttk.Button(self, text="อัพเดท", command=self.update_amount)
         self.update_button.grid(row=5, column=3, columnspan=2, padx=5, pady=5, ipadx=5, ipady=5 ,sticky='NEW')
 
+        self.add_button_tooltips()
+
         # Budgets
         self.list_treeview = ttk.Treeview(self, columns=("ID", "Name", "Emission Factor", "Unit"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
@@ -98,6 +101,14 @@ class NewprofileView(ttk.Frame):
         
     #     # เรียกใช้เมธอด show_detail_view ของ controller เพื่อแสดงหน้าต่างรายละเอียด
     #     self.controller.show_detail_list(item_values)
+
+    def add_button_tooltips(self):
+        ToolTipController(self.add_button, "เพิ่มรายการ")
+        ToolTipController(self.delete_button, "ลบรายการ")
+        ToolTipController(self.save_as_button, "บันทึกโปรไฟล์")
+        ToolTipController(self.complete_button, "ไปหน้าประมวลผลข้อมูล")
+        ToolTipController(self.update_button, "อัพเดทรายการ")
+        ToolTipController(self.back_button, "กลับไปยังหน้าหลัก")
 
     def filter(self, event = None):
         
@@ -179,7 +190,7 @@ class NewprofileView(ttk.Frame):
 
     def add_profile_item(self):
         selected_item = self.list_treeview.focus()  # Get the item that is currently selected
-        if  selected_item:  # If an item is selected
+        if selected_item:  # If an item is selected
             item_text = self.list_treeview.item(selected_item, 'values')
             filter_cate = self.radio_state.get()
             filter_cate_text = ''
@@ -204,13 +215,43 @@ class NewprofileView(ttk.Frame):
 
             item = (filter_cate_text, item_text[0], item_text[1], item_text[2], amount, item_text[3])
             self.select_treeview.insert("", "end", values=item)
+            # เรียกใช้ฟังก์ชัน update_amount() เพื่ออัปเดตค่าของรายการที่เพิ่มล่าสุด
+            self.update_amount()
+
+    # def add_profile_item(self):
+    #     selected_item = self.list_treeview.focus()  # Get the item that is currently selected
+    #     if  selected_item:  # If an item is selected
+    #         item_text = self.list_treeview.item(selected_item, 'values')
+    #         filter_cate = self.radio_state.get()
+    #         filter_cate_text = ''
+    #         if filter_cate == 1:
+    #             filter_cate_text = 'Material'
+    #         elif filter_cate == 2:
+    #             filter_cate_text = 'Transpotation'
+    #         else:
+    #             filter_cate_text = 'Performance'
+
+    #         # ดึงค่าจาก entry_amount และแปลงเป็น float
+    #         amount = self.entry_amount.get()
+    #         if not amount:
+    #             messagebox.showerror("ข้อผิดพลาดในการป้อนข้อมูล", "กรุณาใส่ค่าในช่องปริมาณ")
+    #             return
+
+    #         try:
+    #             amount = float(amount)
+    #         except ValueError:
+    #             messagebox.showerror("ข้อผิดพลาดในการป้อนข้อมูล", "กรุณาใส่ค่าที่เป็นจำนวนทศนิยมที่ถูกต้องในช่องปริมาณ")
+    #             return
+
+    #         item = (filter_cate_text, item_text[0], item_text[1], item_text[2], amount, item_text[3])
+    #         self.select_treeview.insert("", "end", values=item)
     
     def on_select_treeview_click(self, event):
         selected_item = self.select_treeview.focus()
         if selected_item:
             item_values = self.select_treeview.item(selected_item, 'values')
             self.entry_amount.delete(0, tk.END)
-            self.entry_amount.insert(0, item_values[3])  # Assume the Amount is at index 3
+            self.entry_amount.insert(0, item_values[4])  # Assume the Amount is at index 4
 
     def update_amount(self):
         selected_item = self.select_treeview.focus()
@@ -223,7 +264,7 @@ class NewprofileView(ttk.Frame):
         
         # Update the selected item's amount in the treeview
             item_values = list(self.select_treeview.item(selected_item, 'values'))
-            item_values[3] = new_amount  # Update the Amount
+            item_values[4] = new_amount  # Update the Amount
             self.select_treeview.item(selected_item, values=item_values)
 
     def delete_profile_item(self):
