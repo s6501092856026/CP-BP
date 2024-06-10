@@ -27,7 +27,7 @@ class CompareView(ttk.Frame):
         self.add_button = ttk.Button(self, text="เพิ่ม", command=self.add_profile)
         self.add_button.grid(row=3,column=3, padx=10, pady=10, sticky='')
 
-        self.complete_button = ttk.Button(self, text="เสร็จสิ้น", command=self.conprepare)
+        self.complete_button = ttk.Button(self, text="เสร็จสิ้น", command=self.complete)
         self.complete_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=20, sticky='SEW')
 
         # Budgets
@@ -52,32 +52,14 @@ class CompareView(ttk.Frame):
     def back(self):
         self.controller.back_main()
 
-    def conprepare(self):
+    def complete(self):
         profile1 = self.entry_profile1.get()
         profile2 = self.entry_profile2.get()
-    
-       # ตรวจสอบว่าช่องใส่ข้อความ entry_profile1 และ entry_profile2 มีค่าหรือไม่
+
         if not profile1 or not profile2:
             messagebox.showwarning("คำเตือน", "โปรดเลือกโปรไฟล์ที่หนึ่งและโปรไฟล์ที่สองก่อนดำเนินการ")
-        else:
-            items = []
-
-            # ดึงค่า items จาก entry_profile1
-            profiles1 = self.entry_profile1.get_children()
-            for profile in profiles1:
-                items.append(self.entry_profile1.item(profile)['values'])
-
-            # ดึงค่า items จาก entry_profile2
-            profiles2 = self.entry_profile2.get_children()
-            for profile in profiles2:
-                items.append(self.entry_profile2.item(profile)['values'])
-
-            # แสดงกล่องข้อความให้ผู้ใช้ยืนยัน
-            confirm = messagebox.askyesno("ยืนยัน", f"โปรไฟล์ที่หนึ่ง: {profile1}\nโปรไฟล์ที่สอง: {profile2}\nคุณต้องการดำเนินการต่อหรือไม่?")
-
-            # ถ้าผู้ใช้ตอบ Yes ให้เรียกใช้ฟังก์ชัน show_conprepare
-            if confirm:
-                self.controller.show_conprepare(items)
+            return
+        self.controller.show_conprepare(profile1, profile2)
         
     def set_profile(self, products):
         self.list_treeview.delete(*self.list_treeview.get_children())

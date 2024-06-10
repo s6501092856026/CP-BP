@@ -12,7 +12,7 @@ class ConnewController:
     def show_connew(self, profile_name, items):
         self.connew_view.pack_forget()
         self.connew_view.setConclusion(profile_name, items)
-        self.connew_view.pack(padx=10, pady=10)
+        self.connew_view.pack(padx=10, pady=10, fill="both", expand=True)
         self.app.update_idletasks()
         widget_width = self.connew_view.winfo_reqwidth() + 20  # เพิ่ม padding
         widget_height = self.connew_view.winfo_reqheight() + 20  # เพิ่ม padding

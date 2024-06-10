@@ -13,7 +13,7 @@ class BreakController:
     def show_break(self, profile_name):
         self.update_label_add(profile_name)  # อัปเดตข้อมูลใน entry_add
         self.breakpoint_view.pack_forget()  # ลบการแพ็ควิดเจต์ breakpoint_view เพื่อลบออกจากหน้าต่าง (หากมีการแสดงผลอยู่ก่อนหน้านี้)
-        self.breakpoint_view.pack(padx=10, pady=10, expand=True)  # แสดงวิดเจต์ breakpoint_view พร้อมกับการขยายตัวเต็มขอบเต็มหน้าจอ
+        self.breakpoint_view.pack(padx=10, pady=10, fill="both", expand=True)  # แสดงวิดเจต์ breakpoint_view พร้อมกับการขยายตัวเต็มขอบเต็มหน้าจอ
         self.load_breakpoint_data(profile_name)  # โหลดข้อมูลจากฐานข้อมูลถ้ามี
         self.app.update_idletasks()  # อัพเดตวิดเจต์
         width = self.breakpoint_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
@@ -50,43 +50,6 @@ class BreakController:
                     self.breakpoint_view.entry_efficieny.insert(0, product_efficiency)
         except Exception as e:
             messagebox.showerror("ข้อผิดพลาด", f"เกิดข้อผิดพลาดในขณะที่พยายามโหลดข้อมูล: {str(e)}")
-
-    # def save_as(self):
-    #     profile_name = self.breakpoint_view.label_add.cget("text")
-    #     fixed_cost = self.breakpoint_view.entry_fixedcost.get()
-    #     variable_cost = self.breakpoint_view.entry_variablecost.get()
-    #     number_of_units = self.breakpoint_view.entry_number.get()
-    #     price = self.breakpoint_view.entry_price.get()
-    #     efficiency = self.breakpoint_view.entry_efficieny.get()
-
-    #     # ตรวจสอบความสมบูรณ์ของข้อมูล
-    #     if not all((profile_name, fixed_cost, variable_cost, number_of_units, price, efficiency)):
-    #         messagebox.showwarning("คำเตือน", "กรุณากรอกข้อมูลให้ครบถ้วน")
-    #         return
-
-    #     try:
-    #         db = DatabaseUtil.getInstance()
-
-    #         # ค้นหา product_id จากชื่อโปรไฟล์
-    #         existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile_name,))
-    #         if existing_product:
-    #             product_id = existing_product[0][0]
-    #             # ตรวจสอบว่าต้องการทำการบันทึกทับข้อมูลเดิมหรือไม่
-    #             confirm_overwrite = messagebox.askyesno("ยืนยันการทับข้อมูล", "มีข้อมูลนี้อยู่แล้ว ต้องการทำการบันทึกทับข้อมูลเดิมหรือไม่?")
-    #             if not confirm_overwrite:
-    #                 return
-    #         else:
-    #             # หากไม่พบชื่อโปรไฟล์ ให้แสดง messagebox เตือน
-    #             messagebox.showwarning("คำเตือน", "ไม่พบชื่อโปรไฟล์")
-    #             return
-
-    #         # บันทึกข้อมูลลงในตาราง breakeven_point
-    #         query = "REPLACE INTO breakeven_point (product_id, fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency) VALUES (%s, %s, %s, %s, %s, %s)"
-    #         db.execute_query(query, (product_id, fixed_cost, variable_cost, number_of_units, price, efficiency))
-
-    #         messagebox.showinfo("ความสำเร็จ", "บันทึกจุดคุ้มทุนสำเร็จ")
-    #     except Exception as e:
-    #         messagebox.showerror("ข้อผิดพลาด", f"เกิดข้อผิดพลาดในขณะที่พยายามทำการบันทึก: {str(e)}")
 
     def save_as(self):
         profile_name = self.breakpoint_view.label_add.cget("text")

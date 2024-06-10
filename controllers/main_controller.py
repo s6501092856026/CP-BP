@@ -19,7 +19,7 @@ class MainController:
         self.show_profile_name(1, '')
 
     def show_main(self):
-        self.main_view.pack(padx=10, pady=10)
+        self.main_view.pack(padx=10, pady=10, fill="both", expand=True)
         self.app.update_idletasks()  # อัพเดตวิดเจ็ต
         width = self.main_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
         height = self.main_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
@@ -30,7 +30,7 @@ class MainController:
         self.compare_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.main_view.pack_forget()  # ลบการแพ็คของวิดเจต์ main_view เพื่อลบออกจากหน้าต่าง
-        self.main_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ main_view ใหม่ พร้อมกับ Padding
+        self.main_view.pack(padx=10, pady=10, fill="both", expand=True)  # แพ็ควิดเจต์ main_view ใหม่ พร้อมกับ Padding
         self.app.update_idletasks()  # อัพเดตวิดเจต์
         width = self.main_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
         height = self.main_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
@@ -41,7 +41,7 @@ class MainController:
         self.compare_view.pack_forget()
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()  # ลบการแพ็คของวิดเจต์ newprofile_view เพื่อลบออกจากหน้าต่าง
-        self.newprofile_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ newprofile_view ใหม่ พร้อมกับ Padding
+        self.newprofile_view.pack(padx=10, pady=10, fill="both", expand=True)  # แพ็ควิดเจต์ newprofile_view ใหม่ พร้อมกับ Padding
         self.app.update_idletasks()  # อัพเดตวิดเจต์
         width = self.newprofile_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
         height = self.newprofile_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
@@ -63,7 +63,7 @@ class MainController:
         performances = db.fetch_data("select 'Performance', f.performance_id, performance_name, carbon_per_performance, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
         
         self.newprofile_view.pack_forget()  # ลบการแพ็คของวิดเจต์ newprofile_view เพื่อลบออกจากหน้าต่าง
-        self.newprofile_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ newprofile_view ใหม่ พร้อมกับ Padding
+        self.newprofile_view.pack(padx=10, pady=10, fill="both", expand=True)  # แพ็ควิดเจต์ newprofile_view ใหม่ พร้อมกับ Padding
         self.app.update_idletasks()  # อัพเดตวิดเจต์
         width = self.newprofile_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
         height = self.newprofile_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
@@ -80,7 +80,7 @@ class MainController:
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.compare_view.pack_forget()  # ลบการแพ็ควิดเจต์ compare_view เพื่อลบออกจากหน้าต่าง
-        self.compare_view.pack(padx=10, pady=10)  # แพ็ควิดเจต์ compare_view ใหม่ พร้อมกับ Padding
+        self.compare_view.pack(padx=10, pady=10, fill="both", expand=True)  # แพ็ควิดเจต์ compare_view ใหม่ พร้อมกับ Padding
         self.app.update_idletasks()  # อัพเดตวิดเจต์
         width = self.compare_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
         height = self.compare_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
@@ -99,11 +99,11 @@ class MainController:
         self.compare_view.pack_forget()
         self.app.show_connew(profile_name, items)
     
-    def show_conprepare(self):
+    def show_conprepare(self, profile1, profile2):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.compare_view.pack_forget()
-        self.app.show_conprepare()
+        self.app.show_conprepare(profile1, profile2)
 
     def delete_profile(self, product_id):
         db = DatabaseUtil.getInstance()
@@ -135,7 +135,7 @@ class MainController:
 
     def show_detail(self, product_id):
         db = DatabaseUtil.getInstance()
-        rawmats = db.fetch_data("select name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = " + product_id)
+        rawmats = db.fetch_data("select name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = "+ product_id)
         transpots = db.fetch_data("select transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
         performances = db.fetch_data("select performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
         self.main_view.set_detail(rawmats, transpots, performances)

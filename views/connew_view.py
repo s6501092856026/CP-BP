@@ -21,11 +21,12 @@ class ConnewView(ttk.Frame):
         # Window
         self.main_frame =  ttk.Frame(self)
 
-        self.label_name = ttk.Label(self, text = "ชื่อโปรไฟล์", font=(8))
-        self.label_name.grid(row=0, column=0, padx=10, pady=10, sticky='NE')
+
+        # self.label_name = ttk.Label(self, text = "ชื่อโปรไฟล์", font=(8))
+        # self.label_name.grid(row=0, column=0, padx=10, pady=10, sticky='NE')
 
         self.label_profile = ttk.Label(self, text = "", font=(8))
-        self.label_profile.grid(row=0, column=1, padx=10, pady=10, sticky='NW')
+        self.label_profile.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky='N')
 
         self.label_totalcf = ttk.Label(self, text = "ปริมาณค่าคาร์บอนเทียบเท่าทั้งหมด")
         self.label_totalcf.grid(row=7,column=0, padx=10, pady=10, sticky='W')
@@ -33,7 +34,7 @@ class ConnewView(ttk.Frame):
         self.label_cf = ttk.Label(self, text = "")
         self.label_cf.grid(row=7,column=1, padx=10, pady=10, sticky='W')
 
-        self.label_unit = ttk.Label(self, text = "หน่วย")
+        self.label_unit = ttk.Label(self, text = "KgCO2eq")
         self.label_unit.grid(row=7,column=1, padx=10, pady=10, sticky='E')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)

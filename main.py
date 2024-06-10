@@ -50,9 +50,9 @@ class App(tk.Tk):
         self.controller = ConnewController(self)
         self.controller.show_connew(profile_name, items)
     
-    def show_conprepare(self):
+    def show_conprepare(self, profile1, profile2):
         self.controller = ConprepareController(self)
-        self.controller.show_conprepare()
+        self.controller.show_conprepare(profile1, profile2)
 
 if __name__ == "__main__":
     app=App()
