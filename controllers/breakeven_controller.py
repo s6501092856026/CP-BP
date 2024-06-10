@@ -51,6 +51,50 @@ class BreakController:
         except Exception as e:
             messagebox.showerror("ข้อผิดพลาด", f"เกิดข้อผิดพลาดในขณะที่พยายามโหลดข้อมูล: {str(e)}")
 
+    # def save_as(self):
+    #     profile_name = self.breakpoint_view.label_add.cget("text")
+    #     fixed_cost = self.breakpoint_view.entry_fixedcost.get()
+    #     variable_cost = self.breakpoint_view.entry_variablecost.get()
+    #     number_of_units = self.breakpoint_view.entry_number.get()
+    #     price = self.breakpoint_view.entry_price.get()
+    #     efficiency = self.breakpoint_view.entry_efficieny.get()
+
+    #     # ตรวจสอบความสมบูรณ์ของข้อมูล
+    #     if not all((profile_name, fixed_cost, variable_cost, number_of_units, price, efficiency)):
+    #         messagebox.showwarning("คำเตือน", "กรุณากรอกข้อมูลให้ครบถ้วน")
+    #         return
+
+    #     try:
+    #         db = DatabaseUtil.getInstance()
+
+    #         # ค้นหา product_id จากชื่อโปรไฟล์
+    #         existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile_name,))
+    #         if existing_product:
+    #             product_id = existing_product[0][0]
+
+    #             # ตรวจสอบว่ามีข้อมูลในตาราง breakeven_point อยู่แล้วหรือไม่
+    #             existing_breakeven = db.fetch_data("SELECT * FROM breakeven_point WHERE product_id = %s", (product_id,))
+    #             if existing_breakeven:
+    #                 # ตรวจสอบว่าต้องการทำการบันทึกทับข้อมูลเดิมหรือไม่
+    #                 confirm_overwrite = messagebox.askyesno("ยืนยันการทับข้อมูล", "มีข้อมูลนี้อยู่แล้ว ต้องการบันทึกทับข้อมูลเดิมหรือไม่?")
+    #                 if not confirm_overwrite:
+    #                     return
+
+    #                 # อัปเดตข้อมูลในตาราง breakeven_point
+    #                 query = "UPDATE breakeven_point SET fixed_cost = %s, variable_cost = %s, number_of_units = %s, unit_price = %s, product_efficiency = %s WHERE product_id = %s"
+    #                 db.execute_query(query, (fixed_cost, variable_cost, number_of_units, price, efficiency, product_id))
+    #             else:
+    #                 # แทรกข้อมูลใหม่ลงในตาราง breakeven_point
+    #                 query = "INSERT INTO breakeven_point (product_id, fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency) VALUES (%s, %s, %s, %s, %s, %s)"
+    #                 db.execute_query(query, (product_id, fixed_cost, variable_cost, number_of_units, price, efficiency))
+
+    #             messagebox.showinfo("ความสำเร็จ", "บันทึกจุดคุ้มทุนสำเร็จ")
+    #         else:
+    #             # หากไม่พบชื่อโปรไฟล์ ให้แสดง messagebox เตือน
+    #             messagebox.showwarning("คำเตือน", "ไม่พบชื่อโปรไฟล์")
+    #     except Exception as e:
+    #         messagebox.showerror("ข้อผิดพลาด", f"เกิดข้อผิดพลาดในขณะที่พยายามทำการบันทึก: {str(e)}")
+
     def save_as(self):
         profile_name = self.breakpoint_view.label_add.cget("text")
         fixed_cost = self.breakpoint_view.entry_fixedcost.get()
@@ -65,6 +109,11 @@ class BreakController:
             return
 
         try:
+            # ตรวจสอบค่า efficiency
+            if float(efficiency) > 100:
+                messagebox.showwarning("คำเตือน", "ค่า Efficiency ต้องไม่เกิน 100")
+                return
+
             db = DatabaseUtil.getInstance()
 
             # ค้นหา product_id จากชื่อโปรไฟล์
@@ -94,5 +143,6 @@ class BreakController:
                 messagebox.showwarning("คำเตือน", "ไม่พบชื่อโปรไฟล์")
         except Exception as e:
             messagebox.showerror("ข้อผิดพลาด", f"เกิดข้อผิดพลาดในขณะที่พยายามทำการบันทึก: {str(e)}")
+
 
 

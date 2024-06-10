@@ -16,19 +16,19 @@ class BreakpointView(ttk.Frame):
         self.label_add = ttk.Label(self, text="")
         self.label_add.grid(row=0, column=1, columnspan=2, padx=10, pady=10, sticky='')
         
-        self.label_fixedcost = ttk.Label(self, text = "Fixed Cost")
+        self.label_fixedcost = ttk.Label(self, text = "ต้นทุนคงที่")
         self.label_fixedcost.grid(row=1, column=0, padx=10, pady=10, sticky='W')
 
-        self.label_variablecost = ttk.Label(self, text = "Variable Cost")
+        self.label_variablecost = ttk.Label(self, text = "ต้นทุนผันแปร")
         self.label_variablecost.grid(row=3, column=0, padx=10, pady=10, sticky='W')
 
-        self.label_number = ttk.Label(self, text = "Number of Unit")
+        self.label_number = ttk.Label(self, text = "ปริมาณการผลิต")
         self.label_number.grid(row=5, column=0, padx=10, pady=10, sticky='W')
         
-        self.label_price = ttk.Label(self, text = "Unit Price")
+        self.label_price = ttk.Label(self, text = "ราคาขายต่อหน่วย")
         self.label_price.grid(row=7, column=0, padx=10, pady=10, sticky='W')
         
-        self.label_efficieny = ttk.Label(self, text = "Product Efficiency")
+        self.label_efficieny = ttk.Label(self, text = "กำลังการผลิต")
         self.label_efficieny.grid(row=9, column=0, padx=10, pady=10, sticky='W')
 
         self.entry_fixedcost = ttk.Entry(self, width=30)
