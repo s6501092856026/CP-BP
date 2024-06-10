@@ -99,11 +99,11 @@ class MainController:
         self.compare_view.pack_forget()
         self.app.show_connew(profile_name, items)
     
-    def show_conprepare(self, profile1, profile2):
+    def show_conprepare(self, profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.compare_view.pack_forget()
-        self.app.show_conprepare(profile1, profile2)
+        self.app.show_conprepare(profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2)
 
     def delete_profile(self, product_id):
         db = DatabaseUtil.getInstance()
@@ -121,12 +121,6 @@ class MainController:
         self.show_profile()
         messagebox.showinfo("ความสำเร็จ", "ลบโปรไฟล์สำเร็จแล้ว")
 
-    # def delete_profile(self, product_id):
-    #     print(product_id)
-    #     db = DatabaseUtil.getInstance()
-    #     params = (product_id,)
-    #     delete = db.execute_query("DELETE FROM product WHERE product_id = %s", params)
-
     def show_profile(self):
         db = DatabaseUtil.getInstance()
         result = db.fetch_data("SELECT product_id, product_name FROM product")
@@ -135,9 +129,9 @@ class MainController:
 
     def show_detail(self, product_id):
         db = DatabaseUtil.getInstance()
-        rawmats = db.fetch_data("select name_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = "+ product_id)
-        transpots = db.fetch_data("select transpot_name, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
-        performances = db.fetch_data("select performance_name, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
+        rawmats = db.fetch_data("select name_raw, carbon_per_raw, amount, unit_raw from product p, product_rawmat pr, raw_mat r where p.product_id = pr.product_id and pr.rawmat_id = r.rawmat_id and p.product_id = "+ product_id)
+        transpots = db.fetch_data("select transpot_name, carbon_per_transpot, amount, unit_transpot from product p, product_transpotation pt, transpotation t where p.product_id = pt.product_id and pt.transpot_id = t.transpot_id and p.product_id = "+ product_id)
+        performances = db.fetch_data("select performance_name, carbon_per_performance, amount, unit_performance from product p, product_performance pf, performance f where p.product_id = pf.product_id and pf.performance_id = f.performance_id and p.product_id = "+ product_id)
         self.main_view.set_detail(rawmats, transpots, performances)
         self.compare_view.set_detail(rawmats, transpots, performances)
     

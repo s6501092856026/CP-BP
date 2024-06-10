@@ -11,16 +11,29 @@ class ConprepareController:
         self.app = app
 
         self.conprepare_view = ConprepareView(self, app)
-
-    def show_conprepare(self, profile1, profile2):
+    
+    def show_conprepare(self, profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2):
         self.conprepare_view.pack_forget()
-        self.conprepare_view.show_profile(profile1, profile2)
+        self.conprepare_view.show_profile(profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2)
         self.conprepare_view.pack(padx=10, pady=10, fill="both", expand=True)
         self.app.update_idletasks()
         widget_width = self.conprepare_view.winfo_reqwidth() + 20  # เพิ่ม padding
         widget_height = self.conprepare_view.winfo_reqheight() + 20  # เพิ่ม padding
         x, y = getCenterPosition(self.app, width=widget_width, height=widget_height)
         self.app.geometry(f"{widget_width}x{widget_height}+{x}+{y}")
+
+
+    # def show_conprepare(self, profile1, profile2):
+
+    #     self.conprepare_view.pack_forget()
+    #     self.conprepare_view.show_profile(profile1, profile2)
+    #     # แสดง ConprepareView และปรับขนาดหน้าต่าง
+    #     self.conprepare_view.pack(padx=10, pady=10, fill="both", expand=True)
+    #     self.app.update_idletasks()
+    #     widget_width = self.conprepare_view.winfo_reqwidth() + 20  # เพิ่ม padding
+    #     widget_height = self.conprepare_view.winfo_reqheight() + 20  # เพิ่ม padding
+    #     x, y = getCenterPosition(self.app, width=widget_width, height=widget_height)
+    #     self.app.geometry(f"{widget_width}x{widget_height}+{x}+{y}")
 
     def back_main(self):
         self.conprepare_view.pack_forget()

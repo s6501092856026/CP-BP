@@ -8,7 +8,6 @@ import openpyxl.styles
 import pandas as pd
 import openpyxl
 from io import BytesIO
-from utils.database import DatabaseUtil
 
 class ConprepareView(ttk.Frame):
 
@@ -69,64 +68,45 @@ class ConprepareView(ttk.Frame):
     def back(self):
         self.controller.back_main()
 
-    def show_profile(self, profile1, profile2, rawmats, transpots, performances):
+    def show_profile(self, profile1, profile2, rawmats_1, transpots_1, performances_1, rawmats_2, transpots_2, performances_2):
 
         # Check if any of the data is None
-        if rawmats is None or transpots is None or performances is None:
+        if rawmats_1 is None or transpots_1 is None or performances_1 is None or rawmats_2 is None or transpots_2 is None or performances_2 is None:
             messagebox.showerror("Error", "Data is missing")
             return
+
         # แสดงข้อมูลโปรไฟล์ที่เลือกใน Label
         self.label_profile1.config(text=profile1)
         self.label_profile2.config(text=profile2)
 
-        
         # Clear existing data in the treeview
         self.profile1_treeview.delete(*self.profile1_treeview.get_children())
-        
-        # Insert raw materials data
-        for rawmat in rawmats:
-            self.profile1_treeview.insert("", "end", values=(rawmat[0], rawmat[1] * rawmat[2], rawmat[3]))
+        self.profile2_treeview.delete(*self.profile2_treeview.get_children())
 
-        # Insert transportation data
-        for transpot in transpots:
-            self.profile1_treeview.insert("", "end", values=(transpot[0], transpot[1] * transpot[2], transpot[3]))
+        # Insert raw materials data for profile 1
+        for rawmat in rawmats_1:
+            self.profile1_treeview.insert("", "end", values=(rawmat[0], round(float(rawmat[1]) * float(rawmat[2]), 3), "KgCO2eq"))
 
-        # Insert performances data
-        for performance in performances:
-            self.profile1_treeview.insert("", "end", values=(performance[0], performance[1] * performance[2], performance[3]))
+        # Insert transportation data for profile 1
+        for transpot in transpots_1:
+            self.profile1_treeview.insert("", "end", values=(transpot[0], round(float(transpot[1]) * float(transpot[2]), 3), "KgCO2eq"))
 
-    def show_treeview(self, product_name):
-        db = DatabaseUtil.getInstance()
-        existing_product = db.fetch_data("SELECT product_id FROM product p WHERE p.product_name = %s", (product_name,))
+        # Insert performances data for profile 1
+        for performance in performances_1:
+            self.profile1_treeview.insert("", "end", values=(performance[0], round(float(performance[1]) * float(performance[2]), 3), "KgCO2eq"))
+
+        # Insert raw materials data for profile 2
+        for rawmat in rawmats_2:
+            self.profile2_treeview.insert("", "end", values=(rawmat[0], round(float(rawmat[1]) * float(rawmat[2]), 3), "KgCO2eq"))
+
+        # Insert transportation data for profile 2
+        for transpot in transpots_2:
+            self.profile2_treeview.insert("", "end", values=(transpot[0], round(float(transpot[1]) * float(transpot[2]), 3), "KgCO2eq"))
+
+        # Insert performances data for profile 2
+        for performance in performances_2:
+            self.profile2_treeview.insert("", "end", values=(performance[0], round(float(performance[1]) * float(performance[2]), 3), "KgCO2eq"))
+
+
     
-        # ตรวจสอบว่ามีผลิตภัณฑ์ที่ตรงกับชื่อหรือไม่
-        if existing_product:
-            product_id = existing_product[0][0]
-        
-            # ดึงข้อมูล raw materials ที่เกี่ยวข้องกับผลิตภัณฑ์
-            rawmats = db.fetch_data("SELECT name_raw, carbon_per_raw, amount, unit_raw FROM product p, product_rawmat pr, raw_mat r WHERE p.product_id = pr.product_id AND pr.rawmat_id = r.rawmat_id AND p.product_id = "+ product_id)
-        
-            # ดึงข้อมูล transportation ที่เกี่ยวข้องกับผลิตภัณฑ์
-            transpots = db.fetch_data("SELECT transpot_name, carbon_per_transpot, amount, unit_transpot FROM product p, product_transpotation pt, transpotation t WHERE p.product_id = pt.product_id AND pt.transpot_id = t.transpot_id AND p.product_id = "+ product_id)
-        
-            # ดึงข้อมูล performances ที่เกี่ยวข้องกับผลิตภัณฑ์
-            performances = db.fetch_data("SELECT performance_name, carbon_per_performance, amount, unit_performance FROM product p, product_performance pf, performance f WHERE p.product_id = pf.product_id AND pf.performance_id = f.performance_id AND p.product_id = "+ product_id)
-            # อัปเดต view ด้วยข้อมูลที่ดึงมา
-            self.controller.show_profile(rawmats, transpots, performances)
-
-    # def update_data(self, rawmats, transpots, performances):
-    #     # Clear existing data in the treeview
-    #     self.profile1_treeview.delete(*self.profile1_treeview.get_children())
-        
-    #     # Insert raw materials data
-    #     for rawmat in rawmats:
-    #         self.profile1_treeview.insert("", "end", values=(rawmat[0], rawmat[1] * rawmat[2], rawmat[3]))
-
-    #     # Insert transportation data
-    #     for transpot in transpots:
-    #         self.profile1_treeview.insert("", "end", values=(transpot[0], transpot[1] * transpot[2], transpot[3]))
-
-    #     # Insert performances data
-    #     for performance in performances:
-    #         self.profile1_treeview.insert("", "end", values=(performance[0], performance[1] * performance[2], performance[3]))
     

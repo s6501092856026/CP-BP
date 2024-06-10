@@ -46,13 +46,15 @@ class MainView(ttk.Frame):
         
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
-        self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Amount", "Unit"), show="headings")
+        self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="ชื่อ")
-        self.detail_treeview.column("Detail", width=300)
+        self.detail_treeview.column("Detail", width=310)
+        self.detail_treeview.heading("Emission Factor", text="ค่าคาร์บอนเทียบเท่า")
+        self.detail_treeview.column("Emission Factor", width=80, stretch=True)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
-        self.detail_treeview.column("Amount", width=30)
+        self.detail_treeview.column("Amount", width=50)
         self.detail_treeview.heading("Unit", text="หน่วย")
-        self.detail_treeview.column("Unit", width=5)
+        self.detail_treeview.column("Unit", width=40)
         self.detail_treeview.grid(row=0, rowspan=5, column=2, padx=5, pady=5, ipadx=170, ipady=80)
 
     # เมท็อดสำหรับเพิ่ม Tooltip สำหรับปุ่ม
