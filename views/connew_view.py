@@ -21,10 +21,6 @@ class ConnewView(ttk.Frame):
         # Window
         self.main_frame =  ttk.Frame(self)
 
-
-        # self.label_name = ttk.Label(self, text = "ชื่อโปรไฟล์", font=(8))
-        # self.label_name.grid(row=0, column=0, padx=10, pady=10, sticky='NE')
-
         self.label_profile = ttk.Label(self, text = "", font=(8))
         self.label_profile.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky='N')
 
@@ -32,10 +28,10 @@ class ConnewView(ttk.Frame):
         self.label_totalcf.grid(row=7,column=0, padx=10, pady=10, sticky='W')
 
         self.label_cf = ttk.Label(self, text = "")
-        self.label_cf.grid(row=7,column=1, padx=10, pady=10, sticky='W')
+        self.label_cf.grid(row=7,column=0, padx=10, pady=10, sticky='E')
 
         self.label_unit = ttk.Label(self, text = "KgCO2eq")
-        self.label_unit.grid(row=7,column=1, padx=10, pady=10, sticky='E')
+        self.label_unit.grid(row=7,column=1, padx=10, pady=10, sticky='W')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
         self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
@@ -71,10 +67,53 @@ class ConnewView(ttk.Frame):
         # self.output_treeview.column("Unit", width=60)
         # self.output_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
 
+    def setInputGraph(self, items):
+        # Create a Matplotlib figure
+        figure = Figure(figsize=(6.5, 4), dpi=70)
+        subplot = figure.add_subplot(111)
+    
+        # Query from database
+        # Line data
+        x = []
+        y = []
+        for item in items:
+            x.append(item[0])
+            y.append(float(item[1]))
+
+        # Set font
+        subplot.tick_params(axis='x', labelrotation=0, labelfontfamily="Tahoma", colors='white')
+    
+        # Create graph
+        subplot.plot(x, y)
+    
+        # Add grid
+        subplot.grid(True, linestyle='--', linewidth=0.5)
+
+        # Add title
+        subplot.set_title('Input', fontsize=12, fontweight='bold')
+
+        # Customize tick labels
+        subplot.tick_params(axis='both', which='major', labelsize=8)
+    
+        # Add labels to axes
+        subplot.set_xlabel('Transpotation', fontsize=8)
+        subplot.set_ylabel('Emission factor', fontsize=8)
+
+        # # Add legend
+        # subplot.legend(['Legend'], loc='upper right', fontsize=8)
+
+        # Customize borders
+        subplot.spines['top'].set_visible(False)
+        subplot.spines['right'].set_visible(False)
+
+        # Create a FigureCanvasTkAgg widget
+        canvas = FigureCanvasTkAgg(figure, master=self)
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0, padx=5, pady=5)
+
     def setProcessGraph(self, items):
         # Create a Matplotlib figure
-        # figure = Figure(figsize=(6.5, 4), dpi=70)
-        figure = plt.Figure(figsize=None, dpi=70)
+        figure = Figure(figsize=(6.5, 4), dpi=70)
         subplot = figure.add_subplot(111)
     
         # Query from database
@@ -159,51 +198,6 @@ class ConnewView(ttk.Frame):
     #     canvas = FigureCanvasTkAgg(figure, master=self)
     #     canvas.draw()
     #     canvas.get_tk_widget().grid(row=1, rowspan=2, column=2, padx=5, pady=5)
-        
-    def setInputGraph(self, items):
-        # Create a Matplotlib figure
-        # figure = Figure(figsize=(6.5, 4), dpi=70)
-        figure = plt.figure(figsize=None, dpi=70)
-        subplot = figure.add_subplot(111)
-    
-        # Query from database
-        # Line data
-        x = []
-        y = []
-        for item in items:
-            x.append(item[0])
-            y.append(float(item[1]))
-
-        # Set font
-        subplot.tick_params(axis='x', labelrotation=0, labelfontfamily="Tahoma", colors='white')
-    
-        # Create graph
-        subplot.plot(x, y)
-    
-        # Add grid
-        subplot.grid(True, linestyle='--', linewidth=0.5)
-
-        # Add title
-        subplot.set_title('Input', fontsize=12, fontweight='bold')
-
-        # Customize tick labels
-        subplot.tick_params(axis='both', which='major', labelsize=8)
-    
-        # Add labels to axes
-        subplot.set_xlabel('Transpotation', fontsize=8)
-        subplot.set_ylabel('Emission factor', fontsize=8)
-
-        # # Add legend
-        # subplot.legend(['Legend'], loc='upper right', fontsize=8)
-
-        # Customize borders
-        subplot.spines['top'].set_visible(False)
-        subplot.spines['right'].set_visible(False)
-
-        # Create a FigureCanvasTkAgg widget
-        canvas = FigureCanvasTkAgg(figure, master=self)
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0, padx=5, pady=5)
 
     def back(self):
         self.controller.back_main()
