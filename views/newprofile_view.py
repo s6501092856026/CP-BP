@@ -84,7 +84,7 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.heading("Name", text="ชื่อ")
         self.select_treeview.column("Name", width=310)
         self.select_treeview.heading("Emission Factor", text="ค่าสัมประสิทธิ์")
-        self.select_treeview.column("Emission Factor", width=50)
+        self.select_treeview.column("Emission Factor", width=80, stretch=True)
         self.select_treeview.heading("Amount", text="ปริมาณ")
         self.select_treeview.column("Amount", width=50)
         self.select_treeview.heading("Unit", text="หน่วย")
@@ -119,7 +119,6 @@ class NewprofileView(ttk.Frame):
 
     def show_complete(self):
         profile_name = self.entry_name.get()
-
         if not self.entry_name.get():
 
         # แสดงกล่องข้อความเตือน
@@ -132,7 +131,7 @@ class NewprofileView(ttk.Frame):
             items.append(self.select_treeview.item(child)['values'] )
 
         # เรียกใช้เมธอด show_connew พร้อมส่งข้อมูลชื่อโปรไฟล์และรายการ items
-        self.controller.show_connew(profile_name, items)
+        self.controller.show_connew(profile_name, items) # profile_name, 
 
     def set_select(self, products, rawmats, transpots, performances):
         self.select_treeview.delete(*self.select_treeview.get_children())

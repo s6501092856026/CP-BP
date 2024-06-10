@@ -93,11 +93,11 @@ class MainController:
         self.compare_view.pack_forget()
         self.app.show_break(profile_name)
 
-    def show_connew(self, items):
+    def show_connew(self, profile_name, items):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.compare_view.pack_forget()
-        self.app.show_connew(items)
+        self.app.show_connew(profile_name, items)
     
     def show_conprepare(self):
         self.main_view.pack_forget()

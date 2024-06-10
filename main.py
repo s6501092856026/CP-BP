@@ -28,7 +28,7 @@ class App(tk.Tk):
 
         self.style.configure('TButton', font=('Tohama', 10), padding=5, background=light_green)
         self.style.map('TButton', background=[('active', dark_green)])
-        self.style.configure('TLabel', font=('Tohama', 10), background=white)
+        self.style.configure('TLabel', font=('Tohama', 11), background=white)
         self.style.configure('TEntry', font=('Tohama', 10), fieldbackground=entry_bg)
         self.style.configure('TFrame', background=white)
 
@@ -46,9 +46,9 @@ class App(tk.Tk):
         self.controller = BreakController(self)
         self.controller.show_break(profile_name)
 
-    def show_connew(self, items):
+    def show_connew(self, profile_name, items):
         self.controller = ConnewController(self)
-        self.controller.show_connew(items)
+        self.controller.show_connew(profile_name, items)
     
     def show_conprepare(self):
         self.controller = ConprepareController(self)
