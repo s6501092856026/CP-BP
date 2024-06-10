@@ -11,8 +11,6 @@ import pandas as pd
 import openpyxl
 from io import BytesIO
 
-# controller = None
-
 class ConnewView(ttk.Frame):
 
     def __init__(self, controller, app):

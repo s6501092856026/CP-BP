@@ -118,6 +118,8 @@ class NewprofileView(ttk.Frame):
         self.controller.show_detail_view()
 
     def show_complete(self):
+        profile_name = self.entry_name.get()
+
         if not self.entry_name.get():
 
         # แสดงกล่องข้อความเตือน
@@ -128,7 +130,9 @@ class NewprofileView(ttk.Frame):
         children = self.select_treeview.get_children()
         for child in children:
             items.append(self.select_treeview.item(child)['values'] )
-        self.controller.show_connew(items)
+
+        # เรียกใช้เมธอด show_connew พร้อมส่งข้อมูลชื่อโปรไฟล์และรายการ items
+        self.controller.show_connew(profile_name, items)
 
     def set_select(self, products, rawmats, transpots, performances):
         self.select_treeview.delete(*self.select_treeview.get_children())

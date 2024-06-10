@@ -106,10 +106,26 @@ class MainController:
         self.app.show_conprepare()
 
     def delete_profile(self, product_id):
-        print(product_id)
         db = DatabaseUtil.getInstance()
-        params = (product_id,)
-        delete = db.execute_query("DELETE FROM product WHERE product_id = %s", params)
+
+        # ลบข้อมูลที่เกี่ยวข้องในตาราง product_rawmat, product_transpotation, product_performance และ breakeven_point
+        db.execute_query("DELETE FROM product_rawmat WHERE product_id = %s", (product_id,))
+        db.execute_query("DELETE FROM product_transpotation WHERE product_id = %s", (product_id,))
+        db.execute_query("DELETE FROM product_performance WHERE product_id = %s", (product_id,))
+        db.execute_query("DELETE FROM breakeven_point WHERE product_id = %s", (product_id,))
+
+        # ลบโปรไฟล์เอง
+        db.execute_query("DELETE FROM product WHERE product_id = %s", (product_id,))
+
+        # อัพเดตการแสดงผลโปรไฟล์หลังการลบ
+        self.show_profile()
+        messagebox.showinfo("ความสำเร็จ", "ลบโปรไฟล์สำเร็จแล้ว")
+
+    # def delete_profile(self, product_id):
+    #     print(product_id)
+    #     db = DatabaseUtil.getInstance()
+    #     params = (product_id,)
+    #     delete = db.execute_query("DELETE FROM product WHERE product_id = %s", params)
 
     def show_profile(self):
         db = DatabaseUtil.getInstance()
@@ -200,3 +216,6 @@ class MainController:
                 db.execute_query(insert_performance_query, (product_id, item_id, amount))
 
         messagebox.showinfo("ความสำเร็จ", "บันทึกโปรไฟล์สำเร็จ")
+
+        # รีเฟรชการแสดงผลโปรไฟล์ใน main_view
+        self.show_profile()

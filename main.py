@@ -26,10 +26,10 @@ class App(tk.Tk):
         
         self.configure(bg=white)
 
-        self.style.configure('TButton', font=('Tohama', 9), padding=5, background=light_green)
+        self.style.configure('TButton', font=('Tohama', 10), padding=5, background=light_green)
         self.style.map('TButton', background=[('active', dark_green)])
-        self.style.configure('TLabel', font=('Tohama', 9), background=white)
-        self.style.configure('TEntry', font=('Tohama', 9), fieldbackground=entry_bg)
+        self.style.configure('TLabel', font=('Tohama', 10), background=white)
+        self.style.configure('TEntry', font=('Tohama', 10), fieldbackground=entry_bg)
         self.style.configure('TFrame', background=white)
 
         self.show_login()
