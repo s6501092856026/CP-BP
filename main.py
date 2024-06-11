@@ -14,7 +14,7 @@ class App(tk.Tk):
         self.title("CF&BP")
         self.iconbitmap('icon.ico')
 
-        #self.resizable(width=False ,height=False)
+        self.resizable(width=False ,height=False)
 
         self.style = ttk.Style(self)
 

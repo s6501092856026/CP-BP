@@ -116,18 +116,20 @@ class CompareView(ttk.Frame):
         if  selected_item:  # If an item is selected
             item_text = self.list_treeview.item(selected_item, 'values')  # Get the text of the selected item
             self.controller.show_detail(item_text[0])
-    
+
     def add_profile(self):
         selected_item = self.list_treeview.focus()
         if selected_item:
             item_text = self.list_treeview.item(selected_item, 'values')
-            name = (item_text[1])
+            name = item_text[1]
 
             if not self.entry_profile1.get():
                 self.entry_profile1.insert(0, name)
-            else:
+            elif name != self.entry_profile1.get() and name != self.entry_profile2.get():
                 self.entry_profile2.insert(0, name)
-    
+            else:
+                messagebox.showwarning("คำเตือน", "โปรไฟล์นี้ถูกเพิ่มแล้ว")
+
     def complete(self):
         profile1 = self.entry_profile1.get()
         profile2 = self.entry_profile2.get()

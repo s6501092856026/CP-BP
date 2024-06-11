@@ -7,10 +7,10 @@ import matplotlib.widgets as ZoomPan
 import openpyxl.drawing
 import openpyxl.drawing.image
 import openpyxl.styles
+from openpyxl.styles import Border, Side
 import pandas as pd
 import openpyxl
 from io import BytesIO
-from utils.database import DatabaseUtil
 
 class ConnewView(ttk.Frame):
 
@@ -153,7 +153,7 @@ class ConnewView(ttk.Frame):
         self.unit_profit.grid(row=2, column=2, padx=40, pady=5)
         self.unit_profit.configure(anchor='e', background='#ADD8E6')
 
-        self.unit_breakeven = ttk.Label(frame_break, text = "บาท")
+        self.unit_breakeven = ttk.Label(frame_break, text = "หน่วย")
         self.unit_breakeven.grid(row=3, column=2, padx=40, pady=5)
         self.unit_breakeven.configure(anchor='e', background='#ADD8E6')
 
@@ -324,7 +324,6 @@ class ConnewView(ttk.Frame):
             self.add_breakeven.config(text="-")
             self.add_efficiency.config(text="-")
 
-
     def setConclusion(self, profile_name, items, breakpoint_data) :
         self.input_treeview.delete(*self.input_treeview.get_children())
         self.process_treeview.delete(*self.process_treeview.get_children())
@@ -366,71 +365,165 @@ class ConnewView(ttk.Frame):
         self.label_profile.config(text=profile_name)
 
     def export(self):
-        wb = openpyxl.Workbook()  # Creates a new workbook object
-        sheet = wb.active  # Get the active sheet
+        wb = openpyxl.Workbook()  # สร้างอ็อบเจ็กต์ Workbook ใหม่
+        sheet = wb.active  # ดึงแผ่นที่กำลังใช้งาน
 
         input = []
         process = [] 
-        output = []
+        # output = []
         for item in self.items:
-            category, _, name, amount, unit = item
-            
-            if category == 'Material':
-                process.append((name, amount, unit))              
-            elif category == 'Transpotation':
-                input.append((name, amount, unit))
-                output.append((name, amount, unit))
-            elif category == 'Performance':
-                process.append((name, amount, unit))
-
-        # Draw Graph
-        figure = Figure(figsize=(5,3), dpi=70)
-        subplot = figure.add_subplot(111)
-
-        x = []
-        y = []
-        for item in input:
-            x.append(item[0])
-            y.append(float(item[1]))
-
-        subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
-        subplot.plot(x,y)
-
-        buffer = BytesIO()
-        figure.savefig(buffer, format="png")
-        img = openpyxl.drawing.image.Image(buffer)
-        sheet.add_image(img, f"A{max( len(input), len(process), len(output)) + 5}")
-      
-        align = openpyxl.styles.Alignment(horizontal="center")
+            category, _, name, carbon_per, amount, unit = item
         
-        sheet.merge_cells("A1:C1")
-        sheet["A1"].value = "วัตถุดิบนำเข้า"
+            if category == 'Material':
+                process.append((name, carbon_per, amount, unit))  # เพิ่มข้อมูลลงในรายการ process              
+            elif category == 'Transpotation':
+                input.append((name, carbon_per, amount, unit))  # เพิ่มข้อมูลลงในรายการ input
+                # output.append((name, amount, unit))
+            elif category == 'Performance':
+                process.append((name, carbon_per, amount, unit))  # เพิ่มข้อมูลลงในรายการ process
+
+        # วาดกราฟ
+        figure_input = Figure(figsize=None, dpi=80)
+        subplot_input = figure_input.add_subplot(111)
+
+        x_input = []
+        y_input = []
+        for item in input:
+            x_input.append(item[0])
+            y_input.append(float(item[1]) * float(item[2]))
+
+        subplot_input.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma", colors='white')
+        subplot_input.set_ylabel('KgCO2eq', fontsize=10)  # เพิ่ม label ที่แกน y สำหรับกราฟข้อมูลนำเข้า
+        subplot_input.plot(x_input, y_input)
+        subplot_input.set_title('Input', fontsize=10, fontweight='bold')  # กำหนดชื่อกราฟของข้อมูลนำเข้า
+
+        buffer_input = BytesIO()
+        figure_input.savefig(buffer_input, format="png")
+        img_input = openpyxl.drawing.image.Image(buffer_input)
+        sheet.add_image(img_input, f"A{max(len(input), len(process)) + 20}")
+
+        # วาดกราฟของ Process
+        figure_process = Figure(figsize=None, dpi=80)
+        subplot_process = figure_process.add_subplot(111)
+
+        x_process = []
+        y_process = []
+        for item in process:
+            x_process.append(item[0])
+            y_process.append(float(item[1]) * float(item[2]))
+
+        subplot_process.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma", colors='white')
+        subplot_process.set_ylabel('KgCO2eq', fontsize=10)  # เพิ่ม label ที่แกน y สำหรับกราฟข้อมูลกระบวนการ
+        subplot_process.plot(x_process, y_process)
+        subplot_process.set_title('Process', fontsize=12, fontweight='bold')  # กำหนดชื่อกราฟของข้อมูลกระบวนการ
+
+        buffer_process = BytesIO()
+        figure_process.savefig(buffer_process, format="png")
+        img_process = openpyxl.drawing.image.Image(buffer_process)
+        sheet.add_image(img_process, f"E{max(len(input), len(process)) + 20}")
+
+        align = openpyxl.styles.Alignment(horizontal="center", vertical="center")
+
+        # กำหนดค่าที่จะเป็นกรอบ
+        border = Border(left=Side(border_style='medium', color='000000'),
+                    right=Side(border_style='medium', color='000000'),
+                    top=Side(border_style='medium', color='000000'),
+                    bottom=Side(border_style='medium', color='000000'))
+    
+        # กำหนดหัวคอลัมน์
+        sheet['A2'] = "Name"
+        sheet['A2'].border = border
+        sheet['A2'].alignment = align
+        
+        sheet['B2'] = "Emission Factor"
+        sheet['B2'].border = border
+        sheet['B2'].alignment = align
+
+        sheet['C2'] = "Amount"
+        sheet['C2'].border = border
+        sheet['C2'].alignment = align
+
+        sheet['D2'] = "Unit"
+        sheet['D2'].border = border
+        sheet['D2'].alignment = align
+
+        sheet['E2'] = "Name"
+        sheet['E2'].border = border
+        sheet['E2'].alignment = align
+
+        sheet['F2'] = "Emission Factor"
+        sheet['F2'].border = border
+        sheet['F2'].alignment = align
+
+        sheet['G2'] = "Amount"
+        sheet['G2'].border = border
+        sheet['G2'].alignment = align
+
+        sheet['H2'] = "Unit"
+        sheet['H2'].border = border
+        sheet['H2'].alignment = align
+
+        # กำหนดความกว้างของคอลัมน์
+        max_lengths = {
+            "A": max(len("Name"), max(len(item[0]) for item in input)),
+            "B": max(len("Emission Factor"), max(len(str(item[1])) for item in input)),
+            "C": max(len("Amount"), max(len(str(item[2])) for item in input)),
+            "D": max(len("Unit"), max(len(item[3]) for item in input)),
+            "E": max(len("Name"), max(len(item[0]) for item in process)),
+            "F": max(len("Emission Factor"), max(len(str(item[1])) for item in process)),
+            "G": max(len("Amount"), max(len(str(item[2])) for item in process)),
+            "H": max(len("Unit"), max(len(item[3]) for item in process)),}
+
+        for col, width in max_lengths.items():
+            sheet.column_dimensions[col].width = width + 2  # เพิ่มความกว้างเพิ่มเติมสำหรับการเติม
+
+        # ผสานเซลล์
+        sheet.merge_cells("A1:D1")
+        sheet["A1"].value = "Input"
         sheet["A1"].alignment = align
-        sheet.merge_cells("D1:F1")
-        sheet["D1"].value = "กระบวนการผลิต"
-        sheet["D1"].alignment = align
-        sheet.merge_cells("G1:I1")
-        sheet['G1'].value = "ส่งออกสินค้า"
-        sheet["G1"].alignment = align
+
+        sheet.merge_cells("E1:H1")
+        sheet["E1"].value = "Process"
+        sheet["E1"].alignment = align
+
+        # ใส่กรอบเฉพาะขอบด้านนอกของช่วงเซลล์ A3:D20 และ E3:H20
+        def apply_outer_border(sheet, min_row, max_row, min_col, max_col, border):
+            rows = list(sheet.iter_rows(min_row=min_row, max_row=max_row, min_col=min_col, max_col=max_col))
+            for row in rows:
+                for cell in row:
+                    if cell.row == min_row:
+                        cell.border = cell.border + Border(top=border.top)
+                    if cell.row == max_row:
+                        cell.border = cell.border + Border(bottom=border.bottom)
+                    if cell.column == min_col:
+                        cell.border = cell.border + Border(left=border.left)
+                    if cell.column == max_col:
+                        cell.border = cell.border + Border(right=border.right)
+
+        medium_border = Side(style='medium')
+        outer_border = Border(left=medium_border, right=medium_border, top=medium_border, bottom=medium_border)
+
+        # ใส่กรอบด้านนอกให้กับช่วงเซลล์ A1:D20 และ E1:H20
+        apply_outer_border(sheet, 1, 20, 1, 4, outer_border)
+        apply_outer_border(sheet, 1, 20, 5, 8, outer_border)
 
         data = []
-        for i in range(max( len(input), len(process), len(output))):
-            if i + 1  > len(input): 
-                input.append(('', '', ''))
+        for i in range(max(len(input), len(process))):
+            if i + 1 > len(input): 
+                input.append(('', '', '', ''))
             if i + 1 > len(process):
-                process.append(('', '', ''))
-            if i + 1 > len(output):
-                output.append(('', '', ''))
-            data.append(input[i] + process[i] + output[i])
-
-        print(data)        
+                process.append(('', '', '', ''))
+            data.append(input[i] + process[i])
 
         for row_index, row in enumerate(data):
             for col_index, value in enumerate(row):
-                sheet.cell(row=row_index + 2, column=col_index + 1, value=value)
-        
+                sheet.cell(row=row_index + 3, column=col_index + 1, value=value)
+
+        # ซูมหน้า Excel เป็น 50%
+        sheet.sheet_view.zoomScale = 70
+
         file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
-        
+    
         if file_path:
             wb.save(file_path) 
             print(f"บันทึกไฟล์ที่: {file_path}")
