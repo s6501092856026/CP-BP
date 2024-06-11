@@ -1,10 +1,8 @@
-from tkinter import messagebox
 from views.conprepare_view import ConprepareView
-from utils.database import DatabaseUtil
 from utils.window import getCenterPosition
 
 class ConprepareController:
-    
+
     def __init__(self, app):
         self.app = app
 
