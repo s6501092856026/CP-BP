@@ -8,6 +8,10 @@ class LoginView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
+        # Configure style for TButton
+        self.style = ttk.Style()
+        self.style.configure('My.TButton', relief='ridge', padding=5, background='green')
+
         # Load the image directly using PhotoImage from tkinter
         self.photo_image = tk.PhotoImage(file=r"C:\Users\User\Desktop\Project\CF&BP\image.png")
 
@@ -31,7 +35,7 @@ class LoginView(ttk.Frame):
         self.entry_password.grid(row=4, column=0,columnspan=2,  padx=10, pady=10)
         self.entry_password.insert(0, "Daoruang07")
 
-        self.button_login = ttk.Button(self, text="เข้าสู่ระบบ", command=self.login)
+        self.button_login = ttk.Button(self, text="เข้าสู่ระบบ", command=self.login, style='My.TButton')
         self.button_login.grid(row=6, column=0, columnspan=2, padx=10, pady=10, ipadx=10, ipady=10, sticky='')
 
         self.button_signup = ttk.Button(self, text="ลงทะเบียน", command=self.controller.show_signup)

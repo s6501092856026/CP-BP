@@ -18,45 +18,94 @@ class ConnewView(ttk.Frame):
         self.controller = controller
         self.items = []
 
+        self.style = ttk.Style()
+        self.style.configure("My.TFrame", background='#ADD8E6')
+
         # Window
         self.main_frame =  ttk.Frame(self)
 
-        self.label_profile = ttk.Label(self, text = "", font=(8))
-        self.label_profile.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky='N')
+        self.label_profile = ttk.Label(self, borderwidth=1, relief="ridge", text = "", font=('bold'))
+        self.label_profile.grid(row=0, column=0, columnspan=2, sticky='NSWE')
+        self.label_profile.configure(anchor='center', background='#ADD8E6')
 
-        self.label_totalcf = ttk.Label(self, text = "ปริมาณค่าคาร์บอนเทียบเท่าทั้งหมด")
-        self.label_totalcf.grid(row=7,column=0, padx=10, pady=10, sticky='W')
+        # สร้าง Frame เพิ่มเติมเพื่อควบคุมการวางและกรอบสามเหลี่ยม
+        frame_labels = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
+        frame_labels.grid(row=7, column=0, sticky='WE')
 
-        self.label_cf = ttk.Label(self, text = "")
-        self.label_cf.grid(row=7,column=0, padx=10, pady=10, sticky='E')
+        # Label แรก
+        self.label_totalcf = ttk.Label(frame_labels, text="ค่าคาร์บอนทั้งหมด", font=('bold'))
+        self.label_totalcf.grid(row=0, column=0, padx=10, pady=10)
+        self.label_totalcf.configure(anchor='e', background='#ADD8E6')
 
-        self.label_unit = ttk.Label(self, text = "KgCO2eq")
-        self.label_unit.grid(row=7,column=1, padx=10, pady=10, sticky='W')
+        # Label ที่สอง
+        self.label_cf = ttk.Label(frame_labels, text="", width=15, font=('bold'))
+        self.label_cf.grid(row=0, column=1, padx=15, pady=10)
+        self.label_cf.configure(anchor='center', background='#ADD8E6')
+
+        # Label ที่สาม
+        self.label_unit = ttk.Label(frame_labels, text="KgCO2eq", font=('bold'))
+        self.label_unit.grid(row=0, column=2, padx=10, pady=10)
+        self.label_unit.configure(anchor='w', background='#ADD8E6')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
-        self.return_button.grid(row=8, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
+        self.return_button.grid(row=7, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
 
         self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
-        self.export_button.grid(row=8, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
+        self.export_button.grid(row=7, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # TREE VIEW
         self.input_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         self.input_treeview.heading("Name", text="ชื่อ")
-        self.input_treeview.column("Name", width=310)
-        self.input_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
-        self.input_treeview.column("Carbon", width=95)
+        self.input_treeview.column("Name", width=310, stretch=True)
+        text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
+        self.input_treeview.heading("Carbon", text="คาร์บอนเทียบเท่า (Y)")
+        self.input_treeview.column("Carbon", width=text_width * 5)
         self.input_treeview.heading("Unit", text="หน่วย")
-        self.input_treeview.column("Unit", width=60)
-        self.input_treeview.grid(row=3, rowspan=2, column=0, padx=5, pady=5)
+        self.input_treeview.column("Unit", width=60, stretch=True)
+        self.input_treeview.grid(row=3, rowspan=2, column=0)
 
         self.process_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
-        self.process_treeview.heading("Name", text="ชื่อ")
-        self.process_treeview.column("Name", width=310)
-        self.process_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
-        self.process_treeview.column("Carbon", width=95)
+        self.process_treeview.heading("Name", text="ชื่อ (X)")
+        self.process_treeview.column("Name", width=310, stretch=True)
+        text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
+        self.process_treeview.heading("Carbon", text="คาร์บอนเทียบเท่า (Y)")
+        self.process_treeview.column("Carbon", width=text_width * 5)
         self.process_treeview.heading("Unit", text="หน่วย")
-        self.process_treeview.column("Unit", width=60)
-        self.process_treeview.grid(row=3, rowspan=2, column=1, padx=5, pady=5)
+        self.process_treeview.column("Unit", width=60, stretch=True)
+        self.process_treeview.grid(row=3, rowspan=2, column=1)
+
+        frame_break = ttk.Frame(self, borderwidth=1, relief="solid")
+        frame_break.grid(row=0, rowspan=2, column=2, padx=5, pady=5, sticky='NSWE')
+        
+        self.label_fixedcost = ttk.Label(frame_break, text = "ต้นทุนคงที่")
+        self.label_fixedcost.grid(row=0, column=0, padx=10, pady=10, sticky='W')
+
+        self.label_variablecost = ttk.Label(frame_break, text = "ต้นทุนผันแปร")
+        self.label_variablecost.grid(row=1, column=0, padx=10, pady=10, sticky='W')
+
+        self.label_number = ttk.Label(frame_break, text = "ปริมาณการผลิต")
+        self.label_number.grid(row=2, column=0, padx=10, pady=10, sticky='W')
+        
+        self.label_price = ttk.Label(frame_break, text = "ราคาขายต่อหน่วย")
+        self.label_price.grid(row=3, column=0, padx=10, pady=10, sticky='W')
+        
+        self.label_efficieny = ttk.Label(frame_break, text = "กำลังการผลิต")
+        self.label_efficieny.grid(row=4, column=0, padx=10, pady=10, sticky='W')
+
+        self.add_fixedcost = ttk.Label(frame_break, text = "")
+        self.add_fixedcost.grid(row=0, column=1, padx=10, pady=10, sticky='W')
+
+        self.add_variablecost = ttk.Label(frame_break, text = "")
+        self.add_variablecost.grid(row=1, column=1, padx=10, pady=10, sticky='W')
+
+        self.add_number = ttk.Label(frame_break, text = "")
+        self.add_number.grid(row=2, column=1, padx=10, pady=10, sticky='W')
+
+        self.add_price = ttk.Label(frame_break, text = "")
+        self.add_price.grid(row=3, column=1, padx=10, pady=10, sticky='W')
+
+        self.add_efficieny = ttk.Label(frame_break, text = "")
+        self.add_efficieny.grid(row=4, column=1, padx=10, pady=10, sticky='W')
 
         # self.output_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         # self.output_treeview.heading("Name", text="ชื่อ")
@@ -66,13 +115,12 @@ class ConnewView(ttk.Frame):
         # self.output_treeview.heading("Unit", text="หน่วย")
         # self.output_treeview.column("Unit", width=60)
         # self.output_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
-
+    
     def setInputGraph(self, items):
         # Create a Matplotlib figure
-        figure = Figure(figsize=(6.5, 4), dpi=70)
+        figure = Figure(figsize=(6.9, 3), dpi=70)
         subplot = figure.add_subplot(111)
     
-        # Query from database
         # Line data
         x = []
         y = []
@@ -81,7 +129,7 @@ class ConnewView(ttk.Frame):
             y.append(float(item[1]))
 
         # Set font
-        subplot.tick_params(axis='x', labelrotation=0, labelfontfamily="Tahoma", colors='white')
+        subplot.tick_params(axis='x', labelrotation=0, labelsize=10, colors='white')
     
         # Create graph
         subplot.plot(x, y)
@@ -92,31 +140,30 @@ class ConnewView(ttk.Frame):
         # Add title
         subplot.set_title('Input', fontsize=12, fontweight='bold')
 
+        # Add labels to axes
+        subplot.set_ylabel('KgCO2eq', fontsize=10)
+
         # Customize tick labels
         subplot.tick_params(axis='both', which='major', labelsize=8)
     
-        # Add labels to axes
-        subplot.set_xlabel('Transpotation', fontsize=8)
-        subplot.set_ylabel('Emission factor', fontsize=8)
-
-        # # Add legend
-        # subplot.legend(['Legend'], loc='upper right', fontsize=8)
-
         # Customize borders
         subplot.spines['top'].set_visible(False)
         subplot.spines['right'].set_visible(False)
 
+        # Create a Frame for the canvas with a border
+        frame = tk.Frame(self, highlightbackground='black', highlightthickness=1, borderwidth=1, relief="ridge")
+        frame.grid(row=1, rowspan=2, column=0)
+
         # Create a FigureCanvasTkAgg widget
-        canvas = FigureCanvasTkAgg(figure, master=self)
+        canvas = FigureCanvasTkAgg(figure, master=frame)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=0, padx=5, pady=5)
+        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
     def setProcessGraph(self, items):
         # Create a Matplotlib figure
-        figure = Figure(figsize=(6.5, 4), dpi=70)
+        figure = Figure(figsize=(6.9, 3), dpi=70)
         subplot = figure.add_subplot(111)
     
-        # Query from database
         # Line data
         x = []
         y = []
@@ -125,7 +172,7 @@ class ConnewView(ttk.Frame):
             y.append(float(item[1]))
 
         # Set font
-        subplot.tick_params(axis='x', labelrotation=0, labelfontfamily="Tahoma", colors='white')
+        subplot.tick_params(axis='x', labelrotation=0, labelsize=10, colors='white')
     
         # Create graph
         subplot.plot(x, y)
@@ -136,24 +183,24 @@ class ConnewView(ttk.Frame):
         # Add title
         subplot.set_title('Process', fontsize=12, fontweight='bold')
 
+        # Add labels to axes
+        subplot.set_ylabel('KgCO2eq', fontsize=10)
+
         # Customize tick labels
         subplot.tick_params(axis='both', which='major', labelsize=8)
     
-        # Add labels to axes
-        subplot.set_xlabel('Material and Performane', fontsize=8)
-        subplot.set_ylabel('Emission factor', fontsize=8)
-
-        # # Add legend
-        # subplot.legend([''], loc='upper right', fontsize=8)
-
         # Customize borders
         subplot.spines['top'].set_visible(False)
         subplot.spines['right'].set_visible(False)
 
+        # Create a Frame for the canvas with a border
+        frame = tk.Frame(self, highlightbackground='black', highlightthickness=1, borderwidth=1, relief="ridge")
+        frame.grid(row=1, rowspan=2, column=1)
+
         # Create a FigureCanvasTkAgg widget
-        canvas = FigureCanvasTkAgg(figure, master=self)
+        canvas = FigureCanvasTkAgg(figure, master=frame)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=1, rowspan=2, column=1, padx=5, pady=5)
+        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
     # def setOutputGraph(self, items):
     #     # Create a Matplotlib figure

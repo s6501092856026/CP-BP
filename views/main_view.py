@@ -8,54 +8,62 @@ class MainView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
+        self.style = ttk.Style()
+        self.style.configure("My.TFrame", background='#ADD8E6')
+
         # Window
+        frame_button = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
+        frame_button.grid(row=0, column=1, sticky='NS')
 
-        self.delete_button = ttk.Button(self, text="ลบ", command=self.delete_selected_item)
-        self.delete_button.grid(row=3, column=3, padx=10, pady=10, ipady=10, sticky='N')
+        self.breakeven_button = ttk.Button(frame_button, text="จุดคุ้มทุน", command=self.breakeven)
+        self.breakeven_button.grid(row=0, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
-        self.breakeven_button = ttk.Button(self, text="จุดคุ้มทุน", command=self.breakeven)
-        self.breakeven_button.grid(row=0, column=3, padx=10, pady=10, ipadx=10, ipady=10)
+        self.edit_button = ttk.Button(frame_button, text="แก้ไขโปรไฟล์", command=self.edit) 
+        self.edit_button.grid(row=1, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
-        self.newprofile_button = ttk.Button(self, text="สร้างโปรไฟล์ใหม่", command=self.newprofile)
-        self.newprofile_button.grid(row=2, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
+        self.newprofile_button = ttk.Button(frame_button, text="สร้างโปรไฟล์ใหม่", command=self.newprofile)
+        self.newprofile_button.grid(row=2, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
-        self.compare_button = ttk.Button(self, text="เปรียบเทียบ", command=self.compare)
-        self.compare_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
+        self.delete_button = ttk.Button(frame_button, text="ลบ", command=self.delete_selected_item)
+        self.delete_button.grid(row=3, column=0, padx=5, pady=11, ipady=10)
 
-        self.edit_button = ttk.Button(self, text="แก้ไขโปรไฟล์", command=self.edit) 
-        self.edit_button.grid(row=1, column=3, padx=10, pady=10, ipadx=10, ipady=10, sticky='NEW')
+        self.compare_button = ttk.Button(frame_button, text="เปรียบเทียบ", command=self.compare)
+        self.compare_button.grid(row=4, column=0, padx=5, pady=11, ipadx=10, ipady=10)   
 
         # เรียกใช้งานเมท็อด add_button_tooltips() เพื่อเพิ่ม Tooltip สำหรับปุ่ม
         self.add_button_tooltips()
 
+        frame_treeview = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
+        frame_treeview.grid(row=0, column=0)
+
         # Budgets
-        self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
+        self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
-        self.list_treeview.column("ID", width=10)
+        self.list_treeview.column("ID", width=10, stretch=True)
         self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
-        self.list_treeview.column("Name", width=200)
-        self.list_treeview.grid(row=0, rowspan=5, column=0, padx=5, pady=5, ipadx=20, ipady=80)
+        self.list_treeview.column("Name", width=200, stretch=True)
+        self.list_treeview.grid(row=0, column=0, ipadx=20, ipady=80)
 
         # สร้าง Scrollbar แนวแกน Y
-        scroll_y = ttk.Scrollbar(self, orient='vertical', command=self.list_treeview.yview)
+        scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.list_treeview.yview)
         self.list_treeview.configure(yscrollcommand=scroll_y.set)
-        scroll_y.grid(row=0, rowspan=5, column=1, sticky='NS')
+        scroll_y.grid(row=0, column=1, sticky='NS')
 
         self.grid_rowconfigure(0, weight=1)
         # self.grid_columnconfigure(0, weight=1)
         
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
-        self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
+        self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="ชื่อ")
-        self.detail_treeview.column("Detail", width=310)
+        self.detail_treeview.column("Detail", width=310, stretch=True)
         self.detail_treeview.heading("Emission Factor", text="ค่าคาร์บอนเทียบเท่า")
         self.detail_treeview.column("Emission Factor", width=80, stretch=True)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
-        self.detail_treeview.column("Amount", width=50)
+        self.detail_treeview.column("Amount", width=50, stretch=True)
         self.detail_treeview.heading("Unit", text="หน่วย")
-        self.detail_treeview.column("Unit", width=40)
-        self.detail_treeview.grid(row=0, rowspan=5, column=2, padx=5, pady=5, ipadx=170, ipady=80)
+        self.detail_treeview.column("Unit", width=40, stretch=True)
+        self.detail_treeview.grid(row=0, column=2, ipadx=170, ipady=80)
 
     # เมท็อดสำหรับเพิ่ม Tooltip สำหรับปุ่ม
     def add_button_tooltips(self):

@@ -8,61 +8,70 @@ class CompareView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
+        self.style = ttk.Style()
+        self.style.configure("My.TFrame", background='#ADD8E6')
+
         # Window
 
         self.back_button = ttk.Button(self, text="ย้อนลับ", command=self.back)
-        self.back_button.grid(row=0, column=0, padx=5, sticky='SW')
+        self.back_button.grid(row=0, column=0, pady=10, sticky='SW')
 
-        self.label_profile1 = ttk.Label(self, text="โปรไฟล์ที่หนึ่ง")
-        self.label_profile1.grid(row=1, column=3, padx=10, pady=10, sticky='N')
+        # Frame Tool
 
-        self.entry_profile1 = ttk.Entry(self)
-        self.entry_profile1.grid(row=1, column=3, padx=10, pady=10, sticky='S')
+        frame_tool = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
+        frame_tool.grid(row=1, column=1, sticky='NS')
 
-        self.label_profile2 = ttk.Label(self, text="โปรไฟล์ที่สอง")
-        self.label_profile2.grid(row=2, column=3, padx=10, pady=10, sticky='N')
+        self.label_profile1 = ttk.Label(frame_tool, text="โปรไฟล์ที่หนึ่ง", background='#ADD8E6')
+        self.label_profile1.grid(row=0, column=0, padx=10, pady=5, sticky='N')
 
-        self.entry_profile2 = ttk.Entry(self)
-        self.entry_profile2.grid(row=2, column=3, padx=10, pady=10, sticky='S')
+        self.entry_profile1 = ttk.Entry(frame_tool)
+        self.entry_profile1.grid(row=1, column=0, padx=10, pady=10, sticky='S')
 
-        self.add_button = ttk.Button(self, text="เพิ่ม", command=self.add_profile)
-        self.add_button.grid(row=3,column=3, padx=10, pady=10, sticky='')
+        self.label_profile2 = ttk.Label(frame_tool, text="โปรไฟล์ที่สอง", background='#ADD8E6')
+        self.label_profile2.grid(row=2, column=0, padx=10, pady=5, sticky='N')
 
-        self.complete_button = ttk.Button(self, text="เสร็จสิ้น", command=self.complete)
-        self.complete_button.grid(row=4, column=3, padx=10, pady=10, ipadx=10, ipady=20, sticky='SEW')
+        self.entry_profile2 = ttk.Entry(frame_tool)
+        self.entry_profile2.grid(row=3, column=0, padx=10, pady=10, sticky='S')
 
-        # Budgets
-        self.list_treeview = ttk.Treeview(self, columns=("ID", "Name"), show="headings")
+        self.add_button = ttk.Button(frame_tool, text="เพิ่ม", command=self.add_profile)
+        self.add_button.grid(row=4, column=0, padx=10, pady=20, sticky='')
+
+        self.complete_button = ttk.Button(frame_tool, text="เสร็จสิ้น", command=self.complete)
+        self.complete_button.grid(row=5, column=0, padx=10, pady=45, ipadx=10, ipady=15)
+
+        # Frame 
+        frame_treeview = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
+        frame_treeview.grid(row=1, column=0)
+
+        self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
-        self.list_treeview.column("ID", width=10)
+        self.list_treeview.column("ID", width=10, stretch=True)
         self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
-        self.list_treeview.column("Name", width=200)
-        self.list_treeview.grid(row=1, rowspan=4, column=0, padx=5, pady=5, ipadx=40, ipady=75)
+        self.list_treeview.column("Name", width=200, stretch=True)
+        self.list_treeview.grid(row=0, column=0, ipadx=40, ipady=75)
 
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
-        self.detail_treeview = ttk.Treeview(self, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
+        # สร้าง Scrollbar แนวแกน Y
+        scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.list_treeview.yview)
+        self.list_treeview.configure(yscrollcommand=scroll_y.set)
+        scroll_y.grid(row=0, column=1, sticky='NS')
+
+        self.grid_rowconfigure(0, weight=1)
+
+        self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="ชื่อ")
-        self.detail_treeview.column("Detail", width=310)
-        self.detail_treeview.heading("Emission Factor", text="ค่าคาร์บอนเทียบเท่า")
+        self.detail_treeview.column("Detail", width=310, stretch=True)
+        self.detail_treeview.heading("Emission Factor", text="ค่าสัมประสิทธิ์")
         self.detail_treeview.column("Emission Factor", width=80, stretch=True)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
-        self.detail_treeview.column("Amount", width=50)
+        self.detail_treeview.column("Amount", width=50, stretch=True)
         self.detail_treeview.heading("Unit", text="หน่วย")
-        self.detail_treeview.column("Unit", width=40)
-        self.detail_treeview.grid(row=1, rowspan=4, column=1, padx=5, pady=5, ipadx=170, ipady=75)
+        self.detail_treeview.column("Unit", width=40, stretch=True)
+        self.detail_treeview.grid(row=0, column=2, ipadx=100, ipady=75)
 
     def back(self):
         self.controller.back_main()
-
-    # def complete(self):
-    #     profile1 = self.entry_profile1.get()
-    #     profile2 = self.entry_profile2.get()
-
-    #     if not profile1 or not profile2:
-    #         messagebox.showwarning("คำเตือน", "โปรดเลือกโปรไฟล์ที่หนึ่งและโปรไฟล์ที่สองก่อนดำเนินการ")
-    #         return
-    #     self.controller.show_conprepare(profile1, profile2)
         
     def set_profile(self, products):
         self.list_treeview.delete(*self.list_treeview.get_children())
