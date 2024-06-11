@@ -74,38 +74,40 @@ class ConnewView(ttk.Frame):
         self.process_treeview.column("Unit", width=60, stretch=True)
         self.process_treeview.grid(row=3, rowspan=2, column=1)
 
-        frame_break = ttk.Frame(self, borderwidth=1, relief="solid")
-        frame_break.grid(row=0, rowspan=2, column=2, padx=5, pady=5, sticky='NSWE')
+        # Frame Breakeven_point
+        frame_break = ttk.Frame(self, borderwidth=1, relief="ridge")
+        frame_break.grid(row=0, rowspan=2, column=2, sticky='NSWE')
         
-        self.label_fixedcost = ttk.Label(frame_break, text = "ต้นทุนคงที่")
-        self.label_fixedcost.grid(row=0, column=0, padx=10, pady=10, sticky='W')
+        self.label_totalcost = ttk.Label(frame_break, text = "ต้นทุนรวม")
+        self.label_totalcost.grid(row=0, column=0, padx=10, pady=10, sticky='W')
 
-        self.label_variablecost = ttk.Label(frame_break, text = "ต้นทุนผันแปร")
-        self.label_variablecost.grid(row=1, column=0, padx=10, pady=10, sticky='W')
-
-        self.label_number = ttk.Label(frame_break, text = "ปริมาณการผลิต")
-        self.label_number.grid(row=2, column=0, padx=10, pady=10, sticky='W')
+        self.label_revenue = ttk.Label(frame_break, text = "รายได้")
+        self.label_revenue.grid(row=1, column=0, padx=10, pady=10, sticky='W')
         
-        self.label_price = ttk.Label(frame_break, text = "ราคาขายต่อหน่วย")
-        self.label_price.grid(row=3, column=0, padx=10, pady=10, sticky='W')
+        self.profit = ttk.Label(frame_break, text = "กำไร")
+        self.profit.grid(row=2, column=0, padx=10, pady=10, sticky='W')
         
-        self.label_efficieny = ttk.Label(frame_break, text = "กำลังการผลิต")
-        self.label_efficieny.grid(row=4, column=0, padx=10, pady=10, sticky='W')
+        self.breakeven = ttk.Label(frame_break, text = "ปริมาณผลิตที่จุดคุ้มทุน")
+        self.breakeven.grid(row=3, column=0, padx=10, pady=10, sticky='W')
 
-        self.add_fixedcost = ttk.Label(frame_break, text = "")
-        self.add_fixedcost.grid(row=0, column=1, padx=10, pady=10, sticky='W')
+        self.efficiency = ttk.Label(frame_break, text = "ประสิทธิภาพการผลิต")
+        self.efficiency.grid(row=4, column=0, padx=10, pady=10, sticky='W')
 
-        self.add_variablecost = ttk.Label(frame_break, text = "")
-        self.add_variablecost.grid(row=1, column=1, padx=10, pady=10, sticky='W')
+        self.add_totalcost = ttk.Label(frame_break, text = "")
+        self.add_totalcost.grid(row=0, column=1, padx=10, pady=10, sticky='W')
 
-        self.add_number = ttk.Label(frame_break, text = "")
-        self.add_number.grid(row=2, column=1, padx=10, pady=10, sticky='W')
+        self.add_revenue = ttk.Label(frame_break, text = "")
+        self.add_revenue.grid(row=1, column=1, padx=10, pady=10, sticky='W')
 
-        self.add_price = ttk.Label(frame_break, text = "")
-        self.add_price.grid(row=3, column=1, padx=10, pady=10, sticky='W')
+        self.add_profit = ttk.Label(frame_break, text = "")
+        self.add_profit.grid(row=2, column=1, padx=10, pady=10, sticky='W')
 
-        self.add_efficieny = ttk.Label(frame_break, text = "")
-        self.add_efficieny.grid(row=4, column=1, padx=10, pady=10, sticky='W')
+        self.add_breakeven = ttk.Label(frame_break, text = "")
+        self.add_breakeven.grid(row=3, column=1, padx=10, pady=10, sticky='W')
+
+        self.add_efficiency = ttk.Label(frame_break, text = "")
+        self.add_efficiency.grid(row=4, column=1, padx=10, pady=10, sticky='W')
+        
 
         # self.output_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         # self.output_treeview.heading("Name", text="ชื่อ")

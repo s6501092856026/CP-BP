@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from utils.database import DatabaseUtil
+from controllers.tooltip_controller import ToolTipController
 
 class CompareView(ttk.Frame):
 
@@ -69,6 +70,13 @@ class CompareView(ttk.Frame):
         self.detail_treeview.heading("Unit", text="หน่วย")
         self.detail_treeview.column("Unit", width=40, stretch=True)
         self.detail_treeview.grid(row=0, column=2, ipadx=100, ipady=75)
+
+        self.add_button_tooltips()
+
+    def add_button_tooltips(self):
+        ToolTipController(self.add_button, "เพิ่มรายการ")
+        ToolTipController(self.complete_button, "ไปหน้าประมวลผลข้อมูล")
+        ToolTipController(self.back_button, "กลับไปยังหน้าหลัก")
 
     def back(self):
         self.controller.back_main()

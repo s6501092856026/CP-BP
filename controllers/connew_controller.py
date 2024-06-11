@@ -25,7 +25,6 @@ class ConnewController:
         self.app.show_main()
 
     def load_breakpoint_data(self, profile_name):
-        try:
             db = DatabaseUtil.getInstance()
             existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile_name,))
             if existing_product:
@@ -36,11 +35,8 @@ class ConnewController:
                     fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency = breakpoint_data[0]
                     
                     # ใส่ค่าลงใน Label ผ่าน connew_view
-                    self.connew_view.add_fixedcost.config(text=fixed_cost)
-                    self.connew_view.add_variablecost.config(text=variable_cost)
-                    self.connew_view.add_number.config(text=number_of_units)
-                    self.connew_view.add_price.config(text=unit_price)
-                    self.connew_view.add_efficieny.config(text=product_efficiency)
-                    
-        except Exception as e:
-            messagebox.showerror("ข้อผิดพลาด", f"เกิดข้อผิดพลาดในขณะที่พยายามโหลดข้อมูล: {str(e)}")
+                    self.connew_view.add_totalcost.config(float(fixed_cost) + (float(variable_cost) * float(number_of_units)))
+                    self.connew_view.add_revenue.config(float(unit_price)* float(number_of_units))
+                    self.connew_view.add_profit.config((float(unit_price)* float(number_of_units)) - (float(fixed_cost) + (float(variable_cost) * float(number_of_units))))
+                    self.connew_view.add_breakeven.config(float(fixed_cost) / (float(unit_price) - float(variable_cost))) 
+                    self.connew_view.add_efficiency.config(float(product_efficiency))

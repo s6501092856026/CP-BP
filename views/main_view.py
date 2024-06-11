@@ -67,11 +67,11 @@ class MainView(ttk.Frame):
 
     # เมท็อดสำหรับเพิ่ม Tooltip สำหรับปุ่ม
     def add_button_tooltips(self):
-        ToolTipController(self.delete_button, "คลิกเพื่อลบรายการที่เลือก")
-        ToolTipController(self.breakeven_button, "คลิกเพื่อคำนวณจุดคุ้มทุน")
-        ToolTipController(self.newprofile_button, "คลิกเพื่อสร้างโปรไฟล์ใหม่")
-        ToolTipController(self.compare_button, "คลิกเพื่อเปรียบเทียบโปรไฟล์")
-        ToolTipController(self.edit_button, "คลิกเพื่อแก้ไขโปรไฟล์")
+        ToolTipController(self.delete_button, "ลบรายการที่เลือก")
+        ToolTipController(self.breakeven_button, "คำนวณจุดคุ้มทุน")
+        ToolTipController(self.newprofile_button, "สร้างโปรไฟล์ใหม่")
+        ToolTipController(self.compare_button, "เปรียบเทียบโปรไฟล์")
+        ToolTipController(self.edit_button, "แก้ไขโปรไฟล์")
     
     def newprofile(self):
         self.detail_treeview.delete(*self.detail_treeview.get_children())
