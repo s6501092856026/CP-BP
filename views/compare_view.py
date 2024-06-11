@@ -71,6 +71,14 @@ class CompareView(ttk.Frame):
         self.detail_treeview.column("Unit", width=40, stretch=True)
         self.detail_treeview.grid(row=0, column=2, ipadx=100, ipady=75)
 
+        # สร้าง Scrollbar แนวแกน Y
+        scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.detail_treeview.yview)
+        self.detail_treeview.configure(yscrollcommand=scroll_y.set)
+        scroll_y.grid(row=0, column=3, sticky='NS')
+
+        self.grid_rowconfigure(0, weight=1)
+
+
         self.add_button_tooltips()
 
     def add_button_tooltips(self):

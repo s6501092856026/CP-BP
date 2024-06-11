@@ -34,16 +34,17 @@ class ConprepareView(ttk.Frame):
         self.label_profile2.grid(row=2, column=1, sticky='NSWE')
         self.label_profile2.configure(anchor='center', background='#ADD8E6')
 
+        # Frame CF
         frame_cf = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
-        frame_cf.grid(row=4, column=0, padx=10, pady=10)
+        frame_cf.grid(row=4, column=0, padx=10, pady=10, sticky='NSWE')
 
-        self.label_percentcf = ttk.Label(frame_cf, text = "ส่วนต่างค่าคาร์บอนเทียบเท่า")
+        self.label_percentcf = ttk.Label(frame_cf, justify='center', text = "ส่วนต่างค่าคาร์บอนเทียบเท่า", font=('bold'))
         self.label_percentcf.grid(row=0,column=0, padx=20, pady=10, sticky='W')
         self.label_percentcf.configure(anchor='w', background='#ADD8E6')
 
-        self.label_cf = ttk.Label(frame_cf, text = "")
+        self.label_cf = ttk.Label(frame_cf, justify='center', text = "", font=('bold'))
         self.label_cf.grid(row=0,column=1, padx=20, pady=10, sticky = 'E')
-        self.label_cf.configure(anchor='e', background='#ADD8E6')
+        self.label_cf.configure(anchor='center', background='#FFFFCC')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
         self.return_button.grid(row=4, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
@@ -51,79 +52,115 @@ class ConprepareView(ttk.Frame):
         self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
         self.export_button.grid(row=4, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
-        # TREE VIEW
-        self.profile1_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
+        # Frame Profile1
+        frame_profile1 = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
+        frame_profile1.grid(row=1, column=0, sticky='NSWE')
+
+        self.profile1_treeview = ttk.Treeview(frame_profile1, columns=("Name", "Carbon"), show="headings")
         self.profile1_treeview.heading("Name", text="ชื่อ")
-        self.profile1_treeview.column("Name", width=310, stretch=True)
+        self.profile1_treeview.column("Name", width=370, stretch=True)
         text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
         self.profile1_treeview.heading("Carbon", text="คาร์บอนเทียบเท่า (Y)")
         self.profile1_treeview.column("Carbon", width=text_width * 5)
-        self.profile1_treeview.heading("Unit", text="หน่วย")
-        self.profile1_treeview.column("Unit", width=60, stretch=True)
-        self.profile1_treeview.grid(row=1, column=0)
+        # self.profile1_treeview.heading("Unit", text="หน่วย")
+        # self.profile1_treeview.column("Unit", width=60, stretch=True)
+        self.profile1_treeview.grid(row=0, column=0)
 
-        self.profile2_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
+        # สร้าง Scrollbar แนวแกน Y
+        scroll_y = ttk.Scrollbar(frame_profile1, orient='vertical', command=self.profile1_treeview.yview)
+        self.profile1_treeview.configure(yscrollcommand=scroll_y.set)
+        scroll_y.grid(row=0, column=1, sticky='NS')
+
+        self.grid_rowconfigure(0, weight=1)
+
+        # Frame Profile2
+        frame_profile2 = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
+        frame_profile2.grid(row=1, column=1, sticky='NSWE')
+
+        self.profile2_treeview = ttk.Treeview(frame_profile2, columns=("Name", "Carbon"), show="headings") # , "Unit"
         self.profile2_treeview.heading("Name", text="ชื่อ")
-        self.profile2_treeview.column("Name", width=310, stretch=True)
+        self.profile2_treeview.column("Name", width=370, stretch=True)
         text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
         self.profile2_treeview.heading("Carbon", text="คาร์บอนเทียบเท่า (Y)")
         self.profile2_treeview.column("Carbon", width=text_width * 5)
-        self.profile2_treeview.heading("Unit", text="หน่วย")
-        self.profile2_treeview.column("Unit", width=60, stretch=True)
-        self.profile2_treeview.grid(row=1, column=1)
+        # self.profile2_treeview.heading("Unit", text="หน่วย")
+        # self.profile2_treeview.column("Unit", width=60, stretch=True)
+        self.profile2_treeview.grid(row=0, column=0)
+
+        # สร้าง Scrollbar แนวแกน Y
+        scroll_y = ttk.Scrollbar(frame_profile2, orient='vertical', command=self.profile2_treeview.yview)
+        self.profile2_treeview.configure(yscrollcommand=scroll_y.set)
+        scroll_y.grid(row=0, column=1, sticky='NS')
+
+        self.grid_rowconfigure(0, weight=1)
 
         # Frame Breakeven_point 1
         frame_break = ttk.Frame(self, borderwidth=1, relief="ridge")
         frame_break.grid(row=0, column=2, sticky='NSWE')
 
         self.break_profile1 = ttk.Label(frame_break, text = "", borderwidth=1, relief="ridge")
-        self.break_profile1.grid(row=0, column=0, columnspan=3, sticky='NSWE')
+        self.break_profile1.grid(row=0, column=0, columnspan=10, sticky='NSWE')
         self.break_profile1.configure(anchor='center', background='#ADD8E6')
-        
-        self.label_totalcost = ttk.Label(frame_break, text = "ต้นทุนรวม")
-        self.label_totalcost.grid(row=1, column=0, padx=10, pady=10, sticky='W')
 
-        self.label_revenue = ttk.Label(frame_break, text = "รายได้")
-        self.label_revenue.grid(row=2, column=0, padx=10, pady=10, sticky='W')
+        self.totalcost = ttk.Label(frame_break, text = "ต้นทุนรวม")
+        self.totalcost.grid(row=1, column=0, padx=20, pady=10, sticky='W')
+        self.totalcost.configure(anchor='w', background='#ADD8E6')
+
+        self.revenue = ttk.Label(frame_break, text = "รายได้")
+        self.revenue.grid(row=2, column=0, padx=20, pady=10, sticky='W')
+        self.revenue.configure(anchor='w', background='#ADD8E6')
         
         self.profit = ttk.Label(frame_break, text = "กำไร")
-        self.profit.grid(row=3, column=0, padx=10, pady=10, sticky='W')
+        self.profit.grid(row=3, column=0, padx=20, pady=10, sticky='W')
+        self.profit.configure(anchor='w', background='#ADD8E6')
         
         self.breakeven = ttk.Label(frame_break, text = "ปริมาณผลิตที่จุดคุ้มทุน")
-        self.breakeven.grid(row=4, column=0, padx=10, pady=10, sticky='W')
+        self.breakeven.grid(row=4, column=0, padx=20, pady=10, sticky='W')
+        self.breakeven.configure(anchor='w', background='#ADD8E6')
 
         self.efficiency = ttk.Label(frame_break, text = "ประสิทธิภาพการผลิต")
-        self.efficiency.grid(row=5, column=0, padx=10, pady=10, sticky='W')
+        self.efficiency.grid(row=5, column=0, padx=20, pady=10, sticky='W')
+        self.efficiency.configure(anchor='w', background='#ADD8E6')
 
         self.add_totalcost = ttk.Label(frame_break, text = "")
-        self.add_totalcost.grid(row=1, column=1, padx=10, pady=10, sticky='W')
+        self.add_totalcost.grid(row=1, column=1, padx=10, pady=10, sticky='E')
+        self.add_totalcost.configure(anchor='w', background='#FFFFCC')
 
         self.add_revenue = ttk.Label(frame_break, text = "")
-        self.add_revenue.grid(row=2, column=1, padx=10, pady=10, sticky='W')
+        self.add_revenue.grid(row=2, column=1, padx=10, pady=10, sticky='E')
+        self.add_revenue.configure(anchor='w', background='#FFFFCC')
 
         self.add_profit = ttk.Label(frame_break, text = "")
-        self.add_profit.grid(row=3, column=1, padx=10, pady=10, sticky='W')
+        self.add_profit.grid(row=3, column=1, padx=10, pady=10, sticky='E')
+        self.add_profit.configure(anchor='w', background='#FFFFCC')
 
         self.add_breakeven = ttk.Label(frame_break, text = "")
-        self.add_breakeven.grid(row=4, column=1, padx=10, pady=10, sticky='W')
+        self.add_breakeven.grid(row=4, column=1, padx=10, pady=10, sticky='E')
+        self.add_breakeven.configure(anchor='w', background='#FFFFCC')
 
         self.add_efficiency = ttk.Label(frame_break, text = "")
-        self.add_efficiency.grid(row=5, column=1, padx=10, pady=10, sticky='W')
+        self.add_efficiency.grid(row=5, column=1, padx=10, pady=10, sticky='E')
+        self.add_efficiency.configure(anchor='w', background='#FFFFCC')
 
         self.unit_totalcost = ttk.Label(frame_break, text = "บาท")
-        self.unit_totalcost.grid(row=1, column=2, padx=10, pady=10, sticky='W')
+        self.unit_totalcost.grid(row=1, column=2, padx=10, pady=10)
+        self.unit_totalcost.configure(anchor='e', background='#ADD8E6')
 
         self.unit_revenue = ttk.Label(frame_break, text = "บาท")
-        self.unit_revenue.grid(row=2, column=2, padx=10, pady=10, sticky='W')
+        self.unit_revenue.grid(row=2, column=2, padx=10, pady=10)
+        self.unit_revenue.configure(anchor='e', background='#ADD8E6')
 
         self.unit_profit = ttk.Label(frame_break, text = "บาท")
-        self.unit_profit.grid(row=3, column=2, padx=10, pady=10, sticky='W')
+        self.unit_profit.grid(row=3, column=2, padx=10, pady=10)
+        self.unit_profit.configure(anchor='e', background='#ADD8E6')
 
         self.unit_breakeven = ttk.Label(frame_break, text = "บาท")
-        self.unit_breakeven.grid(row=4, column=2, padx=10, pady=10, sticky='W')
+        self.unit_breakeven.grid(row=4, column=2, padx=10, pady=10)
+        self.unit_breakeven.configure(anchor='e', background='#ADD8E6')
 
         self.unit_efficiency = ttk.Label(frame_break, text = "%")
-        self.unit_efficiency.grid(row=5, column=2, padx=10, pady=10, sticky='W')
+        self.unit_efficiency.grid(row=5, column=2, padx=10, pady=10)
+        self.unit_efficiency.configure(anchor='e', background='#ADD8E6')
 
         # Frame Breakeven_point 2
         frame_break2 = ttk.Frame(self, borderwidth=1, relief="ridge")
@@ -133,50 +170,65 @@ class ConprepareView(ttk.Frame):
         self.break_profile2.grid(row=0, column=0, columnspan=3, sticky='NSWE')
         self.break_profile2.configure(anchor='center', background='#ADD8E6')
         
-        self.label_totalcost = ttk.Label(frame_break2, text = "ต้นทุนรวม")
-        self.label_totalcost.grid(row=1, column=0, padx=10, pady=10, sticky='W')
+        self.totalcost2 = ttk.Label(frame_break2, text = "ต้นทุนรวม")
+        self.totalcost2.grid(row=1, column=0, padx=20, pady=10, sticky='W')
+        self.totalcost2.configure(anchor='w', background='#ADD8E6')
 
-        self.label_revenue = ttk.Label(frame_break2, text = "รายได้")
-        self.label_revenue.grid(row=2, column=0, padx=10, pady=10, sticky='W')
+        self.revenue2 = ttk.Label(frame_break2, text = "รายได้")
+        self.revenue2.grid(row=2, column=0, padx=20, pady=10, sticky='W')
+        self.revenue2.configure(anchor='w', background='#ADD8E6')
         
-        self.profit = ttk.Label(frame_break2, text = "กำไร")
-        self.profit.grid(row=3, column=0, padx=10, pady=10, sticky='W')
+        self.profit2 = ttk.Label(frame_break2, text = "กำไร")
+        self.profit2.grid(row=3, column=0, padx=20, pady=10, sticky='W')
+        self.profit2.configure(anchor='w', background='#ADD8E6')
         
-        self.breakeven = ttk.Label(frame_break2, text = "ปริมาณผลิตที่จุดคุ้มทุน")
-        self.breakeven.grid(row=4, column=0, padx=10, pady=10, sticky='W')
+        self.breakeven2 = ttk.Label(frame_break2, text = "ปริมาณผลิตที่จุดคุ้มทุน")
+        self.breakeven2.grid(row=4, column=0, padx=20, pady=10, sticky='W')
+        self.breakeven2.configure(anchor='w', background='#ADD8E6')
 
-        self.efficiency = ttk.Label(frame_break2, text = "ประสิทธิภาพการผลิต")
-        self.efficiency.grid(row=5, column=0, padx=10, pady=10, sticky='W')
+        self.efficiency2 = ttk.Label(frame_break2, text = "ประสิทธิภาพการผลิต")
+        self.efficiency2.grid(row=5, column=0, padx=20, pady=10, sticky='W')
+        self.efficiency2.configure(anchor='w', background='#ADD8E6')
 
         self.add_totalcost2 = ttk.Label(frame_break2, text = "")
-        self.add_totalcost2.grid(row=1, column=1, padx=10, pady=10, sticky='W')
+        self.add_totalcost2.grid(row=1, column=1, padx=10, pady=10, sticky='E')
+        self.add_totalcost2.configure(anchor='w', background='#FFFFCC')
 
         self.add_revenue2 = ttk.Label(frame_break2, text = "")
-        self.add_revenue2.grid(row=2, column=1, padx=10, pady=10, sticky='W')
+        self.add_revenue2.grid(row=2, column=1, padx=10, pady=10, sticky='E')
+        self.add_revenue2.configure(anchor='w', background='#FFFFCC')
 
         self.add_profit2 = ttk.Label(frame_break2, text = "")
-        self.add_profit2.grid(row=3, column=1, padx=10, pady=10, sticky='W')
+        self.add_profit2.grid(row=3, column=1, padx=10, pady=10, sticky='E')
+        self.add_profit2.configure(anchor='w', background='#FFFFCC')
 
         self.add_breakeven2 = ttk.Label(frame_break2, text = "")
-        self.add_breakeven2.grid(row=4, column=1, padx=10, pady=10, sticky='W')
+        self.add_breakeven2.grid(row=4, column=1, padx=10, pady=10, sticky='E')
+        self.add_breakeven2.configure(anchor='w', background='#FFFFCC')
 
         self.add_efficiency2 = ttk.Label(frame_break2, text = "")
-        self.add_efficiency2.grid(row=5, column=1, padx=10, pady=10, sticky='W')
+        self.add_efficiency2.grid(row=5, column=1, padx=10, pady=10, sticky='E')
+        self.add_efficiency2.configure(anchor='w', background='#FFFFCC')
 
         self.unit_totalcost2 = ttk.Label(frame_break2, text = "บาท")
-        self.unit_totalcost2.grid(row=1, column=2, padx=10, pady=10, sticky='W')
+        self.unit_totalcost2.grid(row=1, column=2, padx=10, pady=10)
+        self.unit_totalcost2.configure(anchor='e', background='#ADD8E6')
 
         self.unit_revenue2 = ttk.Label(frame_break2, text = "บาท")
-        self.unit_revenue2.grid(row=2, column=2, padx=10, pady=10, sticky='W')
+        self.unit_revenue2.grid(row=2, column=2, padx=10, pady=10)
+        self.unit_revenue2.configure(anchor='e', background='#ADD8E6')
 
         self.unit_profit2 = ttk.Label(frame_break2, text = "บาท")
-        self.unit_profit2.grid(row=3, column=2, padx=10, pady=10, sticky='W')
+        self.unit_profit2.grid(row=3, column=2, padx=10, pady=10)
+        self.unit_profit2.configure(anchor='e', background='#ADD8E6')
 
         self.unit_breakeven2 = ttk.Label(frame_break2, text = "บาท")
-        self.unit_breakeven2.grid(row=4, column=2, padx=10, pady=10, sticky='W')
+        self.unit_breakeven2.grid(row=4, column=2, padx=10, pady=10)
+        self.unit_breakeven2.configure(anchor='e', background='#ADD8E6')
 
         self.unit_efficiency2 = ttk.Label(frame_break2, text = "%")
-        self.unit_efficiency2.grid(row=5, column=2, padx=10, pady=10, sticky='W')
+        self.unit_efficiency2.grid(row=5, column=2, padx=10, pady=10)
+        self.unit_efficiency2.configure(anchor='e', background='#ADD8E6')
         
     def back(self):
         self.controller.back_main()
@@ -189,11 +241,11 @@ class ConprepareView(ttk.Frame):
             profit = revenue - total_cost
             breakeven = fixed_cost / (unit_price - variable_cost)
         
-            self.add_totalcost.config(text=f"{total_cost:.3f}")
-            self.add_revenue.config(text=f"{revenue:.3f}")
-            self.add_profit.config(text=f"{profit:.3f}")
-            self.add_breakeven.config(text=f"{breakeven:.3f}")
-            self.add_efficiency.config(text=f"{int(product_efficiency)}")
+            self.add_totalcost.config(text=f"{total_cost:.2f}")
+            self.add_revenue.config(text=f"{revenue:.2f}")
+            self.add_profit.config(text=f"{profit:.2f}")
+            self.add_breakeven.config(text=f"{breakeven:.2f}")
+            self.add_efficiency.config(text=f"{product_efficiency:.2f}")
         
         else:
             self.add_totalcost.config(text="-")
@@ -209,11 +261,11 @@ class ConprepareView(ttk.Frame):
             profit = revenue - total_cost
             breakeven = fixed_cost / (unit_price - variable_cost)
         
-            self.add_totalcost2.config(text=f"{total_cost:.3f}")
-            self.add_revenue2.config(text=f"{revenue:.3f}")
-            self.add_profit2.config(text=f"{profit:.3f}")
-            self.add_breakeven2.config(text=f"{breakeven:.3f}")
-            self.add_efficiency2.config(text=f"{int(product_efficiency)}")
+            self.add_totalcost2.config(text=f"{total_cost:.2f}")
+            self.add_revenue2.config(text=f"{revenue:.2f}")
+            self.add_profit2.config(text=f"{profit:.2f}")
+            self.add_breakeven2.config(text=f"{breakeven:.2f}")
+            self.add_efficiency2.config(text=f"{product_efficiency:.2f}")
 
         else:
             self.add_totalcost2.config(text="-")
@@ -335,8 +387,28 @@ class ConprepareView(ttk.Frame):
         else:
             percentage_difference = 0  # To handle division by zero
 
+        # Format the percentage difference with a leading "+" if positive
+        percentage_text = f"{percentage_difference:+.2f}%" if percentage_difference >= 0 else f"{percentage_difference:.2f}%"
+
         # Update the label with the percentage difference
-        self.label_cf.config(text=f"{percentage_difference:.2f}%")
+        self.label_cf.config(text=percentage_text)
+
+
+    # def updateLabel(self):
+    #     # Calculate total carbon emissions for profile 1
+    #     total_carbon_profile1 = sum(float(self.profile1_treeview.item(item, "values")[1]) for item in self.profile1_treeview.get_children())
+
+    #     # Calculate total carbon emissions for profile 2
+    #     total_carbon_profile2 = sum(float(self.profile2_treeview.item(item, "values")[1]) for item in self.profile2_treeview.get_children())
+
+    #     # Calculate percentage difference
+    #     if total_carbon_profile1 != 0:
+    #         percentage_difference = ((total_carbon_profile1 - total_carbon_profile2) / total_carbon_profile1) * 100
+    #     else:
+    #         percentage_difference = 0  # To handle division by zero
+
+    #     # Update the label with the percentage difference
+    #     self.label_cf.config(text=f"{percentage_difference:.2f}%")
 
     def export(self):
         wb = openpyxl.Workbook()  # สร้างอ็อบเจ็กต์สมุดงานใหม่

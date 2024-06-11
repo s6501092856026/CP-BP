@@ -110,6 +110,13 @@ class NewprofileView(ttk.Frame):
 
         self.select_treeview.bind("<ButtonRelease-1>", self.on_select_treeview_click)
 
+        # สร้าง Scrollbar แนวแกน Y
+        scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.select_treeview.yview)
+        self.select_treeview.configure(yscrollcommand=scroll_y.set)
+        scroll_y.grid(row=0, column=3, sticky='NS')
+
+        self.grid_rowconfigure(0, weight=1)
+
     def add_button_tooltips(self):
         ToolTipController(self.add_button, "เพิ่มรายการ")
         ToolTipController(self.delete_button, "ลบรายการ")

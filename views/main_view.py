@@ -50,7 +50,6 @@ class MainView(ttk.Frame):
         scroll_y.grid(row=0, column=1, sticky='NS')
 
         self.grid_rowconfigure(0, weight=1)
-        # self.grid_columnconfigure(0, weight=1)
         
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
@@ -64,6 +63,13 @@ class MainView(ttk.Frame):
         self.detail_treeview.heading("Unit", text="หน่วย")
         self.detail_treeview.column("Unit", width=40, stretch=True)
         self.detail_treeview.grid(row=0, column=2, ipadx=170, ipady=80)
+        
+        # สร้าง Scrollbar แนวแกน Y
+        scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.detail_treeview.yview)
+        self.detail_treeview.configure(yscrollcommand=scroll_y.set)
+        scroll_y.grid(row=0, column=3, sticky='NS')
+
+        self.grid_rowconfigure(0, weight=1)
 
     # เมท็อดสำหรับเพิ่ม Tooltip สำหรับปุ่ม
     def add_button_tooltips(self):
