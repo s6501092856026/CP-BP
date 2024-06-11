@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
@@ -10,6 +10,7 @@ import openpyxl.styles
 import pandas as pd
 import openpyxl
 from io import BytesIO
+from utils.database import DatabaseUtil
 
 class ConnewView(ttk.Frame):
 
@@ -30,28 +31,28 @@ class ConnewView(ttk.Frame):
 
         # สร้าง Frame เพิ่มเติมเพื่อควบคุมการวางและกรอบสามเหลี่ยม
         frame_labels = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
-        frame_labels.grid(row=7, column=0, sticky='WE')
+        frame_labels.grid(row=3, column=1, sticky='NSWE')
 
         # Label แรก
-        self.label_totalcf = ttk.Label(frame_labels, text="ค่าคาร์บอนทั้งหมด", font=('bold'))
-        self.label_totalcf.grid(row=0, column=0, padx=10, pady=10)
+        self.label_totalcf = ttk.Label(frame_labels, justify='center', text="ค่าคาร์บอนทั้งหมด", font=('bold'))
+        self.label_totalcf.grid(row=0, column=0, padx=10, pady=20)
         self.label_totalcf.configure(anchor='e', background='#ADD8E6')
 
         # Label ที่สอง
-        self.label_cf = ttk.Label(frame_labels, text="", width=15, font=('bold'))
-        self.label_cf.grid(row=0, column=1, padx=15, pady=10)
+        self.label_cf = ttk.Label(frame_labels, justify='center', text="", width=15, font=('bold'))
+        self.label_cf.grid(row=0, column=1, padx=15, pady=20)
         self.label_cf.configure(anchor='center', background='#ADD8E6')
 
         # Label ที่สาม
-        self.label_unit = ttk.Label(frame_labels, text="KgCO2eq", font=('bold'))
-        self.label_unit.grid(row=0, column=2, padx=10, pady=10)
+        self.label_unit = ttk.Label(frame_labels, justify='center', text="KgCO2eq", font=('bold'))
+        self.label_unit.grid(row=0, column=2, padx=10, pady=20)
         self.label_unit.configure(anchor='w', background='#ADD8E6')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
-        self.return_button.grid(row=7, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
+        self.return_button.grid(row=4, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
 
         self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
-        self.export_button.grid(row=7, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
+        self.export_button.grid(row=4, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # TREE VIEW
         self.input_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
@@ -62,7 +63,7 @@ class ConnewView(ttk.Frame):
         self.input_treeview.column("Carbon", width=text_width * 5)
         self.input_treeview.heading("Unit", text="หน่วย")
         self.input_treeview.column("Unit", width=60, stretch=True)
-        self.input_treeview.grid(row=3, rowspan=2, column=0)
+        self.input_treeview.grid(row=2, column=0)
 
         self.process_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         self.process_treeview.heading("Name", text="ชื่อ (X)")
@@ -72,43 +73,72 @@ class ConnewView(ttk.Frame):
         self.process_treeview.column("Carbon", width=text_width * 5)
         self.process_treeview.heading("Unit", text="หน่วย")
         self.process_treeview.column("Unit", width=60, stretch=True)
-        self.process_treeview.grid(row=3, rowspan=2, column=1)
+        self.process_treeview.grid(row=2, column=1)
 
         # Frame Breakeven_point
-        frame_break = ttk.Frame(self, borderwidth=1, relief="ridge")
-        frame_break.grid(row=0, rowspan=2, column=2, sticky='NSWE')
+        frame_break = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
+        frame_break.grid(row=3, rowspan=2, column=0, sticky='NSWE')
         
-        self.label_totalcost = ttk.Label(frame_break, text = "ต้นทุนรวม")
-        self.label_totalcost.grid(row=0, column=0, padx=10, pady=10, sticky='W')
+        self.totalcost = ttk.Label(frame_break, text = "ต้นทุนรวม")
+        self.totalcost.grid(row=0, column=0, padx=30, pady=5, sticky='W')
+        self.totalcost.configure(anchor='w', background='#ADD8E6')
 
-        self.label_revenue = ttk.Label(frame_break, text = "รายได้")
-        self.label_revenue.grid(row=1, column=0, padx=10, pady=10, sticky='W')
+        self.revenue = ttk.Label(frame_break, text = "รายได้")
+        self.revenue.grid(row=1, column=0, padx=30, pady=5, sticky='W')
+        self.revenue.configure(anchor='w', background='#ADD8E6')
         
         self.profit = ttk.Label(frame_break, text = "กำไร")
-        self.profit.grid(row=2, column=0, padx=10, pady=10, sticky='W')
+        self.profit.grid(row=2, column=0, padx=30, pady=5, sticky='W')
+        self.profit.configure(anchor='w', background='#ADD8E6')
         
         self.breakeven = ttk.Label(frame_break, text = "ปริมาณผลิตที่จุดคุ้มทุน")
-        self.breakeven.grid(row=3, column=0, padx=10, pady=10, sticky='W')
+        self.breakeven.grid(row=3, column=0, padx=30, pady=5, sticky='W')
+        self.breakeven.configure(anchor='w', background='#ADD8E6')
 
         self.efficiency = ttk.Label(frame_break, text = "ประสิทธิภาพการผลิต")
-        self.efficiency.grid(row=4, column=0, padx=10, pady=10, sticky='W')
+        self.efficiency.grid(row=4, column=0, padx=30, pady=5, sticky='W')
+        self.efficiency.configure(anchor='w', background='#ADD8E6')
 
         self.add_totalcost = ttk.Label(frame_break, text = "")
-        self.add_totalcost.grid(row=0, column=1, padx=10, pady=10, sticky='W')
+        self.add_totalcost.grid(row=0, column=1, padx=30, pady=5)
+        self.add_totalcost.configure(anchor='w', background='#ADD8E6')
 
         self.add_revenue = ttk.Label(frame_break, text = "")
-        self.add_revenue.grid(row=1, column=1, padx=10, pady=10, sticky='W')
+        self.add_revenue.grid(row=1, column=1, padx=30, pady=5)
+        self.add_revenue.configure(anchor='w', background='#ADD8E6')
 
         self.add_profit = ttk.Label(frame_break, text = "")
-        self.add_profit.grid(row=2, column=1, padx=10, pady=10, sticky='W')
+        self.add_profit.grid(row=2, column=1, padx=30, pady=5)
+        self.add_profit.configure(anchor='w', background='#ADD8E6')
 
         self.add_breakeven = ttk.Label(frame_break, text = "")
-        self.add_breakeven.grid(row=3, column=1, padx=10, pady=10, sticky='W')
+        self.add_breakeven.grid(row=3, column=1, padx=30, pady=5)
+        self.add_breakeven.configure(anchor='w', background='#ADD8E6')
 
         self.add_efficiency = ttk.Label(frame_break, text = "")
-        self.add_efficiency.grid(row=4, column=1, padx=10, pady=10, sticky='W')
-        
+        self.add_efficiency.grid(row=4, column=1, padx=30, pady=5)
+        self.add_efficiency.configure(anchor='w', background='#ADD8E6')
 
+        self.unit_totalcost = ttk.Label(frame_break, text = "บาท")
+        self.unit_totalcost.grid(row=0, column=2, padx=30, pady=5)
+        self.unit_totalcost.configure(anchor='e', background='#ADD8E6')
+
+        self.unit_revenue = ttk.Label(frame_break, text = "บาท")
+        self.unit_revenue.grid(row=1, column=2, padx=30, pady=5)
+        self.unit_revenue.configure(anchor='e', background='#ADD8E6')
+
+        self.unit_profit = ttk.Label(frame_break, text = "บาท")
+        self.unit_profit.grid(row=2, column=2, padx=30, pady=5)
+        self.unit_profit.configure(anchor='e', background='#ADD8E6')
+
+        self.unit_breakeven = ttk.Label(frame_break, text = "บาท")
+        self.unit_breakeven.grid(row=3, column=2, padx=30, pady=5)
+        self.unit_breakeven.configure(anchor='e', background='#ADD8E6')
+
+        self.unit_efficiency = ttk.Label(frame_break, text = "%")
+        self.unit_efficiency.grid(row=4, column=2, padx=30, pady=5)
+        self.unit_efficiency.configure(anchor='e', background='#ADD8E6')
+        
         # self.output_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
         # self.output_treeview.heading("Name", text="ชื่อ")
         # self.output_treeview.column("Name", width=310)
@@ -154,7 +184,7 @@ class ConnewView(ttk.Frame):
 
         # Create a Frame for the canvas with a border
         frame = tk.Frame(self, highlightbackground='black', highlightthickness=1, borderwidth=1, relief="ridge")
-        frame.grid(row=1, rowspan=2, column=0)
+        frame.grid(row=1, column=0)
 
         # Create a FigureCanvasTkAgg widget
         canvas = FigureCanvasTkAgg(figure, master=frame)
@@ -197,7 +227,7 @@ class ConnewView(ttk.Frame):
 
         # Create a Frame for the canvas with a border
         frame = tk.Frame(self, highlightbackground='black', highlightthickness=1, borderwidth=1, relief="ridge")
-        frame.grid(row=1, rowspan=2, column=1)
+        frame.grid(row=1, column=1)
 
         # Create a FigureCanvasTkAgg widget
         canvas = FigureCanvasTkAgg(figure, master=frame)
@@ -251,7 +281,29 @@ class ConnewView(ttk.Frame):
     def back(self):
         self.controller.back_main()
 
-    def setConclusion(self, profile_name, items) :
+    def set_breakpoint_data(self, breakpoint_data):
+        if breakpoint_data:
+            fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency = breakpoint_data[0]
+            total_cost = fixed_cost + (variable_cost * number_of_units)
+            revenue = unit_price * number_of_units
+            profit = revenue - total_cost
+            breakeven = fixed_cost / (unit_price - variable_cost)
+        
+            self.add_totalcost.config(text=f"{total_cost:.2f}")
+            self.add_revenue.config(text=f"{revenue:.2f}")
+            self.add_profit.config(text=f"{profit:.2f}")
+            self.add_breakeven.config(text=f"{breakeven:.2f}")
+            self.add_efficiency.config(text=f"{product_efficiency:.2f}")
+        
+        else:
+            self.add_totalcost.config(text="-")
+            self.add_revenue.config(text="-")
+            self.add_profit.config(text="-")
+            self.add_breakeven.config(text="-")
+            self.add_efficiency.config(text="-")
+
+
+    def setConclusion(self, profile_name, items, breakpoint_data) :
         self.input_treeview.delete(*self.input_treeview.get_children())
         self.process_treeview.delete(*self.process_treeview.get_children())
         # self.output_treeview.delete(*self.output_treeview.get_children())
@@ -287,6 +339,7 @@ class ConnewView(ttk.Frame):
         self.setInputGraph(inputGraph)
         # self.setOutputGraph(outputGraph)
         self.setProcessGraph(processGraph)
+        self.set_breakpoint_data(breakpoint_data)
         self.items = items
         self.label_profile.config(text=profile_name)
 
@@ -361,3 +414,5 @@ class ConnewView(ttk.Frame):
             print(f"บันทึกไฟล์ที่: {file_path}")
         else:
             print("การบันทึกไฟล์ถูกยกเลิก")
+
+    

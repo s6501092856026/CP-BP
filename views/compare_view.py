@@ -145,4 +145,26 @@ class CompareView(ttk.Frame):
             perf_data_2 = db.fetch_data("SELECT performance_name, carbon_per_performance, amount FROM product_performance pf, performance f WHERE pf.performance_id = f.performance_id AND pf.product_id = %s", (product2_id[0][0],))
 
             # self.controller.show_conprepare((profile1, raw_data_1, trans_data_1, perf_data_1), (profile2, raw_data_2, trans_data_2, perf_data_2))
-            self.controller.show_conprepare(profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2)
+            breakpoint_data1 = self.load_breakpoint_data1(profile1)
+            breakpoint_data2 = self.load_breakpoint_data2(profile2)
+            self.controller.show_conprepare(profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2, breakpoint_data1, breakpoint_data2)
+    
+    def load_breakpoint_data1(self, profile1):
+        db = DatabaseUtil.getInstance()
+        existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile1,))
+        print("Existing Product Data:", existing_product)
+        if existing_product:
+            product_id = existing_product[0][0]
+            # Fetch data from the breakeven_point table related to product_id
+            breakpoint_data1 = db.fetch_data("SELECT fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency FROM breakeven_point WHERE product_id = %s", (product_id,))
+            return breakpoint_data1
+
+    def load_breakpoint_data2(self, profile2):
+        db = DatabaseUtil.getInstance()
+        existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile2,))
+        print("Existing Product Data:", existing_product)
+        if existing_product:
+            product_id = existing_product[0][0]
+            # Fetch data from the breakeven_point table related to product_id
+            breakpoint_data2 = db.fetch_data("SELECT fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency FROM breakeven_point WHERE product_id = %s", (product_id,))
+            return breakpoint_data2

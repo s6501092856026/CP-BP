@@ -32,8 +32,8 @@ class MainController:
         self.main_view.pack_forget()  # ลบการแพ็คของวิดเจต์ main_view เพื่อลบออกจากหน้าต่าง
         self.main_view.pack(padx=10, pady=10, fill="both", expand=True)  # แพ็ควิดเจต์ main_view ใหม่ พร้อมกับ Padding
         self.app.update_idletasks()  # อัพเดตวิดเจต์
-        width = self.main_view.winfo_reqwidth() + 20  # เพิ่มขอบเขตบางส่วน
-        height = self.main_view.winfo_reqheight() + 20  # เพิ่มขอบเขตบางส่วน
+        width = self.main_view.winfo_reqwidth() + 20 # เพิ่มขอบเขตบางส่วน
+        height = self.main_view.winfo_reqheight() + 20 # เพิ่มขอบเขตบางส่วน
         x, y = getCenterPosition(self.app, width=width, height=height)
         self.app.geometry(f"{width}x{height}+{x}+{y}")
  
@@ -93,17 +93,19 @@ class MainController:
         self.compare_view.pack_forget()
         self.app.show_break(profile_name)
 
-    def show_connew(self, profile_name, items):
+    def show_connew(self, profile_name, items, breakpoint_data):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.compare_view.pack_forget()
-        self.app.show_connew(profile_name, items)
+        self.app.show_connew(profile_name, items, breakpoint_data)
     
-    def show_conprepare(self, profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2):
+    def show_conprepare(self, profile1, profile2, raw_data_1, trans_data_1,
+                         perf_data_1, raw_data_2, trans_data_2, perf_data_2, breakpoint_data1, breakpoint_data2):
         self.main_view.pack_forget()
         self.newprofile_view.pack_forget()
         self.compare_view.pack_forget()
-        self.app.show_conprepare(profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2)
+        self.app.show_conprepare(profile1, profile2, raw_data_1,
+                                  trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2, breakpoint_data1, breakpoint_data2)
 
     def delete_profile(self, product_id):
         db = DatabaseUtil.getInstance()

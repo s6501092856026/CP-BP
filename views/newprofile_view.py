@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, Radiobutton, messagebox
 from controllers.tooltip_controller import ToolTipController
+from utils.database import DatabaseUtil
 
 class NewprofileView(ttk.Frame):
 
@@ -135,19 +136,27 @@ class NewprofileView(ttk.Frame):
 
     def show_complete(self):
         profile_name = self.entry_name.get()
-        if not self.entry_name.get():
-
-        # แสดงกล่องข้อความเตือน
+        if not profile_name:
             messagebox.showwarning("แจ้งเตือน", "โปรดใส่ชื่อในช่องชื่อโปรไฟล์")
             return
-        
+    
         items = []
         children = self.select_treeview.get_children()
         for child in children:
-            items.append(self.select_treeview.item(child)['values'] )
+            items.append(self.select_treeview.item(child)['values'])
 
-        # เรียกใช้เมธอด show_connew พร้อมส่งข้อมูลชื่อโปรไฟล์และรายการ items
-        self.controller.show_connew(profile_name, items) # profile_name, 
+        breakpoint_data = self.load_breakpoint_data(profile_name)
+        self.controller.show_connew(profile_name, items, breakpoint_data)
+
+    def load_breakpoint_data(self, profile_name):
+        db = DatabaseUtil.getInstance()
+        existing_product = db.fetch_data("SELECT product_id FROM product WHERE product_name = %s", (profile_name,))
+        print("Existing Product Data:", existing_product)
+        if existing_product:
+            product_id = existing_product[0][0]
+            # Fetch data from the breakeven_point table related to product_id
+            breakpoint_data = db.fetch_data("SELECT fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency FROM breakeven_point WHERE product_id = %s", (product_id,))
+            return breakpoint_data
 
     def set_select(self, products, rawmats, transpots, performances):
         self.select_treeview.delete(*self.select_treeview.get_children())

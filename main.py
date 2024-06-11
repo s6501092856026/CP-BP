@@ -14,7 +14,7 @@ class App(tk.Tk):
         self.title("CF&BP")
         self.iconbitmap('icon.ico')
 
-        self.resizable(width=False ,height=False)
+        #self.resizable(width=False ,height=False)
 
         self.style = ttk.Style(self)
 
@@ -47,13 +47,15 @@ class App(tk.Tk):
         self.controller = BreakController(self)
         self.controller.show_break(profile_name)
 
-    def show_connew(self, profile_name, items):
+    def show_connew(self, profile_name, items, breakpoint_data):
         self.controller = ConnewController(self)
-        self.controller.show_connew(profile_name, items)
+        self.controller.show_connew(profile_name, items, breakpoint_data)
     
-    def show_conprepare(self, profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2):
+    def show_conprepare(self, profile1, profile2, raw_data_1, trans_data_1,
+                         perf_data_1, raw_data_2, trans_data_2, perf_data_2, breakpoint_data1, breakpoint_data2):
         self.controller = ConprepareController(self)
-        self.controller.show_conprepare(profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2)
+        self.controller.show_conprepare(profile1, profile2, raw_data_1, trans_data_1,
+                                         perf_data_1, raw_data_2, trans_data_2, perf_data_2, breakpoint_data1, breakpoint_data2)
 
 if __name__ == "__main__":
     app=App()
