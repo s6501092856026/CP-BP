@@ -56,14 +56,14 @@ class MainView(ttk.Frame):
         self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="ชื่อ")
         self.detail_treeview.column("Detail", width=310, stretch=True)
-        self.detail_treeview.heading("Emission Factor", text="ค่าคาร์บอนเทียบเท่า")
+        self.detail_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
         self.detail_treeview.column("Emission Factor", width=80, stretch=True)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
         self.detail_treeview.column("Amount", width=50, stretch=True)
         self.detail_treeview.heading("Unit", text="หน่วย")
         self.detail_treeview.column("Unit", width=40, stretch=True)
         self.detail_treeview.grid(row=0, column=2, ipadx=170, ipady=80)
-        
+
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.detail_treeview.yview)
         self.detail_treeview.configure(yscrollcommand=scroll_y.set)

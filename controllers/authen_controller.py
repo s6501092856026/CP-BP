@@ -4,6 +4,7 @@ from views.login_view import LoginView
 from utils.window import getCenterPosition
 from utils.validator import isRequired, isValidEmail
 from utils.database import DatabaseUtil
+
 class AuthenController:
     width = 350
     height = 400

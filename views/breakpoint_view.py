@@ -1,5 +1,5 @@
-import tkinter as tk
 from tkinter import ttk
+from controllers.tooltip_controller import ToolTipController
 
 class BreakpointView(ttk.Frame):
 
@@ -63,6 +63,12 @@ class BreakpointView(ttk.Frame):
         
         self.save_as_button = ttk.Button(self, text = "บันทึกเป็น", command=controller.save_as)
         self.save_as_button.grid(row=12, column=3, columnspan=2, padx=10, pady=10)
+
+        self.add_button_tooltips()
+
+    def add_button_tooltips(self):
+        ToolTipController(self.save_as_button, "บันทึกรายการ")
+        ToolTipController(self.back_button, "กลับไปยังหน้าหลัก")
 
     def back(self):
         self.controller.back_main()

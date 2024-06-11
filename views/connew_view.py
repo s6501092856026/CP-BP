@@ -1,16 +1,17 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+from tkinter import ttk, filedialog
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
-import matplotlib.widgets as ZoomPan
+# import matplotlib.pyplot as plt
+# import matplotlib.widgets as ZoomPan
 import openpyxl.drawing
 import openpyxl.drawing.image
 import openpyxl.styles
 from openpyxl.styles import Border, Side
-import pandas as pd
+# import pandas as pd
 import openpyxl
 from io import BytesIO
+from controllers.tooltip_controller import ToolTipController
 
 class ConnewView(ttk.Frame):
 
@@ -34,7 +35,7 @@ class ConnewView(ttk.Frame):
         frame_labels.grid(row=3, column=1, sticky='NSWE')
 
         # Label แรก
-        self.label_totalcf = ttk.Label(frame_labels, justify='center', text="ค่าคาร์บอนทั้งหมด", font=('bold'))
+        self.label_totalcf = ttk.Label(frame_labels, justify='center', text="ปัจจัยการปล่อยรวม", font=('bold'))
         self.label_totalcf.grid(row=0, column=0, padx=10, pady=20, sticky='E')
         self.label_totalcf.configure(anchor='e', background='#ADD8E6')
 
@@ -45,7 +46,7 @@ class ConnewView(ttk.Frame):
 
         # Label ที่สาม
         self.label_unit = ttk.Label(frame_labels, justify='center', text="KgCO2eq", font=('bold'))
-        self.label_unit.grid(row=0, column=2, padx=10, pady=20)
+        self.label_unit.grid(row=0, column=2, padx=5, pady=20)
         self.label_unit.configure(anchor='w', background='#ADD8E6')
         
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
@@ -59,15 +60,15 @@ class ConnewView(ttk.Frame):
         frame_input.grid(row=2, column=0, sticky='NSWE')
 
         # TREE VIEW
-        self.input_treeview = ttk.Treeview(frame_input, columns=("Name", "Carbon"), show="headings") # , "Unit"
+        self.input_treeview = ttk.Treeview(frame_input, columns=("Name", "Emission Factor"), show="headings") # , "Unit"
         self.input_treeview.heading("Name", text="ชื่อ")
         self.input_treeview.column("Name", width=370, stretch=True)
         text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
-        self.input_treeview.heading("Carbon", text="คาร์บอนเทียบเท่า (Y)")
-        self.input_treeview.column("Carbon", width=text_width * 5)
+        self.input_treeview.heading("Emission Factor", text="ค่าปลดปล่อย (Y)")
+        self.input_treeview.column("Emission Factor", width=text_width * 5)
         # self.input_treeview.heading("Unit", text="หน่วย")
         # self.input_treeview.column("Unit", width=60, stretch=True)
-        self.input_treeview.grid(row=0, column=0)
+        self.input_treeview.grid(row=0, column=0, sticky='WE')
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(frame_input, orient='vertical', command=self.input_treeview.yview)
@@ -80,15 +81,15 @@ class ConnewView(ttk.Frame):
         frame_process = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
         frame_process.grid(row=2, column=1, sticky='NSWE')
 
-        self.process_treeview = ttk.Treeview(frame_process, columns=("Name", "Carbon"), show="headings")
+        self.process_treeview = ttk.Treeview(frame_process, columns=("Name", "Emission Factor"), show="headings")
         self.process_treeview.heading("Name", text="ชื่อ (X)")
         self.process_treeview.column("Name", width=370, stretch=True)
         text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
-        self.process_treeview.heading("Carbon", text="คาร์บอนเทียบเท่า (Y)")
-        self.process_treeview.column("Carbon", width=text_width * 5)
+        self.process_treeview.heading("Emission Factor", text="ค่าปลดปล่อย (Y)")
+        self.process_treeview.column("Emission Factor", width=text_width * 5)
         # self.process_treeview.heading("Unit", text="หน่วย")
         # self.process_treeview.column("Unit", width=60, stretch=True)
-        self.process_treeview.grid(row=0, column=0)
+        self.process_treeview.grid(row=0, column=0, sticky='WE')
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(frame_process, orient='vertical', command=self.process_treeview.yview)
@@ -169,6 +170,12 @@ class ConnewView(ttk.Frame):
         # self.output_treeview.heading("Unit", text="หน่วย")
         # self.output_treeview.column("Unit", width=60)
         # self.output_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
+
+        self.add_button_tooltips()
+    
+    def add_button_tooltips(self):
+        ToolTipController(self.export_button, "ส่งออกไปยัง Excel")
+        ToolTipController(self.return_button, "กลับไปยังหน้าหลัก")
     
     def setInputGraph(self, items):
         # Create a Matplotlib figure

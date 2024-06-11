@@ -1,5 +1,6 @@
 from tkinter import ttk,END
 from tkinter import messagebox
+from controllers.tooltip_controller import ToolTipController
 
 class SignupView(ttk.Frame):
 
@@ -46,11 +47,25 @@ class SignupView(ttk.Frame):
         self.email = ttk.Entry(self, width=30)
         self.email.grid(row=5, column=1, padx=10, pady=10)
 
-        button_signup = ttk.Button(self, text="Signup",command=self.signup)
-        button_signup.grid(row=7, column=0, padx=10, pady=10)
+        self.signup_button = ttk.Button(self, text="Signup",command=self.signup)
+        self.signup_button.grid(row=7, column=0, padx=10, pady=10)
         
-        button_back = ttk.Button(self, text="Back", command=self.controller.show_login)
-        button_back.grid(row=7, column=1, padx=10, pady=10, sticky='E')
+        self.back_button = ttk.Button(self, text="Back", command=self.controller.show_login)
+        self.back_button.grid(row=7, column=1, padx=10, pady=10, sticky='E')
+
+        # สร้าง tooltips
+        self.add_tooltips()
+
+    def add_tooltips(self):
+        # เพิ่ม tooltips
+        ToolTipController(self.firstname, "กรุณากรอกชื่อ")
+        ToolTipController(self.lastname, "กรุณากรอกนามสกุล")
+        ToolTipController(self.tel, "กรุณากรอกเบอร์โทร")
+        ToolTipController(self.username, "กรุณากรอกชื่อผู้ใช้งาน")
+        ToolTipController(self.password, "กรุณากรอกรหัสผ่าน")
+        ToolTipController(self.email, "กรุณากรอกอีเมลล์")
+        ToolTipController(self.signup_button, "คลิกเพื่อสมัครสมาชิก")
+        ToolTipController(self.back_button, "คลิกเพื่อกลับสู่หน้าเข้าสู่ระบบ")
 
     def clear_entries(self):
         self.agree_msg.configure(text="ลงทะเบียนสำเร็จ")

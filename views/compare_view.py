@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import ttk, messagebox
 from utils.database import DatabaseUtil
 from controllers.tooltip_controller import ToolTipController
@@ -63,7 +62,7 @@ class CompareView(ttk.Frame):
         self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="ชื่อ")
         self.detail_treeview.column("Detail", width=310, stretch=True)
-        self.detail_treeview.heading("Emission Factor", text="ค่าสัมประสิทธิ์")
+        self.detail_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
         self.detail_treeview.column("Emission Factor", width=80, stretch=True)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
         self.detail_treeview.column("Amount", width=50, stretch=True)
@@ -77,7 +76,6 @@ class CompareView(ttk.Frame):
         scroll_y.grid(row=0, column=3, sticky='NS')
 
         self.grid_rowconfigure(0, weight=1)
-
 
         self.add_button_tooltips()
 

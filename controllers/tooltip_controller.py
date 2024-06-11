@@ -10,7 +10,7 @@ class ToolTipController:
 
     def show_tooltip(self, event):
         x, y, _, _ = self.widget.bbox("insert")
-        x += self.widget.winfo_rootx() + 80
+        x += self.widget.winfo_rootx() + 70
         y += self.widget.winfo_rooty() - 15
 
         self.tooltip = tk.Toplevel(self.widget)

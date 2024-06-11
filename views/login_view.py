@@ -41,8 +41,7 @@ class LoginView(ttk.Frame):
         self.button_signup = ttk.Button(self, text="ลงทะเบียน", command=self.controller.show_signup)
         self.button_signup.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky='')
 
-        # เพิ่มเมท็อด add_button_tooltips() เพื่อเพิ่ม Tooltip เฉพาะสำหรับปุ่ม
-        self.add_button_tooltips()
+        self.add_tooltips()
     
     def login(self):
         self.controller.authen(self.entry_email.get(), self.entry_password.get())
@@ -53,7 +52,9 @@ class LoginView(ttk.Frame):
     def hide_error(self):
         self.warning_msg.configure(text="")
     
-    def add_button_tooltips(self):
+    def add_tooltips(self):
         # เพิ่ม ToolTips สำหรับปุ่ม
-        ToolTipController(self.button_login, "คลิกเพื่อเข้าสู่ระบบ")
-        ToolTipController(self.button_signup, "คลิกเพื่อลงทะเบียนบัญชีใหม่")
+        ToolTipController(self.button_login, "เข้าสู่ระบบ")
+        ToolTipController(self.button_signup, "ลงทะเบียนบัญชีใหม่")
+        ToolTipController(self.entry_email, "กรุณากรอกชื่อผู้ใช้งาน")
+        ToolTipController(self.entry_password, "กรุณากรอกรหัสผ่าน")
