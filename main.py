@@ -32,6 +32,9 @@ class App(tk.Tk):
         self.style.configure('TEntry', font=('Tohama', 10), fieldbackground=entry_bg, borderwidth=2)
         self.style.configure('TFrame', background=white)
         self.style.configure("Treeview.Heading", font=('Tohama', 8, 'bold'))
+        self.style.configure("Treeview.Heading", font=("Tohama", 9, "bold"), background="lightblue")
+        self.style.configure("Treeview", font=("Tohama", 9), rowheight=25)
+        self.style.map("Treeview", background=[("selected", "green")], foreground=[("selected", "white")])
 
         self.show_login()
 

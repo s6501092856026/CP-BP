@@ -39,7 +39,7 @@ class ConprepareView(ttk.Frame):
         frame_cf = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
         frame_cf.grid(row=3, column=0, sticky='NSWE')
 
-        self.label_percentcf = ttk.Label(frame_cf, justify='center', text = "ส่วนต่างปัจจัยปล่อย", font=('bold'))
+        self.label_percentcf = ttk.Label(frame_cf, justify='center', text = "ส่วนต่างค่าคา์บอน", font=('bold'))
         self.label_percentcf.grid(row=0, column=0, padx=20, pady=10, sticky='W')
         self.label_percentcf.configure(anchor='w', background='#ADD8E6')
 
@@ -66,12 +66,12 @@ class ConprepareView(ttk.Frame):
         frame_profile1 = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
         frame_profile1.grid(row=1, column=0, sticky='NSWE')
 
-        self.profile1_treeview = ttk.Treeview(frame_profile1, columns=("Name", "Emission Factor"), show="headings")
+        self.profile1_treeview = ttk.Treeview(frame_profile1, columns=("Name", "Carbon"), show="headings")
         self.profile1_treeview.heading("Name", text="ชื่อ")
         self.profile1_treeview.column("Name", width=370, stretch=True)
-        text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
-        self.profile1_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย (Y)")
-        self.profile1_treeview.column("Emission Factor", width=text_width * 5)
+        text_width = len("ค่าคาร์บอน (Y)")  # คำนวณความยาวของข้อความ
+        self.profile1_treeview.heading("Carbon", text="ค่าคาร์บอน (Y)")
+        self.profile1_treeview.column("Carbon", width=text_width * 5)
         # self.profile1_treeview.heading("Unit", text="หน่วย")
         # self.profile1_treeview.column("Unit", width=60, stretch=True)
         self.profile1_treeview.grid(row=0, column=0)
@@ -87,12 +87,12 @@ class ConprepareView(ttk.Frame):
         frame_profile2 = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
         frame_profile2.grid(row=1, column=1, sticky='NSWE')
 
-        self.profile2_treeview = ttk.Treeview(frame_profile2, columns=("Name", "Emission Factor"), show="headings") # , "Unit"
+        self.profile2_treeview = ttk.Treeview(frame_profile2, columns=("Name", "Carbon"), show="headings") # , "Unit"
         self.profile2_treeview.heading("Name", text="ชื่อ")
         self.profile2_treeview.column("Name", width=370, stretch=True)
-        text_width = len("ค่าคาร์บอนเทียบเท่า (Y)")  # คำนวณความยาวของข้อความ
-        self.profile2_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย (Y)")
-        self.profile2_treeview.column("Emission Factor", width=text_width * 5)
+        text_width = len("ค่าคาร์บอน (Y)")  # คำนวณความยาวของข้อความ
+        self.profile2_treeview.heading("Carbon", text="ค่าคา์บอน (Y)")
+        self.profile2_treeview.column("Carbon", width=text_width * 5)
         # self.profile2_treeview.heading("Unit", text="หน่วย")
         # self.profile2_treeview.column("Unit", width=60, stretch=True)
         self.profile2_treeview.grid(row=0, column=0)
