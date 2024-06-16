@@ -39,7 +39,7 @@ class ConprepareView(ttk.Frame):
         frame_cf = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")
         frame_cf.grid(row=3, column=0, sticky='NSWE')
 
-        self.label_percentcf = ttk.Label(frame_cf, justify='center', text = "ส่วนต่างค่าคา์บอน", font=('bold'))
+        self.label_percentcf = ttk.Label(frame_cf, justify='center', text = "ส่วนต่างค่าคาร์บอน", font=('bold'))
         self.label_percentcf.grid(row=0, column=0, padx=20, pady=10, sticky='W')
         self.label_percentcf.configure(anchor='w', background='#ADD8E6')
 
