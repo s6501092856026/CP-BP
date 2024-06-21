@@ -3,6 +3,7 @@ from tkinter import ttk, filedialog
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
+import locale
 # import matplotlib.widgets as ZoomPan
 import openpyxl.drawing
 import openpyxl.drawing.image
@@ -14,6 +15,9 @@ from openpyxl.styles import Alignment, Border, Side, Font, PatternFill, PatternF
 import openpyxl
 from io import BytesIO
 from controllers.tooltip_controller import ToolTipController
+
+# ตั้งค่าภาษาและภูมิภาค
+locale.setlocale(locale.LC_ALL, 'th_TH.UTF-8')
 
 class ConnewView(ttk.Frame):
 
@@ -178,89 +182,103 @@ class ConnewView(ttk.Frame):
     def add_button_tooltips(self):
         ToolTipController(self.export_button, "ส่งออกไปยัง Excel")
         ToolTipController(self.return_button, "กลับไปยังหน้าหลัก")
-    
+
     def setInputGraph(self, items):
-        # Create a Matplotlib figure
+        # สร้างรูปภาพ Matplotlib
         figure = Figure(figsize=(6.9, 3), dpi=70)
         subplot = figure.add_subplot(111)
-    
-        # Line data
+
+        # ข้อมูลเส้นกราฟ
         x = []
         y = []
         for item in items:
             x.append(item[0])
             y.append(float(item[1]))
 
-        # Set font
+        # ตั้งค่าฟอนต์
         subplot.tick_params(axis='x', labelrotation=0, labelsize=10, colors='white')
-    
-        # Create graph
-        subplot.plot(x, y)
-    
-        # Add grid
+
+        # สร้างกราฟด้วยสีส้ม
+        subplot.plot(x, y, color='blue')
+
+        # เพิ่มจุดบ่งบอกตำแหน่งด้วยสีส้ม
+        subplot.scatter(x, y, color='blue')
+
+        # เพิ่มตัวเลขกำกับ
+        for i, txt in enumerate(y):
+            subplot.annotate(f'{txt}', (x[i], y[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)
+
+        # เพิ่มกริด
         subplot.grid(True, linestyle='--', linewidth=0.5)
 
-        # Add title
+        # เพิ่มชื่อกราฟ
         subplot.set_title('Input', fontsize=12, fontweight='bold')
 
-        # Add labels to axes
+        # เพิ่มป้ายกำกับแกน
         subplot.set_ylabel('KgCO2eq', fontsize=10)
 
-        # Customize tick labels
+        # ปรับแต่งป้ายกำกับ
         subplot.tick_params(axis='both', which='major', labelsize=8)
-    
-        # Customize borders
+
+        # ปรับแต่งขอบ
         subplot.spines['top'].set_visible(False)
         subplot.spines['right'].set_visible(False)
 
-        # Create a Frame for the canvas with a border
+        # สร้างกรอบสำหรับแคนวาสพร้อมเส้นขอบ
         frame = tk.Frame(self, highlightbackground='black', highlightthickness=1, borderwidth=1, relief="ridge")
         frame.grid(row=1, column=0, sticky='NSWE')
 
-        # Create a FigureCanvasTkAgg widget
+        # สร้างวิดเจ็ต FigureCanvasTkAgg
         canvas = FigureCanvasTkAgg(figure, master=frame)
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
     def setProcessGraph(self, items):
-        # Create a Matplotlib figure
+        # สร้างรูปภาพ Matplotlib
         figure = Figure(figsize=(6.9, 3), dpi=70)
         subplot = figure.add_subplot(111)
-    
-        # Line data
+
+        # ข้อมูลเส้นกราฟ
         x = []
         y = []
         for item in items:
             x.append(item[0])
             y.append(float(item[1]))
 
-        # Set font
+        # ตั้งค่าฟอนต์
         subplot.tick_params(axis='x', labelrotation=0, labelsize=10, colors='white')
-    
-        # Create graph
-        subplot.plot(x, y)
-    
-        # Add grid
+
+        # สร้างกราฟด้วยสีส้ม
+        subplot.plot(x, y, color='orange')
+
+        # เพิ่มจุดบ่งบอกตำแหน่งด้วยสีส้ม
+        subplot.scatter(x, y, color='orange')
+
+        # เพิ่มตัวเลขกำกับ
+        for i, txt in enumerate(y):
+            subplot.annotate(f'{txt}', (x[i], y[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8)
+
+        # เพิ่มกริด
         subplot.grid(True, linestyle='--', linewidth=0.5)
 
-        # Add title
+        # เพิ่มชื่อกราฟ
         subplot.set_title('Process', fontsize=12, fontweight='bold')
 
-        # Add labels to axes
+        # เพิ่มป้ายกำกับแกน
         subplot.set_ylabel('KgCO2eq', fontsize=10)
 
-        # Customize tick labels
+        # ปรับแต่งป้ายกำกับ
         subplot.tick_params(axis='both', which='major', labelsize=8)
-    
-        # Customize borders
+
+        # ปรับแต่งขอบ
         subplot.spines['top'].set_visible(False)
         subplot.spines['right'].set_visible(False)
 
-        # Create a Frame for the canvas with a border
+        # สร้างกรอบสำหรับแคนวาสพร้อมเส้นขอบ
         frame = tk.Frame(self, highlightbackground='black', highlightthickness=1, borderwidth=1, relief="ridge")
         frame.grid(row=1, column=1, sticky='NSWE')
 
-        # Create a FigureCanvasTkAgg widget
+        # สร้างวิดเจ็ต FigureCanvasTkAgg
         canvas = FigureCanvasTkAgg(figure, master=frame)
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
@@ -311,6 +329,9 @@ class ConnewView(ttk.Frame):
 
     def back(self):
         self.controller.back_main()
+    
+    def format_currency(self, value):
+        return locale.currency(value, grouping=True)
 
     def set_breakpoint_data(self, breakpoint_data):
         if breakpoint_data:
@@ -319,19 +340,45 @@ class ConnewView(ttk.Frame):
             revenue = unit_price * number_of_units
             profit = revenue - total_cost
             breakeven = fixed_cost / (unit_price - variable_cost)
-        
-            self.add_totalcost.config(text=f"{total_cost:.2f}")
-            self.add_revenue.config(text=f"{revenue:.2f}")
-            self.add_profit.config(text=f"{profit:.2f}")
-            self.add_breakeven.config(text=f"{breakeven:.2f}")
+            
+            # อัปเดตค่า total cost
+            self.add_totalcost.config(text=self.format_currency(total_cost))
+            # อัปเดตค่า revenue
+            self.add_revenue.config(text=self.format_currency(revenue))
+            # อัปเดตค่า profit
+            self.add_profit.config(text=self.format_currency(profit),foreground="red" if profit < 0 else "black")
+            # อัปเดตค่า breakeven
+            self.add_breakeven.config(text=f"{breakeven:.2f}",foreground="red" if breakeven < 0 else "black")
+            # อัปเดตค่า efficiency
             self.add_efficiency.config(text=f"{product_efficiency:.2f}")
-        
+            
         else:
-            self.add_totalcost.config(text="-")
-            self.add_revenue.config(text="-")
-            self.add_profit.config(text="-")
-            self.add_breakeven.config(text="-")
-            self.add_efficiency.config(text="-")
+            self.add_totalcost.config(text="-", foreground="black")
+            self.add_revenue.config(text="-", foreground="black")
+            self.add_profit.config(text="-", foreground="black")
+            self.add_breakeven.config(text="-", foreground="black")
+            self.add_efficiency.config(text="-", foreground="black")
+
+    # def set_breakpoint_data(self, breakpoint_data):
+    #     if breakpoint_data:
+    #         fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency = breakpoint_data[0]
+    #         total_cost = fixed_cost + (variable_cost * number_of_units)
+    #         revenue = unit_price * number_of_units
+    #         profit = revenue - total_cost
+    #         breakeven = fixed_cost / (unit_price - variable_cost)
+        
+    #         self.add_totalcost.config(text=f"{total_cost:.2f}")
+    #         self.add_revenue.config(text=f"{revenue:.2f}")
+    #         self.add_profit.config(text=f"{profit:.2f}")
+    #         self.add_breakeven.config(text=f"{breakeven:.2f}")
+    #         self.add_efficiency.config(text=f"{product_efficiency:.2f}")
+        
+    #     else:
+    #         self.add_totalcost.config(text="-")
+    #         self.add_revenue.config(text="-")
+    #         self.add_profit.config(text="-")
+    #         self.add_breakeven.config(text="-")
+    #         self.add_efficiency.config(text="-")
 
     def setConclusion(self, profile_name, items, breakpoint_data) :
         self.input_treeview.delete(*self.input_treeview.get_children())
@@ -497,33 +544,23 @@ class ConnewView(ttk.Frame):
         sheet[f"B19"] = self.add_efficiency.cget("text")
         sheet[f"B19"].border = border_style
 
-        # Adjust column widths based on the longest item in each column
-        for col in sheet.iter_cols():
+        # Auto fit column widths
+        for column_cells in sheet.columns:
             max_length = 0
-            column = get_column_letter(col[0].column)  # Get the column name
-            for cell in col:
-                if isinstance(cell, openpyxl.cell.cell.MergedCell):
-                    continue
+            column = get_column_letter(column_cells[0].column)  # Get the column name
+            for cell in column_cells:
                 try:
-                    if len(str(cell.value)) > max_length:
-                        max_length = len(str(cell.value))
+                    if cell.value:
+                        max_length = max(max_length, len(str(cell.value)))
                 except:
                     pass
-            adjusted_width = (max_length + 1)  # Add 1 to allow some extra space
+            adjusted_width = (max_length - 30) if column == 'A' else (max_length + 0)
             sheet.column_dimensions[column].width = adjusted_width
 
-        # Calculate total width of all columns
-        total_width = sum(sheet.column_dimensions[col].width for col in sheet.column_dimensions)
-
-        # Define page width in characters (typically about 85-100 characters for A4 size in portrait mode)
-        page_width = 100
-
-        # Calculate scaling factor
-        scaling_factor = page_width / total_width
-
-        # Adjust each column's width according to the scaling factor
-        for col in sheet.column_dimensions:
-            sheet.column_dimensions[col].width *= scaling_factor
+        # Set wrap text for all cells in column A
+        for row in sheet.iter_rows(min_col=1, max_col=1, min_row=1, max_row=sheet.max_row):
+            for cell in row:
+                cell.alignment = Alignment(wrap_text=True, vertical='center')
 
         # Combined chart for Input and Process
         def create_combined_chart(input_data, process_data, title):
@@ -568,3 +605,228 @@ class ConnewView(ttk.Frame):
             print(f"File saved at: {file_path}")
         else:
             print("File save canceled")
+
+    # def export(self):
+    #     wb = openpyxl.Workbook()
+    #     sheet = wb.active
+    #     sheet.title = "Carbon Footprint Report"
+
+    #     input_data = []
+    #     process_data = []
+
+    #     for item in self.items:
+    #         category, _, name, carbon_per, amount, unit = item
+    #         carbon_footprint = round(float(carbon_per) * float(amount), 2)  # ปัดเป็นทศนิยม 2 ตำแหน่ง
+
+    #         if category == 'Material':
+    #             process_data.append((name, carbon_per, amount, unit, carbon_footprint))
+    #         elif category == 'Transportation':
+    #             input_data.append((name, carbon_per, amount, unit, carbon_footprint))
+    #         elif category == 'Performance':
+    #             process_data.append((name, carbon_per, amount, unit, carbon_footprint))
+
+    #     total_input_carbon_footprint = round(sum(item[4] for item in input_data), 2)
+    #     total_process_carbon_footprint = round(sum(item[4] for item in process_data), 2)
+    #     total_carbon_footprint = round(total_input_carbon_footprint + total_process_carbon_footprint, 2)
+
+    #     # คำนวณความแตกต่างเป็นเปอร์เซ็นต์
+    #     if total_input_carbon_footprint > 0:
+    #         percentage_difference = round(((total_process_carbon_footprint - total_input_carbon_footprint) / total_input_carbon_footprint) * 100, 2)
+    #     else:
+    #         percentage_difference = 0
+
+    #     # สไตล์
+    #     align_center = Alignment(horizontal="center", vertical="center")
+    #     border_style = Border(left=Side(border_style='medium', color='000000'),
+    #                         right=Side(border_style='medium', color='000000'),
+    #                         top=Side(border_style='medium', color='000000'),
+    #                         bottom=Side(border_style='medium', color='000000'))
+    #     header_font = Font(bold=True, color='FFFFFF')
+    #     header_fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
+    #     angsana_font = Font(name='AngsanaUPC', size=14)
+
+    #     # หัวเรื่อง
+    #     sheet.merge_cells("A1:E1")
+    #     sheet["A1"].value = "Carbon Footprint Report"
+    #     # sheet["A1"].alignment = align_center
+    #     # sheet["A1"].font = Font(size=16, bold=True)
+
+    #     # หัวตาราง
+    #     headers = ["Name", "Emission Factor", "Amount", "Unit", "Carbon Footprint"]
+    #     for col_num, header in enumerate(headers, start=1):
+    #         cell = sheet.cell(row=2, column=col_num)
+    #         cell.value = header
+    #         cell.border = border_style
+    #         cell.alignment = align_center
+    #         cell.font = header_font
+    #         cell.fill = header_fill
+
+    #     # แถวข้อมูล
+    #     row_num = 3
+    #     for data in input_data:
+    #         for col_num, value in enumerate(data, start=1):
+    #             cell = sheet.cell(row=row_num, column=col_num)
+    #             cell.value = value
+    #             cell.border = border_style
+    #             cell.font = angsana_font
+    #             if col_num in [2, 3, 5]:  # คอลัมน์ Emission Factor, Amount และ Carbon Footprint
+    #                 cell.number_format = '0.00'
+    #         row_num += 1
+
+    #     for data in process_data:
+    #         for col_num, value in enumerate(data, start=1):
+    #             cell = sheet.cell(row=row_num, column=col_num)
+    #             cell.value = value
+    #             cell.border = border_style
+    #             cell.font = angsana_font
+    #             if col_num in [2, 3, 5]:  # คอลัมน์ Emission Factor, Amount และ Carbon Footprint
+    #                 cell.number_format = '0.00'
+    #         row_num += 1
+
+    #     # สรุป
+    #     summary_row = row_num
+    #     sheet[f"A{summary_row}"] = "Total Emission Factor"
+    #     sheet[f"A{summary_row}"].border = border_style
+    #     sheet[f"A{summary_row}"].font = angsana_font
+    #     sheet[f"B{summary_row}"] = total_carbon_footprint
+    #     sheet[f"B{summary_row}"].border = border_style
+    #     sheet[f"B{summary_row}"].font = angsana_font
+    #     sheet[f"B{summary_row}"].number_format = '0.00'  # ใช้รูปแบบตัวเลข
+    #     sheet[f"C{summary_row}"] = "KgCO2eq"
+    #     sheet[f"C{summary_row}"].border = border_style
+    #     sheet[f"C{summary_row}"].alignment = align_center
+    #     sheet[f"C{summary_row}"].font = angsana_font
+
+    #     # รายละเอียดเพิ่มเติม
+    #     sheet[f"A{summary_row + 2}"] = "Total Cost"
+    #     sheet[f"A{summary_row + 2}"].font = angsana_font
+    #     sheet[f"B{summary_row + 2}"].border = border_style
+    #     sheet[f"C{summary_row + 2}"] = "Bath"
+    #     sheet[f"C{summary_row + 2}"].border = border_style
+    #     sheet[f"C{summary_row + 2}"].font = angsana_font
+    #     total_cost_cell = sheet[f"B{summary_row + 2}"]
+    #     total_cost_cell.value = float(self.add_totalcost.cget("text"))
+    #     total_cost_cell.border = border_style
+    #     total_cost_cell.font = angsana_font
+    #     total_cost_cell.number_format = '0.00'  # ใช้รูปแบบตัวเลข
+
+    #     # เพิ่มสรุปความแตกต่างเป็นเปอร์เซ็นต์ 5 แถวถัดจาก Total Cost
+    #     percentage_diff_row = summary_row + 7
+    #     sheet[f"A{percentage_diff_row}"] = "Percentage difference between Process and Input"
+    #     sheet[f"A{percentage_diff_row}"].font = angsana_font
+    #     sheet[f"B{percentage_diff_row}"] = f"{percentage_difference:.2f}"
+    #     sheet[f"B{percentage_diff_row}"].border = border_style
+    #     sheet[f"B{percentage_diff_row}"].font = angsana_font
+
+    #     # รายละเอียดเพิ่มเติม
+    #     sheet[f"A{summary_row + 3}"] = "Revene"
+    #     # sheet[f"A{summary_row + 3}"].border = border_style
+    #     sheet[f"A{summary_row + 3}"].font = angsana_font
+    #     sheet[f"B{summary_row + 3}"] = self.add_revenue.cget("text")
+    #     sheet[f"B{summary_row + 3}"].border = border_style
+    #     sheet[f"B{summary_row + 3}"].font = angsana_font
+    #     sheet[f"C{summary_row + 3}"] = "Bath"
+    #     sheet[f"C{summary_row + 3}"].border = border_style
+    #     sheet[f"C{summary_row + 3}"].font = angsana_font
+
+    #     sheet[f"A{summary_row + 4}"] = "Profit"
+    #     # sheet[f"A{summary_row + 4}"].border = border_style
+    #     sheet[f"A{summary_row + 4}"].font = angsana_font
+    #     sheet[f"B{summary_row + 4}"] = self.add_profit.cget("text")
+    #     sheet[f"B{summary_row + 4}"].border = border_style
+    #     sheet[f"B{summary_row + 4}"].font = angsana_font
+    #     sheet[f"C{summary_row + 4}"] = "Bath"
+    #     sheet[f"C{summary_row + 4}"].border = border_style
+    #     sheet[f"C{summary_row + 4}"].font = angsana_font
+        
+    #     sheet[f"A{summary_row + 5}"] = "Break-even Point"
+    #     # sheet[f"A{summary_row + 5}"].border = border_style
+    #     sheet[f"A{summary_row + 5}"].font = angsana_font
+    #     sheet[f"B{summary_row + 5}"] = self.add_breakeven.cget("text")
+    #     sheet[f"B{summary_row + 5}"].border = border_style
+    #     sheet[f"B{summary_row + 5}"].font = angsana_font
+    #     sheet[f"C{summary_row + 5}"] = "Unit"
+    #     sheet[f"C{summary_row + 5}"].border = border_style
+    #     sheet[f"C{summary_row + 5}"].font = angsana_font
+        
+    #     sheet[f"A{summary_row + 6}"] = "Production Efficiency"
+    #     # sheet[f"A{summary_row + 6}"].border = border_style
+    #     sheet[f"A{summary_row + 6}"].font = angsana_font
+    #     sheet[f"B{summary_row + 6}"] = self.add_efficiency.cget("text")
+    #     sheet[f"B{summary_row + 6}"].border = border_style
+    #     sheet[f"B{summary_row + 6}"].font = angsana_font
+    #     sheet[f"C{summary_row + 6}"] = "%"
+    #     sheet[f"C{summary_row + 6}"].border = border_style
+    #     sheet[f"C{summary_row + 6}"].font = angsana_font
+
+    #     # ปรับความกว้างของคอลัมน์ตามรายการที่ยาวที่สุดในแต่ละคอลัมน์
+    #     for column_cells in sheet.columns:
+    #         max_length = 0
+    #         column = get_column_letter(column_cells[0].column)  # รับชื่อคอลัมน์
+    #         for cell in column_cells:
+    #             try:
+    #                 if cell.value:
+    #                     max_length = max(max_length, len(str(cell.value)))
+    #             except:
+    #                 pass
+    #         adjusted_width = (max_length - 30) if column == 'A' else (max_length + 0)
+    #         sheet.column_dimensions[column].width = adjusted_width
+
+    #     # ตั้งค่าการห่อข้อความสำหรับเซลล์ทั้งหมดในคอลัมน์ A
+    #     for row in sheet.iter_rows(min_col=1, max_col=1, min_row=1, max_row=sheet.max_row):
+    #         for cell in row:
+    #             cell.alignment = Alignment(wrap_text=True, vertical='center')
+    #             # cell.font = angsana_font
+    #             sheet["A1"].alignment = align_center
+    #             sheet["A1"].font = Font(name='AngsanaUPC', size=16, bold=True)
+    #             sheet["A2"].alignment = align_center
+    #             sheet["A2"].font = Font(name='AngsanaUPC', size=14, bold=True, color='FFFFFF')
+    #             sheet["B2"].font = Font(name='AngsanaUPC', size=14, bold=True, color='FFFFFF')
+    #             sheet["C2"].font = Font(name='AngsanaUPC', size=14, bold=True, color='FFFFFF')
+    #             sheet["D2"].font = Font(name='AngsanaUPC', size=14, bold=True, color='FFFFFF')
+    #             sheet["E2"].font = Font(name='AngsanaUPC', size=14, bold=True, color='FFFFFF')
+
+
+    #     # กราฟรวมสำหรับ Input และ Process
+    #     def create_combined_chart(input_data, process_data, title):
+    #         figure = Figure(figsize=None, dpi=80)
+    #         subplot = figure.add_subplot(111)
+
+    #         input_x = [item[0] for item in input_data]
+    #         input_y = [item[4] for item in input_data]
+    #         process_x = [item[0] for item in process_data]
+    #         process_y = [item[4] for item in process_data]
+
+    #         # วาดกราฟข้อมูล input
+    #         subplot.plot(input_x, input_y, marker='o', label='Input')
+    #         for i, txt in enumerate(input_y):
+    #             subplot.annotate(f"{txt:.2f}", (input_x[i], input_y[i]), textcoords="offset points", xytext=(0, 10), ha='center')
+
+    #         # วาดกราฟข้อมูล process
+    #         subplot.plot(process_x, process_y, marker='x', label='Process')
+    #         for i, txt in enumerate(process_y):
+    #             subplot.annotate(f"{txt:.2f}", (process_x[i], process_y[i]), textcoords="offset points", xytext=(0, 10), ha='center')
+
+    #         subplot.set_ylabel('KgCO2eq', fontsize=10)
+    #         subplot.set_title(title, fontsize=12, fontweight='bold')
+    #         subplot.legend()
+
+    #         # ลบป้ายชื่อแกน x
+    #         subplot.set_xticklabels([])
+
+    #         buffer = BytesIO()
+    #         figure.savefig(buffer, format="png")
+    #         buffer.seek(0)
+    #         img = Image(buffer)
+    #         return img
+
+    #     combined_chart = create_combined_chart(input_data, process_data, "Combined Carbon Footprint")
+    #     sheet.add_image(combined_chart, f"A{percentage_diff_row + 5}")
+
+    #     # บันทึกไฟล์ workbook
+    #     file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
+    #     if file_path:
+    #         wb.save(file_path)
+    #         print(f"File saved at: {file_path}")
+    #     else:
+    #         print("File save canceled")
