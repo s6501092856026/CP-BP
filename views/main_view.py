@@ -9,7 +9,7 @@ class MainView(ttk.Frame):
         self.controller = controller
 
         self.style = ttk.Style()
-        self.style.configure("My.TFrame", background='#ADD8E6')
+        self.style.configure("My.TFrame", background='#C0E4F6')
 
         # Window
         frame_button = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
@@ -34,15 +34,15 @@ class MainView(ttk.Frame):
         self.add_button_tooltips()
 
         frame_treeview = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
-        frame_treeview.grid(row=0, column=0)
+        frame_treeview.grid(row=0, column=0, sticky='NSWE')
 
         # Budgets
         self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
-        self.list_treeview.column("ID", width=10, stretch=True)
+        self.list_treeview.column("ID", width=20, stretch=True)
         self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
         self.list_treeview.column("Name", width=200, stretch=True)
-        self.list_treeview.grid(row=0, column=0, ipadx=20, ipady=80)
+        self.list_treeview.grid(row=0, column=0, ipady=55)
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.list_treeview.yview)
@@ -55,14 +55,14 @@ class MainView(ttk.Frame):
 
         self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="ชื่อ")
-        self.detail_treeview.column("Detail", width=310, stretch=True)
+        self.detail_treeview.column("Detail", width=370, stretch=True)
         self.detail_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
-        self.detail_treeview.column("Emission Factor", width=80, stretch=True)
+        self.detail_treeview.column("Emission Factor", width=85, stretch=True)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
         self.detail_treeview.column("Amount", width=50, stretch=True)
         self.detail_treeview.heading("Unit", text="หน่วย")
         self.detail_treeview.column("Unit", width=40, stretch=True)
-        self.detail_treeview.grid(row=0, column=2, ipadx=170, ipady=80)
+        self.detail_treeview.grid(row=0, column=2, ipady=55)
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.detail_treeview.yview)

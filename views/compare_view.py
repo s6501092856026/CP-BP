@@ -9,25 +9,28 @@ class CompareView(ttk.Frame):
         self.controller = controller
 
         self.style = ttk.Style()
-        self.style.configure("My.TFrame", background='#ADD8E6')
+        self.style.configure("My.TFrame", background='#C0E4F6')
 
-        # Window
+        # Frame Top
 
-        self.back_button = ttk.Button(self, text="ย้อนลับ", command=self.back)
-        self.back_button.grid(row=0, column=0, pady=10, sticky='SW')
+        frame_top = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
+        frame_top.grid(row=0, column=0, columnspan=2, sticky='NSWE')
+
+        self.back_button = ttk.Button(frame_top, text="ย้อนลับ", command=self.back)
+        self.back_button.grid(row=0, column=0, padx=10, pady=10)
 
         # Frame Tool
 
         frame_tool = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
         frame_tool.grid(row=1, column=1, sticky='NS')
 
-        self.label_profile1 = ttk.Label(frame_tool, text="โปรไฟล์ที่หนึ่ง", background='#ADD8E6')
+        self.label_profile1 = ttk.Label(frame_tool, text="โปรไฟล์ที่หนึ่ง", background='#C0E4F6')
         self.label_profile1.grid(row=0, column=0, padx=10, pady=5, sticky='N')
 
         self.entry_profile1 = ttk.Entry(frame_tool)
         self.entry_profile1.grid(row=1, column=0, padx=10, pady=10, sticky='S')
 
-        self.label_profile2 = ttk.Label(frame_tool, text="โปรไฟล์ที่สอง", background='#ADD8E6')
+        self.label_profile2 = ttk.Label(frame_tool, text="โปรไฟล์ที่สอง", background='#C0E4F6')
         self.label_profile2.grid(row=2, column=0, padx=10, pady=5, sticky='N')
 
         self.entry_profile2 = ttk.Entry(frame_tool)
@@ -45,10 +48,10 @@ class CompareView(ttk.Frame):
 
         self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
-        self.list_treeview.column("ID", width=10, stretch=True)
+        self.list_treeview.column("ID", width=30, stretch=True)
         self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
-        self.list_treeview.column("Name", width=200, stretch=True)
-        self.list_treeview.grid(row=0, column=0, ipadx=40, ipady=75)
+        self.list_treeview.column("Name", width=150, stretch=True)
+        self.list_treeview.grid(row=0, column=0, ipady=55)
 
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
@@ -61,14 +64,14 @@ class CompareView(ttk.Frame):
 
         self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
         self.detail_treeview.heading("Detail", text="ชื่อ")
-        self.detail_treeview.column("Detail", width=310, stretch=True)
+        self.detail_treeview.column("Detail", width=370, stretch=True)
         self.detail_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
-        self.detail_treeview.column("Emission Factor", width=80, stretch=True)
+        self.detail_treeview.column("Emission Factor", width=85, stretch=True)
         self.detail_treeview.heading("Amount", text="ปริมาณ")
         self.detail_treeview.column("Amount", width=50, stretch=True)
         self.detail_treeview.heading("Unit", text="หน่วย")
         self.detail_treeview.column("Unit", width=40, stretch=True)
-        self.detail_treeview.grid(row=0, column=2, ipadx=100, ipady=75)
+        self.detail_treeview.grid(row=0, column=2, ipady=55)
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.detail_treeview.yview)

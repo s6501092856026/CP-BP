@@ -19,22 +19,23 @@ class App(tk.Tk):
         self.style = ttk.Style(self)
 
         # Customize styles for a white background and light yellow widgets
-        white = '#ffffff'
+        # grey = '#D3D3D3'
         light_green = '#ccffcc'
         dark_green = '#006400'
         entry_bg = '#ffffe6'
+        light_blue = '#C0E4F6'
         
-        self.configure(bg=white)
+        self.configure(bg='white')
 
         self.style.configure('TButton', font=('Tohama', 10), borderwidth=2, padding=5, background=dark_green)
         self.style.map('TButton', background=[('active', light_green)])
-        self.style.configure('TLabel', font=('Tohama', 10, 'bold'), background=white)
+        self.style.configure('TLabel', font=('Tohama', 10, 'bold'), background=light_blue)
         self.style.configure('TEntry', font=('Tohama', 10), fieldbackground=entry_bg, borderwidth=2)
-        self.style.configure('TFrame', background=white)
+        self.style.configure('TFrame', background='white')
         self.style.configure("Treeview.Heading", font=('Tohama', 8, 'bold'))
-        self.style.configure("Treeview.Heading", font=("Tohama", 9, "bold"), background="lightblue")
+        self.style.configure("Treeview.Heading", font=("Tohama", 9, 'bold'), background=light_blue)
         self.style.configure("Treeview", font=("Tohama", 9), rowheight=25)
-        self.style.map("Treeview", background=[("selected", "green")], foreground=[("selected", "white")])
+        self.style.map("Treeview", background=[("selected", '#01A6BA')], foreground=[("selected", 'white')])
 
         self.show_login()
 

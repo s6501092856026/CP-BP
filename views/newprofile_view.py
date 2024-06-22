@@ -10,7 +10,7 @@ class NewprofileView(ttk.Frame):
         self.controller = controller
         
         self.style = ttk.Style()
-        self.style.configure("My.TFrame", background='#ADD8E6')
+        self.style.configure("My.TFrame", background='#C0E4F6')
 
         self.radio_state = tk.IntVar(value=1)
 
@@ -23,15 +23,15 @@ class NewprofileView(ttk.Frame):
 
         self.radio_material = Radiobutton(frame_fliter, value=1, text="วัตถุดิบ", variable=self.radio_state, command=self.filter)
         self.radio_material.grid(row=0, column=1, padx=70, pady=10)
-        self.radio_material.configure(font=('Tohama', 10, 'bold'), background='#ADD8E6')
+        self.radio_material.configure(font=('Tohama', 10, 'bold'), background='#C0E4F6')
 
         self.radio_transpot = Radiobutton(frame_fliter, value=2, text="การขนส่ง", variable=self.radio_state, command=self.filter)
         self.radio_transpot.grid(row=0, column=2, padx=70, pady=10)
-        self.radio_transpot.configure(font=('Tohama', 10, 'bold'), background='#ADD8E6')
+        self.radio_transpot.configure(font=('Tohama', 10, 'bold'), background='#C0E4F6')
 
         self.radio_performance = Radiobutton(frame_fliter, value=3, text="กระบวนการ", variable=self.radio_state, command=self.filter)
         self.radio_performance.grid(row=0, column=3, padx=70, pady=10)
-        self.radio_performance.configure(font=('Tohama', 10, 'bold'), background='#ADD8E6')
+        self.radio_performance.configure(font=('Tohama', 10, 'bold'), background='#C0E4F6')
 
         self.combo_box = ttk.Combobox(frame_fliter,)
         self.combo_box.grid(row=0, column=4, padx=60, pady=10)
@@ -44,10 +44,10 @@ class NewprofileView(ttk.Frame):
         self.entry_name = ttk.Entry(frame_button, text = "")
         self.entry_name.grid(row=0, column=0, padx=10, pady=10, sticky='EW')
 
-        self.label_name = ttk.Label(frame_button, text = "ชื่อโปรไฟล์", background='#ADD8E6')
+        self.label_name = ttk.Label(frame_button, text = "ชื่อโปรไฟล์", background='#C0E4F6')
         self.label_name.grid(row=0, column=1, padx=10, pady=10, sticky= 'W')
 
-        self.label_unit = ttk.Label(frame_button, text = "หน่วย", background='#ADD8E6')
+        self.label_unit = ttk.Label(frame_button, text = "หน่วย", background='#C0E4F6')
         self.label_unit.grid(row=1, column=1, padx=10, pady=10, sticky='W')
 
         self.entry_amount = ttk.Entry(frame_button, text = "")
@@ -60,31 +60,31 @@ class NewprofileView(ttk.Frame):
         self.delete_button.grid(row=2, column=1, padx=10, pady=10, ipady=2, sticky='EN')
 
         self.update_button = ttk.Button(frame_button, text="อัพเดท", command=self.update_amount)
-        self.update_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10, ipadx=5, ipady=5 ,sticky='NEW')
+        self.update_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10, ipadx=5, ipady=5 ,sticky='')
 
         self.save_as_button = ttk.Button(frame_button, text="บันทึกเป็น", command=self.save_as_profile)
         self.save_as_button.grid(row=4, column=0, columnspan=2, padx=10, pady=40, ipadx=5, ipady=5, sticky='')
         
-        self.complete_button = ttk.Button(frame_button, text="เสร็จสิ้น", command=self.show_complete)
+        self.complete_button = ttk.Button(frame_button, text="ประมวลผล", command=self.show_complete)
         self.complete_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, ipadx=30, ipady=10, sticky='S')
 
         self.add_button_tooltips()
         
         # Frame Button
         frame_treeview = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
-        frame_treeview.grid(row=1, column=0, sticky='NS')
+        frame_treeview.grid(row=1, column=0, sticky='NSWE')
 
         # Budgets
         self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name", "Emission Factor", "Unit"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
         self.list_treeview.column("ID", width=30, stretch=True)
         self.list_treeview.heading("Name", text="ชื่อ")
-        self.list_treeview.column("Name", width=310, stretch=True)
-        self.list_treeview.heading("Emission Factor", text="ตัวปัจจัยการปล่อย")
-        self.list_treeview.column("Emission Factor", width=80, stretch=True)
+        self.list_treeview.column("Name", width=320, stretch=True)
+        self.list_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
+        self.list_treeview.column("Emission Factor", width=85, stretch=True)
         self.list_treeview.heading("Unit", text="หน่วย")
         self.list_treeview.column("Unit", width=40, stretch=True)
-        self.list_treeview.grid(row=0, column=0, ipady=75)
+        self.list_treeview.grid(row=0, column=0, ipady=55)
 
         # สร้าง Scrollbar แนวแกน Y
         scroll_y = ttk.Scrollbar(frame_treeview, orient='vertical', command=self.list_treeview.yview)
@@ -99,14 +99,14 @@ class NewprofileView(ttk.Frame):
         self.select_treeview.heading("ID", text="ไอดี" )
         self.select_treeview.column("ID", width=30, stretch=True)
         self.select_treeview.heading("Name", text="ชื่อ")
-        self.select_treeview.column("Name", width=310, stretch=True)
+        self.select_treeview.column("Name", width=320, stretch=True)
         self.select_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
-        self.select_treeview.column("Emission Factor", width=80, stretch=True)
+        self.select_treeview.column("Emission Factor", width=85, stretch=True)
         self.select_treeview.heading("Amount", text="ปริมาณ")
         self.select_treeview.column("Amount", width=50, stretch=True)
         self.select_treeview.heading("Unit", text="หน่วย")
         self.select_treeview.column("Unit", width=40, stretch=True)
-        self.select_treeview.grid(row=0, column=2, ipady=75)
+        self.select_treeview.grid(row=0, column=2, ipady=55)
 
         self.select_treeview.bind("<ButtonRelease-1>", self.on_select_treeview_click)
 

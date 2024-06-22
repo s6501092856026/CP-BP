@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from controllers.tooltip_controller import ToolTipController
 
 class LoginView(ttk.Frame):
@@ -15,16 +15,16 @@ class LoginView(ttk.Frame):
         # Load the image directly using PhotoImage from tkinter
         self.photo_image = tk.PhotoImage(file=r"C:\Users\User\Desktop\Project\CF&BP\image.png")
 
-        self.image_label = ttk.Label(self, image=self.photo_image)
+        self.image_label = ttk.Label(self, image=self.photo_image, background='white')
         self.image_label.grid(row=0, column=0, columnspan=2)
 
-        self.label_email = ttk.Label(self, text = "ชื่อผู้ใช้งาน")
+        self.label_email = ttk.Label(self, text = "ชื่อผู้ใช้งาน", background='white')
         self.label_email.grid(row=1, column=0, columnspan=2, pady=(20, 0))
 
-        self.label_password = ttk.Label(self, text = "รหัสผ่าน")
+        self.label_password = ttk.Label(self, text = "รหัสผ่าน", background='white')
         self.label_password.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-        self.warning_msg = ttk.Label(self, text = "", foreground="red")
+        self.warning_msg = ttk.Label(self, text = "", foreground="red", background='white')
         self.warning_msg.grid(row=5, padx=10, pady=10)
 
         self.entry_email = ttk.Entry(self, width=30, justify= "center")
@@ -49,8 +49,11 @@ class LoginView(ttk.Frame):
     def show_error(self):
         self.warning_msg.configure(text="ชื่อผู้ใช้งาน/รหัสผ่าน ผิดพลาด")
 
+    # def show_error(self):
+    #     messagebox.showerror("Error", "ชื่อผู้ใช้งาน/รหัสผ่าน ผิดพลาด")
+
     def hide_error(self):
-        self.warning_msg.configure(text="")
+         self.warning_msg.configure(text="")
     
     def add_tooltips(self):
         # เพิ่ม ToolTips สำหรับปุ่ม
