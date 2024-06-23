@@ -29,7 +29,6 @@ class App(tk.Tk):
 
         self.style.configure('TButton', font=('Tohama', 10), borderwidth=2, padding=5, background=dark_green)
         self.style.map('TButton', background=[('active', light_green)])
-        self.style.configure('TLabel', font=('Tohama', 10, 'bold'), background=light_blue)
         self.style.configure('TEntry', font=('Tohama', 10), fieldbackground=entry_bg, borderwidth=2)
         self.style.configure('TFrame', background='white')
         self.style.configure("Treeview.Heading", font=('Tohama', 8, 'bold'))

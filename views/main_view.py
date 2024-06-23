@@ -15,7 +15,7 @@ class MainView(ttk.Frame):
         frame_button = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
         frame_button.grid(row=0, column=1, sticky='NS')
 
-        self.breakeven_button = ttk.Button(frame_button, text="จุดคุ้มทุน", command=self.breakeven)
+        self.breakeven_button = ttk.Button(frame_button, text="คำนวณการเงิน", command=self.breakeven)
         self.breakeven_button.grid(row=0, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
         self.edit_button = ttk.Button(frame_button, text="แก้ไขโปรไฟล์", command=self.edit) 
@@ -24,10 +24,10 @@ class MainView(ttk.Frame):
         self.newprofile_button = ttk.Button(frame_button, text="สร้างโปรไฟล์ใหม่", command=self.newprofile)
         self.newprofile_button.grid(row=2, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
-        self.delete_button = ttk.Button(frame_button, text="ลบ", command=self.delete_selected_item)
+        self.delete_button = ttk.Button(frame_button, text="ลบโปรไฟล์", command=self.delete_selected_item)
         self.delete_button.grid(row=3, column=0, padx=5, pady=11, ipady=10)
 
-        self.compare_button = ttk.Button(frame_button, text="เปรียบเทียบ", command=self.compare)
+        self.compare_button = ttk.Button(frame_button, text="เปรียบเทียบโปรไฟล์", command=self.compare)
         self.compare_button.grid(row=4, column=0, padx=5, pady=11, ipadx=10, ipady=10)   
 
         # เรียกใช้งานเมท็อด add_button_tooltips() เพื่อเพิ่ม Tooltip สำหรับปุ่ม

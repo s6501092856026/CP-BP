@@ -6,7 +6,7 @@ from utils.validator import isRequired, isValidEmail
 from utils.database import DatabaseUtil
 
 class AuthenController:
-    width = 650
+    width = 350
     height = 400
 
     def __init__(self, app):

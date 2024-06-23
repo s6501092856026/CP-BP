@@ -44,10 +44,10 @@ class NewprofileView(ttk.Frame):
         self.entry_name = ttk.Entry(frame_button, text = "")
         self.entry_name.grid(row=0, column=0, padx=10, pady=10, sticky='EW')
 
-        self.label_name = ttk.Label(frame_button, text = "ชื่อโปรไฟล์", background='#C0E4F6')
+        self.label_name = ttk.Label(frame_button, text = "ชื่อโปรไฟล์", font=('Tohama', 10, 'bold'), background='#C0E4F6')
         self.label_name.grid(row=0, column=1, padx=10, pady=10, sticky= 'W')
 
-        self.label_unit = ttk.Label(frame_button, text = "ปริมาณ", background='#C0E4F6')
+        self.label_unit = ttk.Label(frame_button, text = "ปริมาณ", font=('Tohama', 10, 'bold'), background='#C0E4F6')
         self.label_unit.grid(row=1, column=1, padx=10, pady=10, sticky='W')
 
         self.entry_amount = ttk.Entry(frame_button, text = "")
