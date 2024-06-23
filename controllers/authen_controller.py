@@ -6,7 +6,7 @@ from utils.validator import isRequired, isValidEmail
 from utils.database import DatabaseUtil
 
 class AuthenController:
-    width = 350
+    width = 650
     height = 400
 
     def __init__(self, app):
@@ -50,9 +50,18 @@ class AuthenController:
 
     def show_login(self):
         self.signup_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=self.width + 50, height=self.height + 100)
-        self.app.geometry(f"{self.width + 50}x{self.height + 100}+{x}+{y}")
-        self.login_view.pack(padx=10, pady=10, expand=True)
+        self.login_view.pack(padx=10, pady=10, fill="both", expand=True)
+        self.app.update_idletasks()  # อัพเดตวิดเจ็ต
+        width = self.login_view.winfo_reqwidth() + 10  # เพิ่มขอบเขตบางส่วน
+        height = self.login_view.winfo_reqheight() + 10  # เพิ่มขอบเขตบางส่วน
+        x, y = getCenterPosition(self.app, width=width, height=height)
+        self.app.geometry(f"{width}x{height}+{x}+{y}")
+
+    # def show_login(self):
+    #     self.signup_view.pack_forget()
+    #     x, y = getCenterPosition(self.app,width=self.width + 50, height=self.height + 100)
+    #     self.app.geometry(f"{self.width + 50}x{self.height + 100}+{x}+{y}")
+    #     self.login_view.pack(padx=10, pady=10, expand=True)
     
     def show_signup(self):
         self.login_view.pack_forget()

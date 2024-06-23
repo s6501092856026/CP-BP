@@ -39,8 +39,8 @@ class CompareView(ttk.Frame):
         self.add_button = ttk.Button(frame_tool, text="เพิ่ม", command=self.add_profile)
         self.add_button.grid(row=4, column=0, padx=10, pady=20, sticky='')
 
-        self.complete_button = ttk.Button(frame_tool, text="เสร็จสิ้น", command=self.complete)
-        self.complete_button.grid(row=5, column=0, padx=10, pady=45, ipadx=10, ipady=15)
+        self.complete_button = ttk.Button(frame_tool, text="ประมวลผล", command=self.complete)
+        self.complete_button.grid(row=5, column=0, padx=10, pady=40, ipadx=10, ipady=10, sticky='S')
 
         # Frame 
         frame_treeview = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')

@@ -39,7 +39,7 @@ class MainView(ttk.Frame):
         # Budgets
         self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name"), show="headings")
         self.list_treeview.heading("ID", text="ไอดี")
-        self.list_treeview.column("ID", width=20, stretch=True)
+        self.list_treeview.column("ID", width=30, stretch=True)
         self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
         self.list_treeview.column("Name", width=200, stretch=True)
         self.list_treeview.grid(row=0, column=0, ipady=55)
