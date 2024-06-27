@@ -3,14 +3,18 @@ from tkinter import ttk, filedialog
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
-import openpyxl
+from docx import Document
+from docx.shared import Inches, Pt, RGBColor
+from docx.enum.section import WD_ORIENTATION
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+import openpyxl 
 import openpyxl.drawing
 import openpyxl.drawing.image
+from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.utils import get_column_letter
 import openpyxl.styles
 from openpyxl.styles import Alignment, Border, Side, Font, PatternFill, PatternFill
-# import pandas as pd
 import openpyxl
 from io import BytesIO
 from controllers.tooltip_controller import ToolTipController
@@ -407,210 +411,478 @@ class ConnewView(ttk.Frame):
         self.items = items
         self.label_profile.config(text=profile_name)
 
-    def export(self):
-        total_cost = self.total_cost
-        revenue = self.revenue
-        profit = self.profit
-        breakeven = self.breakeven
-        product_efficiency = self.product_efficiency
+    def process_item_data(self, items):
+        input_data, process_data = [], []
+        for item in items:
+            category, _, name, carbon_per, amount, unit = item
+            carbon_footprint = round(float(carbon_per) * float(amount), 2)
+            data = (name, carbon_per, amount, unit, carbon_footprint)
+            if category == 'Material':
+                process_data.append(data)
+            elif category == 'Transpotation':
+                input_data.append(data)
+            elif category == 'Performance':
+                process_data.append(data)
+        return input_data, process_data
 
-        if total_cost is None or revenue is None or profit is None or breakeven is None or product_efficiency is None:
-            print("No data available to export")
-            return
-        
-        def process_item_data(items):
-            input_data, process_data = [], []
-            for item in items:
-                category, _, name, carbon_per, amount, unit = item
-                carbon_footprint = round(float(carbon_per) * float(amount), 2)
-                data = (name, carbon_per, amount, unit, carbon_footprint)
-                if category == 'Material':
-                    process_data.append(data)
-                elif category == 'Transpotation':
-                    input_data.append(data)
-                elif category == 'Performance':
-                    process_data.append(data)
-            return input_data, process_data
+    def calculate_totals(self, data):
+        return round(sum(item[4] for item in data), 2)
 
-        def calculate_totals(data):
-            return round(sum(item[4] for item in data), 2)
+    def create_styles(self):
+        align_center = Alignment(horizontal="center", vertical="center")
+        return align_center
+    
+    def add_financial_summary(self, sheet, summary_row):
+        align_center = self.create_styles()
+        financial_data = [
+            ("Total cost", self.total_cost, '฿#,##0.00', 'Baht'),
+            ("Revenue", self.revenue, '฿#,##0.00', 'Baht'),
+            ("Profit", self.profit, '฿#,##0.00', 'Baht'),
+            ("Break-even Point", self.breakeven, '0.00', 'Unit'),
+            ("Product Efficiency", self.product_efficiency, '0.00', '%')]
 
-        def create_styles():
-            align_center = Alignment(horizontal="center", vertical="center")
-            border_style = Border(
-                left=Side(border_style='medium', color='000000'),
-                right=Side(border_style='medium', color='000000'),
-                top=Side(border_style='medium', color='000000'),
-                bottom=Side(border_style='medium', color='000000')
-            )
-            header_font = Font(bold=True, color='FFFFFF')
-            header_fill = PatternFill(start_color="ADD8E6", end_color="ADD8E6", fill_type="solid")
-            return align_center, border_style, header_font, header_fill
+        for i, (label, value, num_format, suffix) in enumerate(financial_data, start=1):
+            row = summary_row + i + 1
+            sheet[f"A{row}"] = label
+            sheet[f"A{row}"].font = Font(name='TH Sarabun New', size=12)
+            cell_value = sheet[f"B{row}"]
+            cell_value.value = value
+            cell_value.font = Font(name='TH Sarabun New', size=12)
+            cell_value.number_format = num_format
+            cell_suffix = sheet[f"C{row}"]
+            cell_suffix.value = suffix
+            cell_suffix.font = Font(name='TH Sarabun New', size=12)
+            cell_suffix.alignment = align_center
+      
 
-        wb = openpyxl.Workbook()
-        sheet = wb.active
-        sheet.title = "Carbon Footprint Report"
-
-        input_data, process_data = process_item_data(self.items)
-
-        total_input_carbon_footprint = calculate_totals(input_data)
-        total_process_carbon_footprint = calculate_totals(process_data)
-        total_carbon_footprint = round(total_input_carbon_footprint + total_process_carbon_footprint, 2)
-
-        align_center, border_style, header_font, header_fill = create_styles()
-
-        sheet.merge_cells("A1:E1")
-        sheet["A1"].value = "Carbon Footprint Report"
-        sheet["A1"].alignment = align_center
-        sheet["A1"].font = Font(size=14, bold=True)
-
-        headers = ["Name", "Emission Factor", "Amount", "Unit", "Carbon Footprint"]
-        for col_num, header in enumerate(headers, start=1):
-            cell = sheet.cell(row=2, column=col_num)
-            cell.value = header
-            cell.border = border_style
-            cell.alignment = align_center
-            cell.font = header_font
-            cell.fill = header_fill
-
-        row_num = 3
-        for data in input_data + process_data:
-            for col_num, value in enumerate(data, start=1):
-                cell = sheet.cell(row=row_num, column=col_num)
-                cell.value = value
-                cell.border = border_style
-                if col_num in [2, 3, 5]:
-                    cell.number_format = '0.00'
-            row_num += 1
-
-        summary_row = row_num
-        sheet[f"A{summary_row}"] = "Total Carbon footprint"
-        sheet[f"A{summary_row}"].border = border_style
-        sheet[f"B{summary_row}"] = total_carbon_footprint
-        sheet[f"B{summary_row}"].border = border_style
-        sheet[f"B{summary_row}"].number_format = '0.00'
-        sheet[f"C{summary_row}"] = "KgCO2eq"
-        sheet[f"C{summary_row}"].border = border_style
-        sheet[f"C{summary_row}"].alignment = align_center
-
-        sheet[f"A{summary_row + 2}"] = "Total Cost"
-        total_cost_cell = sheet[f"B{summary_row + 2}"]
-        total_cost_cell.value = total_cost
-        total_cost_cell.border = border_style
-        total_cost_cell.number_format = '$฿,##0.00'  # แสดงผลในรูปแบบสกุลเงิน
-
-        sheet[f"A{summary_row + 3}"] = "Revenue"
-        revenue_cell = sheet[f"B{summary_row + 3}"]
-        revenue_cell.value = revenue
-        revenue_cell.border = border_style
-        revenue_cell.number_format = '฿#,##0.00'  # แสดงผลในรูปแบบสกุลเงิน
-
-        sheet[f"A{summary_row + 4}"] = "Profit"
-        profit_cell = sheet[f"B{summary_row + 4}"]
-        profit_cell.value = profit
-        profit_cell.border = border_style
-        profit_cell.number_format = '฿#,##0.00'  # แสดงผลในรูปแบบสกุลเงิน
-        profit_cell.font = Font(color="000000")  # สีดำ
-
-        sheet[f"A{summary_row + 5}"] = "Break-even Point"
-        breakeven_cell = sheet[f"B{summary_row + 5}"]
-        breakeven_cell.value = breakeven
-        breakeven_cell.border = border_style
-        breakeven_cell.number_format = '0.00'
-
-        sheet[f"A{summary_row + 6}"] = "Production Efficiency"
-        efficiency_cell = sheet[f"B{summary_row + 6}"]
-        efficiency_cell.value = product_efficiency
-        efficiency_cell.border = border_style
-        efficiency_cell.number_format = '0.00'
-
-        # Set the page layout to fit to A4 size
-        sheet.page_setup.fitToWidth = 1
-        sheet.page_setup.fitToHeight = 0
-        sheet.page_setup.paperSize = sheet.PAPERSIZE_A4
-
+    def set_column_widths(self, sheet):
         for column_cells in sheet.columns:
             max_length = max(len(str(cell.value)) for cell in column_cells if cell.value)
             adjusted_width = max_length + 2
             sheet.column_dimensions[get_column_letter(column_cells[0].column)].width = adjusted_width
 
-        for row in sheet.iter_rows(min_col=1, max_col=1, min_row=1, max_row=sheet.max_row):
-            for cell in row:
-                cell.alignment = Alignment(wrap_text=True, vertical='center')
+    def set_page_layout(self, sheet):
+        sheet.page_setup.fitToWidth = 1
+        sheet.page_setup.fitToHeight = 0
+        sheet.page_setup.paperSize = sheet.PAPERSIZE_A4
 
-        # Create input and process graphs
-        input_graph = self.create_input_graph(input_data)
-        process_graph = self.create_process_graph(process_data)
+    def create_graph(self, items, title, color):
+        if not items:
+            print("No data available to create the graph")
+            return None
+        
+        figure = Figure(figsize=(6.5, 3.25), dpi=70)
+        subplot = figure.add_subplot(111)
+        x, y = zip(*[(item[0], float(item[4])) for item in items if len(item) >= 5])
+        subplot.tick_params(axis='x', labelrotation=45, labelsize=10, colors='white')
+        subplot.plot(x, y, color=color)
+        subplot.scatter(x, y, color=color)
+        for i, txt in enumerate(y):
+            subplot.annotate(f'{txt}', (x[i], y[i]), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=8)
+        subplot.set_title(title, fontsize=12, fontweight='bold')
+        subplot.set_ylabel('KgCO2eq', fontsize=8, fontweight='bold')
+        subplot.tick_params(axis='both', which='major', labelsize=8)
+        subplot.spines['top'].set_visible(False)
+        subplot.spines['right'].set_visible(False)
+        buffer = BytesIO()
+        figure.savefig(buffer, format="png")
+        buffer.seek(0)
+        return buffer
+    
+    def insert_graphs(self, sheet, start_row, input_graph, process_graph):
+        from openpyxl.drawing.image import Image
 
-        # Add input graph approximately 5 rows below "Production Efficiency"
-        input_graph_row = summary_row + 11
-        sheet.add_image(input_graph, f"A{input_graph_row}")
+        input_graph_col = "A"
+        process_graph_col = "I"  # คอลัมน์ที่ 11 นับจาก A (ห่างกัน 10 คอลัมน์)
 
-        # Add process graph approximately 5 rows below the input graph
-        process_graph_row = input_graph_row + 15
-        sheet.add_image(process_graph, f"A{process_graph_row}")
+        # แทรกกราฟของ Input
+        if input_graph:
+            img1 = Image(input_graph)
+            sheet.add_image(img1, f"{input_graph_col}{start_row + 1}")
+        
+        # แทรกกราฟของ Process
+        if process_graph:
+            img2 = Image(process_graph)
+            sheet.add_image(img2, f"{process_graph_col}{start_row + 1}")
 
-        file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
+    # def insert_graphs(self, sheet, start_row, input_graph, process_graph):
+    #     input_graph_row = start_row + 2
+    #     if input_graph:
+    #         sheet.add_image(Image(input_graph), f"A{input_graph_row}")
+    #     process_graph_row = input_graph_row + 15
+    #     if process_graph:
+    #         sheet.add_image(Image(process_graph), f"A{process_graph_row}")
+
+    # def insert_graphs(self, sheet, summary_row, input_graph, process_graph):
+    #     input_graph_row = summary_row + 11
+    #     if input_graph:
+    #         sheet.add_image(Image(input_graph), f"A{input_graph_row}")
+    #     process_graph_row = input_graph_row + 15
+    #     if process_graph:
+    #         sheet.add_image(Image(process_graph), f"A{process_graph_row}")
+
+    def export(self):
+        if any(attr is None for attr in [self.total_cost, self.revenue, self.profit, self.breakeven, self.product_efficiency]):
+            print("No data available for export")
+            return
+
+        # Get project name from label_profile
+        project_name = self.label_profile.cget("text")
+
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".xlsx",
+            filetypes=[("Excel files", "*.xlsx"), ("Word files", "*.docx")],
+            title="Save file as")
+
+        if file_path:
+            if file_path.endswith('.xlsx'):
+                self.export_excel(file_path, project_name)
+            elif file_path.endswith('.docx'):
+                self.export_docx(file_path, project_name)
+
+    def export_excel(self, file_path, project_name):
+        if any(attr is None for attr in [self.total_cost, self.revenue, self.profit, self.breakeven, self.product_efficiency]):
+            print("No data available for export")
+            return
+
+        input_data, process_data = self.process_item_data(self.items)
+        total_input_carbon_footprint = self.calculate_totals(input_data)
+        total_process_carbon_footprint = self.calculate_totals(process_data)
+        total_carbon_footprint = round(total_input_carbon_footprint + total_process_carbon_footprint, 2)
+
+        align_center = self.create_styles()
+
+        wb = Workbook()
+        sheet = wb.active
+        sheet.title = "Carbon Footprint Report"
+
+        # Create report header
+        sheet.merge_cells("A1:E1")
+        sheet["A1"].value = "Carbon Footprint Report"
+        sheet["A1"].alignment = align_center
+        sheet["A1"].font = Font(name='TH Sarabun New', size=14, bold=True)
+
+        # Create project name header
+        sheet.merge_cells("A2:E2")
+        sheet["A2"].value = f"Project Name: {project_name}"
+        # sheet["A2"].alignment = align_center
+        sheet["A2"].font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        # Create table headers
+        headers = ["Name", "Emission Factor", "Amount", "Unit", "Carbon Footprint"]
+        for col_num, header in enumerate(headers, start=1):
+            cell = sheet.cell(row=3, column=col_num)
+            cell.value = header
+            cell.alignment = align_center
+            cell.font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        # Fill in data rows
+        row_num = 4
+        for data in input_data + process_data:
+            for col_num, value in enumerate(data, start=1):
+                cell = sheet.cell(row=row_num, column=col_num)
+                cell.value = value
+                cell.font = Font(name='TH Sarabun New', size=12)
+                if col_num in [2, 3, 5]:
+                    cell.number_format = '0.00'
+            row_num += 1
+
+        # Add summary data
+        summary_row = row_num + 1
+        sheet[f"A{summary_row}"] = "Total Carbon Footprint"
+        sheet[f"A{summary_row}"].font = Font(name='TH Sarabun New', size=12)
+        sheet[f"B{summary_row}"] = total_carbon_footprint
+        sheet[f"B{summary_row}"].font = Font(name='TH Sarabun New', size=12)
+        sheet[f"B{summary_row}"].number_format = '0.00'
+        sheet[f"C{summary_row}"] = "KgCO2eq"
+        sheet[f"C{summary_row}"].alignment = align_center
+        sheet[f"C{summary_row}"].font = Font(name='TH Sarabun New', size=12)
+
+        self.add_financial_summary(sheet, summary_row)
+        self.set_column_widths(sheet)
+        self.set_page_layout(sheet)
+
+        # Create new sheet for graphs
+        graph_sheet = wb.create_sheet(title="Graphs")
+        graph_sheet.merge_cells("A1:E1")
+        graph_sheet["A1"].value = "Carbon Footprint Graphs"
+        graph_sheet["A1"].alignment = align_center
+        graph_sheet["A1"].font = Font(name='TH Sarabun New', size=14, bold=True)
+
+        input_graph = self.create_graph(input_data, 'Carbon footprint of Input', '#AFD7F6')
+        process_graph = self.create_graph(process_data, 'Carbon footprint of Process', '#F7D07A')
+        self.insert_graphs(graph_sheet, 2, input_graph, process_graph)
+
+        input_row_num = 20
+        input_headers = ["Name", "Carbon Footprint"]
+        for col_num, header in enumerate(input_headers, start=1):
+            cell = graph_sheet.cell(row=input_row_num, column=col_num)
+            cell.value = header
+            cell.alignment = align_center
+            cell.font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        input_row_num += 1
+        for data in input_data:
+            name, carbon_footprint = data[0], data[4]
+            cell_name = graph_sheet.cell(row=input_row_num, column=1)
+            cell_name.value = name
+            cell_name.font = Font(name='TH Sarabun New', size=12)
+            cell_footprint = graph_sheet.cell(row=input_row_num, column=2)
+            cell_footprint.value = carbon_footprint
+            cell_footprint.font = Font(name='TH Sarabun New', size=12)
+            cell_footprint.number_format = '0.00'
+            input_row_num += 1
+
+        for col in range(1, 3):
+            max_length = 0
+            column = graph_sheet.column_dimensions[chr(64 + col)]
+            for row in range(20, input_row_num):
+                cell = graph_sheet.cell(row=row, column=col)
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            adjusted_width = (max_length + 2)
+            column.width = adjusted_width
+
+        process_row_num = input_row_num + 2
+        process_headers = ["Name", "Carbon Footprint"]
+        for col_num, header in enumerate(process_headers, start=1):
+            cell = graph_sheet.cell(row=process_row_num, column=col_num + 10)
+            cell.value = header
+            cell.alignment = align_center
+            cell.font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        process_row_num += 1
+        for data in process_data:
+            name, carbon_footprint = data[0], data[4]
+            cell_name = graph_sheet.cell(row=process_row_num, column=11)
+            cell_name.value = name
+            cell_name.font = Font(name='TH Sarabun New', size=12)
+            cell_footprint = graph_sheet.cell(row=process_row_num, column=12)
+            cell_footprint.value = carbon_footprint
+            cell_footprint.font = Font(name='TH Sarabun New', size=12)
+            cell_footprint.number_format = '0.00'
+            process_row_num += 1
+
+        for col in range(11, 13):
+            max_length = 0
+            column = graph_sheet.column_dimensions[chr(64 + col)]
+            for row in range(input_row_num + 2, process_row_num):
+                cell = graph_sheet.cell(row=row, column=col)
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            adjusted_width = (max_length + 2)
+            column.width = adjusted_width
+
         if file_path:
             wb.save(file_path)
             print(f"File saved at: {file_path}")
         else:
             print("File save canceled")
 
-    def create_input_graph(self, items):
-        figure = Figure(figsize=(6.5, 3.25), dpi=70)
-        subplot = figure.add_subplot(111)
+    def export_docx(self, file_path, project_name):
+        document = Document()
 
-        x = []
-        y = []
-        for item in items:
-            x.append(item[0])
-            y.append(float(item[4]))  # Change to item[4] to get the carbon footprint value
+        # Set landscape orientation
+        section = document.sections[-1]
+        section.orientation = WD_ORIENTATION.LANDSCAPE
+        new_width, new_height = section.page_height, section.page_width
+        section.page_width = new_width
+        section.page_height = new_height
 
-        subplot.tick_params(axis='x', labelrotation=45, labelsize=10, colors='white')
-        subplot.plot(x, y, color='#AFD7F6')
-        subplot.scatter(x, y, color='#AFD7F6')
+        # Add report heading
+        heading = document.add_heading('Carbon Footprint Report', level=0)
+        heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        for run in heading.runs:
+            run.font.name = 'TH Sarabun New'
+            run.font.size = Pt(20)
+            run.font.color.rgb = RGBColor(0, 0, 0)
+            run.bold = True
 
-        for i, txt in enumerate(y):
-            subplot.annotate(f'{txt}', (x[i], y[i]), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=8)
+        # Add project name heading
+        subheading = document.add_heading(f"Project Name: {project_name}", level=1)
+        for run in subheading.runs:
+            run.font.name = 'TH Sarabun New'
+            run.font.size = Pt(18)
+            run.font.color.rgb = RGBColor(0, 0, 0)
+            run.bold = True
 
-        subplot.set_title('Carbon footprint of Input', fontsize=12, fontweight='bold')
-        subplot.set_ylabel('KgCO2eq', fontsize=8, fontweight='bold')
-        subplot.tick_params(axis='both', which='major', labelsize=8)
-        subplot.spines['top'].set_visible(False)
-        subplot.spines['right'].set_visible(False)
+        input_data, process_data = self.process_item_data(self.items)
+        total_input_carbon_footprint = self.calculate_totals(input_data)
+        total_process_carbon_footprint = self.calculate_totals(process_data)
+        total_carbon_footprint = round(total_input_carbon_footprint + total_process_carbon_footprint, 2)
 
-        buffer = BytesIO()
-        figure.savefig(buffer, format="png")
-        buffer.seek(0)
-        img = Image(buffer)
-        return img
+        # # Add input data heading
+        # p_input_heading = document.add_paragraph('Input')
+        # p_input_heading.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+        # run_input_heading = p_input_heading.runs[0]
+        # run_input_heading.font.name = 'TH Sarabun New'
+        # run_input_heading.font.size = Pt(18)
+        # run_input_heading.bold = True
 
-    def create_process_graph(self, items):
-        figure = Figure(figsize=(6.5, 3.5), dpi=70)
-        subplot = figure.add_subplot(111)
+        # # Add table for input data
+        # table_input = document.add_table(rows=1, cols=5)
+        # hdr_cells_input = table_input.rows[0].cells
+        # headers = ['Name', 'Emission Factor', 'Amount', 'Unit', 'Carbon Footprint']
+        # for cell, header in zip(hdr_cells_input, headers):
+        #     cell.text = header
+        #     for paragraph in cell.paragraphs:
+        #         for run in paragraph.runs:
+        #             run.font.name = 'TH Sarabun New'
+        #             run.font.size = Pt(18)
+        #             run.bold = True
 
-        x = []
-        y = []
-        for item in items:
-            x.append(item[0])
-            y.append(float(item[4]))  # Change to item[4] to get the carbon footprint value
+        # for item in input_data:
+        #     row_cells = table_input.add_row().cells
+        #     for cell, value in zip(row_cells, item):
+        #         cell.text = str(value)
+        #         for paragraph in cell.paragraphs:
+        #             for run in paragraph.runs:
+        #                 run.font.name = 'TH Sarabun New'
+        #                 run.font.size = Pt(16)
 
-        subplot.tick_params(axis='x', labelrotation=45, labelsize=10, colors='white')
-        subplot.plot(x, y, color='#F7D07A')
-        subplot.scatter(x, y, color='#F7D07A')
+        # # Add process data heading
+        # p_process_heading = document.add_paragraph('Process')
+        # p_process_heading.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+        # run_process_heading = p_process_heading.runs[0]
+        # run_process_heading.font.name = 'TH Sarabun New'
+        # run_process_heading.font.size = Pt(18)
+        # run_process_heading.bold = True
 
-        for i, txt in enumerate(y):
-            subplot.annotate(f'{txt}', (x[i], y[i]), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=8)
+        # # Add table for process data
+        # table_process = document.add_table(rows=1, cols=5)
+        # hdr_cells_process = table_process.rows[0].cells
+        # for cell, header in zip(hdr_cells_process, headers):
+        #     cell.text = header
+        #     for paragraph in cell.paragraphs:
+        #         for run in paragraph.runs:
+        #             run.font.name = 'TH Sarabun New'
+        #             run.font.size = Pt(18)
+        #             run.bold = True
 
-        subplot.set_title('Carbon footprint of Process', fontsize=12, fontweight='bold')
-        subplot.set_ylabel('KgCO2eq', fontsize=8, fontweight='bold')
-        subplot.tick_params(axis='both', which='major', labelsize=8)
-        subplot.spines['top'].set_visible(False)
-        subplot.spines['right'].set_visible(False)
+        # for item in process_data:
+        #     row_cells = table_process.add_row().cells
+        #     for cell, value in zip(row_cells, item):
+        #         cell.text = str(value)
+        #         for paragraph in cell.paragraphs:
+        #             for run in paragraph.runs:
+        #                 run.font.name = 'TH Sarabun New'
+        #                 run.font.size = Pt(16)
 
-        buffer = BytesIO()
-        figure.savefig(buffer, format="png")
-        buffer.seek(0)
-        img = Image(buffer)
-        return img
+        # Add table for data
+        table = document.add_table(rows=1, cols=5)
+        hdr_cells = table.rows[0].cells
+        headers = ['Name', 'Emission Factor', 'Amount', 'Unit', 'Carbon Footprint']
+        for cell, header in zip(hdr_cells, headers):
+            cell.text = header
+            for paragraph in cell.paragraphs:
+                for run in paragraph.runs:
+                    run.font.name = 'TH Sarabun New'
+                    run.font.size = Pt(18)
+                    run.bold = True
+
+        for item in input_data + process_data:
+            row_cells = table.add_row().cells
+            for cell, value in zip(row_cells, item):
+                cell.text = str(value)
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        run.font.name = 'TH Sarabun New'
+                        run.font.size = Pt(16)
+
+        # Add summary data in a single paragraph
+        p = document.add_paragraph()
+        p.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+        
+        run_left = p.add_run('Total Carbon Footprint:')
+        run_left.font.name = 'TH Sarabun New'
+        run_left.font.size = Pt(16)
+        run_left.bold = True
+        run_left.font.color.rgb = RGBColor(0, 0, 0)
+        
+        tab = p.add_run('\t\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+        
+        run_center = p.add_run(f'{total_carbon_footprint}')
+        run_center.font.name = 'TH Sarabun New'
+        run_center.font.size = Pt(16)
+        run_center.font.color.rgb = RGBColor(0, 0, 0)
+        
+        tab = p.add_run('\t\t\t\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+        
+        run_right = p.add_run('KgCO2eq')
+        run_right.font.name = 'TH Sarabun New'
+        run_right.font.size = Pt(16)
+        run_right.font.color.rgb = RGBColor(0, 0, 0)
+
+        # Add "Financial Summary" heading on a new page
+        document.add_page_break()
+        p = document.add_paragraph()
+        p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+        run = p.add_run('Financial Summary')
+        run.font.name = 'TH Sarabun New'
+        run.font.size = Pt(18)
+        run.bold = True
+
+        # Add financial summary in a table
+        financial_data = [
+            ("Total cost", f"{self.total_cost:,.2f}", 'Baht'),
+            ("Revenue", f"{self.revenue:,.2f}", 'Baht'),
+            ("Profit", f"{self.profit:,.2f}", 'Baht'),
+            ("Break-even Point", f"{self.breakeven:.2f}", 'Units'),
+            ("Product Efficiency", f"{self.product_efficiency:.2f}", '%')]
+        
+        table = document.add_table(rows=0, cols=3)
+        for label, value, suffix in financial_data:
+            row_cells = table.add_row().cells
+            label_cell = row_cells[0].paragraphs[0].add_run(label)
+            label_cell.font.name = 'TH Sarabun New'
+            label_cell.font.size = Pt(16)
+            label_cell.bold = True
+
+            value_paragraph = row_cells[1].paragraphs[0]
+            value_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+            value_cell = value_paragraph.add_run(value)
+            value_cell.font.name = 'TH Sarabun New'
+            value_cell.font.size = Pt(16)
+
+            suffix_paragraph = row_cells[2].paragraphs[0]
+            suffix_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+            suffix_cell = suffix_paragraph.add_run(suffix)
+            suffix_cell.font.name = 'TH Sarabun New'
+            suffix_cell.font.size = Pt(16)
+
+        # Add graphs on a new page
+        document.add_page_break()
+        input_graph = self.create_graph(input_data, 'Carbon footprint of Input', '#AFD7F6')
+        process_graph = self.create_graph(process_data, 'Carbon footprint of Process', '#F7D07A')
+        # # Add graphs
+        # input_graph = self.create_graph(input_data, 'Carbon footprint of Input', '#AFD7F6')
+        # process_graph = self.create_graph(process_data, 'Carbon footprint of Process', '#F7D07A')
+
+        # Add graph images to document and center them
+        if input_graph:
+            paragraph = document.add_paragraph()
+            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+            run = paragraph.add_run()
+            run.add_picture(input_graph, width=Inches(6))
+            last_paragraph = document.paragraphs[-1]
+            for run in last_paragraph.runs:
+                run.font.name = 'TH Sarabun New'
+
+        if process_graph:
+            paragraph = document.add_paragraph()
+            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+            run = paragraph.add_run()
+            run.add_picture(process_graph, width=Inches(6))
+            last_paragraph = document.paragraphs[-1]
+            for run in last_paragraph.runs:
+                run.font.name = 'TH Sarabun New'
+
+        if file_path:
+            document.save(file_path)
+            print(f"File saved at: {file_path}")
+        else:
+            print("File save canceled")

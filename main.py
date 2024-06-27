@@ -19,7 +19,6 @@ class App(tk.Tk):
         self.style = ttk.Style(self)
 
         # Customize styles for a white background and light yellow widgets
-        # grey = '#D3D3D3'
         light_green = '#ccffcc'
         dark_green = '#006400'
         entry_bg = '#ffffe6'

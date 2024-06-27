@@ -1,10 +1,21 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+from tkinter import ttk, filedialog, messagebox, simpledialog
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+from docx import Document
+from docx.shared import Inches, Pt, RGBColor
+from docx.enum.section import WD_ORIENTATION
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+import pandas as pd
+import openpyxl 
 import openpyxl.drawing
 import openpyxl.drawing.image
+from openpyxl import Workbook
+from openpyxl.drawing.image import Image
+from openpyxl.utils import get_column_letter
 import openpyxl.styles
+from openpyxl.styles import Alignment, Border, Side, Font, PatternFill, PatternFill
 import openpyxl
 from io import BytesIO
 from controllers.tooltip_controller import ToolTipController
@@ -68,7 +79,7 @@ class ConprepareView(ttk.Frame):
         self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
         self.return_button.grid(row=5, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
 
-        self.export_button = ttk.Button(self, text="Export to Excel") # , command=self.export
+        self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
         self.export_button.grid(row=5, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # Frame Profile1
@@ -303,6 +314,15 @@ class ConprepareView(ttk.Frame):
 
         self.add_button_tooltips()
 
+        self.items = []
+
+        self.rawmats_1 = []
+        self.transpots_1 = []
+        self.performances_1 = []
+        self.rawmats_2 = []
+        self.transpots_2 = []
+        self.performances_2 = []
+
     def add_button_tooltips(self):
         ToolTipController(self.export_button, "ส่งออกไปยัง Excel")
         ToolTipController(self.return_button, "กลับไปยังหน้าหลัก")
@@ -331,12 +351,25 @@ class ConprepareView(ttk.Frame):
             self.add_profit.config(text=self.format_currency(profit1), foreground="red" if profit1 < 0 else "green")
             self.add_breakeven.config(text=f"{breakeven1:.2f}",foreground="red" if breakeven1 < 0 else "black")
             # self.add_efficiency.config(text=f"{product_efficiency:.2f}")
+
+            self.total_cost1 = total_cost1
+            self.revenue1 = revenue1
+            self.profit1 = profit1
+            self.breakeven1 = breakeven1
+            self.product_efficiency1 = product_efficiency
+
         else:
             self.add_totalcost.config(text="-", foreground="black")
             # self.add_revenue.config(text="-", foreground="black")
             self.add_profit.config(text="-", foreground="black")
             self.add_breakeven.config(text="-", foreground="black")
             # self.add_efficiency.config(text="-", foreground="black")
+
+            self.total_cost1 = None
+            self.revenue1 = None
+            self.profit1 = None
+            self.breakeven1 = None
+            self.product_efficiency1 = None
 
         if breakpoint_data2:
             fixed_cost, variable_cost, number_of_units, unit_price, product_efficiency = breakpoint_data2[0]
@@ -350,12 +383,25 @@ class ConprepareView(ttk.Frame):
             self.add_profit2.config(text=self.format_currency(profit2), foreground="red" if profit2 < 0 else "green")
             self.add_breakeven2.config(text=f"{breakeven2:.2f}", foreground="red" if breakeven2 < 0 else "black")
             # self.add_efficiency2.config(text=f"{product_efficiency:.2f}")
+
+            self.total_cost2 = total_cost2
+            self.revenue2 = revenue2
+            self.profit2 = profit2
+            self.breakeven2 = breakeven2
+            self.product_efficiency2 = product_efficiency
+
         else:
             self.add_totalcost2.config(text="-", foreground="black")
             # self.add_revenue2.config(text="-", foreground="black")
             self.add_profit2.config(text="-", foreground="black")
             self.add_breakeven2.config(text="-", foreground="black")
             # self.add_efficiency2.config(text="-", foreground="black")
+
+            self.total_cost2 = None
+            self.revenue2 = None
+            self.profit2 = None
+            self.breakeven2 = None
+            self.product_efficiency2 = None
 
         # คำนวณและแสดงความแตกต่างเปอร์เซ็นต์ในกำไรหากมีทั้งสองกำไรที่พร้อมใช้งาน
         if profit1 is not None and profit2 is not None:
@@ -544,11 +590,14 @@ class ConprepareView(ttk.Frame):
 
     def show_profile(self, profile1, profile2, rawmats_1, transpots_1,
                       performances_1, rawmats_2, transpots_2, performances_2, breakpoint_data1, breakpoint_data2):
-
-        # Check if any of the data is None
-        if rawmats_1 is None or transpots_1 is None or performances_1 is None or rawmats_2 is None or transpots_2 is None or performances_2 is None:
-            messagebox.showerror("Error", "Data is missing")
-            return
+        
+        # Check if any of the data is None and initialize to empty list
+        self.rawmats_1 = rawmats_1 if rawmats_1 is not None else []
+        self.transpots_1 = transpots_1 if transpots_1 is not None else []
+        self.performances_1 = performances_1 if performances_1 is not None else []
+        self.rawmats_2 = rawmats_2 if rawmats_2 is not None else []
+        self.transpots_2 = transpots_2 if transpots_2 is not None else []
+        self.performances_2 = performances_2 if performances_2 is not None else []
 
         # แสดงข้อมูลโปรไฟล์ที่เลือกใน Label
         self.label_profile1.config(text=profile1)
@@ -610,59 +659,451 @@ class ConprepareView(ttk.Frame):
         else:
             self.label_cf.config(text=percentage_text, foreground = "green")
 
-    # def export(self):
-    #     wb = openpyxl.Workbook()  # สร้างอ็อบเจ็กต์สมุดงานใหม่
-    #     sheet = wb.active  # รับแผ่นงานที่กำลังใช้งาน
+    def process_item_data_profile1(self, rawmats_1, transpots_1, performances_1):
+        profile_data1 = []
+        for item in rawmats_1:
+            name, carbon_per, amount = item
+            carbon_footprint = round(float(carbon_per) * float(amount), 2)
+            profile_data1.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
 
-    #     profile1 = []
-    #     profile2 = [] 
-        
+        for item in transpots_1:
+            name, carbon_per, amount = item
+            carbon_footprint = round(float(carbon_per) * float(amount), 2)
+            profile_data1.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+
+        for item in performances_1:
+            name, carbon_per, amount = item
+            carbon_footprint = round(float(carbon_per) * float(amount), 2)
+            profile_data1.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+
+        return profile_data1
+
+    def process_item_data_profile2(self, rawmats_2, transpots_2, performances_2):
+        profile_data2 = []
+        for item in rawmats_2:
+            name, carbon_per, amount = item
+            carbon_footprint = round(float(carbon_per) * float(amount), 2)
+            profile_data2.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+
+        for item in transpots_2:
+            name, carbon_per, amount = item
+            carbon_footprint = round(float(carbon_per) * float(amount), 2)
+            profile_data2.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+
+        for item in performances_2:
+            name, carbon_per, amount = item
+            carbon_footprint = round(float(carbon_per) * float(amount), 2)
+            profile_data2.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+
+        return profile_data2
     
-    #     for category, _, name, amount, unit in self.items:
-    #         if category == 'Material':
-    #             profile1.append((name, amount, unit))              
-    #         elif category == 'Transpotation':
-    #             profile2.append((name, amount, unit))
+    def calculate_totals(self, data):
+        return round(sum(item[4] for item in data), 2)
+    
+    def create_styles(self):
+        align_center = Alignment(horizontal="center", vertical="center")
+        return align_center
 
-    #     # วาดกราฟ
-    #     figure = Figure(figsize=(5, 3), dpi=70)
-    #     subplot = figure.add_subplot(111)
+    def add_financial_summary_1(self, sheet, summary_row):
+        align_center = self.create_styles()
+        financial_data_1 = [
+            ("Total cost", self.total_cost1, '฿#,##0.00', 'Baht'),
+            ("Revenue", self.revenue1, '฿#,##0.00', 'Baht'),
+            ("Profit", self.profit1, '฿#,##0.00', 'Baht'),
+            ("Break-even Point", self.breakeven1, '0.00', 'Unit'),
+            ("Product Efficiency", self.product_efficiency1, '0.00', '%')]
 
-    #     x = [item[0] for item in profile1]
-    #     y = [float(item[1]) for item in profile2]
+        for i, (label, value, num_format, suffix) in enumerate(financial_data_1, start=1):
+            row = summary_row + i + 1
+            sheet[f"A{row}"] = label
+            sheet[f"A{row}"].font = Font(name='TH Sarabun New', size=12)
+            cell_value = sheet[f"B{row}"]
+            cell_value.value = value
+            cell_value.font = Font(name='TH Sarabun New', size=12)
+            cell_value.number_format = num_format
+            cell_suffix = sheet[f"C{row}"]
+            cell_suffix.value = suffix
+            cell_suffix.font = Font(name='TH Sarabun New', size=12)
+            cell_suffix.alignment = align_center
 
-    #     subplot.tick_params(axis='x', labelrotation=90, labelfontfamily="tahoma")
-    #     subplot.plot(x, y)
+    def add_financial_summary_2(self, sheet, summary_row):
+        align_center = self.create_styles()
+        financial_data_2 = [
+            ("Total cost", self.total_cost2, '฿#,##0.00', 'Baht'),
+            ("Revenue", self.revenue2, '฿#,##0.00', 'Baht'),
+            ("Profit", self.profit2, '฿#,##0.00', 'Baht'),
+            ("Break-even Point", self.breakeven2, '0.00', 'Unit'),
+            ("Product Efficiency", self.product_efficiency2, '0.00', '%')]
 
-    #     buffer = BytesIO()
-    #     figure.savefig(buffer, format="png")
-    #     img = openpyxl.drawing.image.Image(buffer)
-    #     sheet.add_image(img, f"A{len(profile1) + 5}")
+        for i, (label, value, num_format, suffix) in enumerate(financial_data_2, start=1):
+            row = summary_row + i + 1
+            sheet[f"A{row}"] = label
+            sheet[f"A{row}"].font = Font(name='TH Sarabun New', size=12)
+            cell_value = sheet[f"B{row}"]
+            cell_value.value = value
+            cell_value.font = Font(name='TH Sarabun New', size=12)
+            cell_value.number_format = num_format
+            cell_suffix = sheet[f"C{row}"]
+            cell_suffix.value = suffix
+            cell_suffix.font = Font(name='TH Sarabun New', size=12)
+            cell_suffix.alignment = align_center
 
-    #     align = openpyxl.styles.Alignment(horizontal="center")
+    def set_column_widths(self, sheet):
+        for column_cells in sheet.columns:
+            max_length = max(len(str(cell.value)) for cell in column_cells if cell.value)
+            adjusted_width = max_length + 2
+            sheet.column_dimensions[get_column_letter(column_cells[0].column)].width = adjusted_width
 
-    #     sheet.merge_cells("A1:C1")
-    #     sheet["A1"].value = "โปรไฟล์ที่หนึ่ง"
-    #     sheet["A1"].alignment = align
-    #     sheet.merge_cells("D1:F1")
-    #     sheet["D1"].value = "โปรไฟล์ที่สอง"
-    #     sheet["D1"].alignment = align
-    #     sheet.merge_cells("G1:I1")
+    def set_page_layout(self, sheet):
+        sheet.page_setup.fitToWidth = 1
+        sheet.page_setup.fitToHeight = 0
+        sheet.page_setup.paperSize = sheet.PAPERSIZE_A4
 
-    #     data = profile1 + profile2
+    def export(self):
+        if any(attr is None for attr in [self.total_cost1, self.revenue1, self.profit1, self.breakeven1, self.product_efficiency1,
+                                        self.total_cost2, self.revenue2, self.profit2, self.breakeven2, self.product_efficiency2]):
+            print("No data available for export")
+            return
 
-    #     for row_index, row in enumerate(data):
-    #         for col_index, value in enumerate(row):
-    #             sheet.cell(row=row_index + 2, column=col_index + 1, value=value)
+        # Get profile names from label_profile1 and label_profile2
+        profile1 = self.label_profile1.cget("text")
+        profile2 = self.label_profile2.cget("text")
 
-    #     file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("ไฟล์ Excel", "*.xlsx")])
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".xlsx",
+            filetypes=[("Excel files", "*.xlsx"), ("Word files", "*.docx")],
+            title="Save file as")
 
-    #     if file_path:
-    #         wb.save(file_path) 
-    #         print(f"บันทึกไฟล์ที่: {file_path}")
-    #     else:
-    #         print("การบันทึกไฟล์ถูกยกเลิก")
+        if file_path:
+            if file_path.endswith('.xlsx'):
+                self.export_excel(file_path, profile1, profile2)
+            elif file_path.endswith('.docx'):
+                self.export_docx(file_path, profile1, profile2)
+
+    def export_excel(self, file_path, profile1, profile2):
+        profile_data1 = self.process_item_data_profile1(self.rawmats_1, self.transpots_1, self.performances_1)
+        profile_data2 = self.process_item_data_profile2(self.rawmats_2, self.transpots_2, self.performances_2)
         
+        total_input_carbon_footprint_1 = self.calculate_totals(profile_data1)
+        total_input_carbon_footprint_2 = self.calculate_totals(profile_data2)
+        
+        align_center = self.create_styles()
 
+        wb = Workbook()
+        sheet = wb.active
+        sheet.title = "Comparison Report"
+
+        # Create report header
+        sheet.merge_cells("A1:E1")
+        sheet["A1"].value = "Comparison Report"
+        sheet["A1"].alignment = align_center
+        sheet["A1"].font = Font(name='TH Sarabun New', size=14, bold=True)
+
+        # Create project name header for profile1
+        sheet.merge_cells("A2:E2")
+        sheet["A2"].value = f"Project Name: {profile1}"
+        sheet["A2"].font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        # Create table headers
+        headers = ["Name", "Emission Factor", "Amount", "Unit", "Carbon Footprint"]
+        for col_num, header in enumerate(headers, start=1):
+            cell = sheet.cell(row=3, column=col_num)
+            cell.value = header
+            cell.alignment = align_center
+            cell.font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        # Fill in data rows for profile 1
+        row_num = 4
+        for data in profile_data1:
+            for col_num, value in enumerate(data, start=1):
+                cell = sheet.cell(row=row_num, column=col_num)
+                cell.value = value
+                cell.font = Font(name='TH Sarabun New', size=12)
+                if col_num in [2, 3, 5]:
+                    cell.number_format = '0.00'
+            row_num += 1
+
+        # Add summary data for profile 1
+        summary_row_1 = row_num + 1
+        sheet[f"A{summary_row_1}"] = "Total Carbon Footprint"
+        sheet[f"A{summary_row_1}"].font = Font(name='TH Sarabun New', size=12)
+        sheet[f"B{summary_row_1}"] = total_input_carbon_footprint_1
+        sheet[f"B{summary_row_1}"].font = Font(name='TH Sarabun New', size=12)
+        sheet[f"B{summary_row_1}"].number_format = '0.00'
+        sheet[f"C{summary_row_1}"] = "KgCO2eq"
+        sheet[f"C{summary_row_1}"].alignment = align_center
+        sheet[f"C{summary_row_1}"].font = Font(name='TH Sarabun New', size=12)
+
+        self.add_financial_summary_1(sheet, summary_row_1)
+
+        # Create project name header for profile2
+        row_num = summary_row_1 + 8
+        sheet.merge_cells(f"A{row_num}:E{row_num}")
+        sheet[f"A{row_num}"].value = f"Project Name: {profile2}"
+        sheet[f"A{row_num}"].font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        # Create table headers for profile2
+        row_num += 1
+        for col_num, header in enumerate(headers, start=1):
+            cell = sheet.cell(row=row_num, column=col_num)
+            cell.value = header
+            cell.alignment = align_center
+            cell.font = Font(name='TH Sarabun New', size=12, bold=True)
+
+        # Fill in data rows for profile 2
+        row_num += 1
+        for data in profile_data2:
+            for col_num, value in enumerate(data, start=1):
+                cell = sheet.cell(row=row_num, column=col_num)
+                cell.value = value
+                cell.font = Font(name='TH Sarabun New', size=12)
+                if col_num in [2, 3, 5]:
+                    cell.number_format = '0.00'
+            row_num += 1
+
+        # Add summary data for profile 2
+        summary_row_2 = row_num + 1
+        sheet[f"A{summary_row_2}"] = "Total Carbon Footprint"
+        sheet[f"A{summary_row_2}"].font = Font(name='TH Sarabun New', size=12)
+        sheet[f"B{summary_row_2}"] = total_input_carbon_footprint_2
+        sheet[f"B{summary_row_2}"].font = Font(name='TH Sarabun New', size=12)
+        sheet[f"B{summary_row_2}"].number_format = '0.00'
+        sheet[f"C{summary_row_2}"] = "KgCO2eq"
+        sheet[f"C{summary_row_2}"].alignment = align_center
+        sheet[f"C{summary_row_2}"].font = Font(name='TH Sarabun New', size=12)
+
+        self.add_financial_summary_2(sheet, summary_row_2)
+
+        self.set_column_widths(sheet)
+        self.set_page_layout(sheet)
+
+        # Save the workbook
+        wb.save(file_path)
+        print(f"File saved at: {file_path}")
+
+    def export_docx(self, file_path, profile1, profile2):
+        document = Document()
+
+        # Set landscape orientation
+        section = document.sections[-1]
+        section.orientation = WD_ORIENTATION.LANDSCAPE
+        new_width, new_height = section.page_height, section.page_width
+        section.page_width = new_width
+        section.page_height = new_height
+
+        # Add report heading
+        heading = document.add_heading('Comparison Report', level=0)
+        heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        for run in heading.runs:
+            run.font.name = 'TH Sarabun New'
+            run.font.size = Pt(20)
+            run.font.color.rgb = RGBColor(0, 0, 0)
+            run.bold = True
+
+        # Add project name heading for profile1
+        subheading = document.add_heading(f"Project Name: {profile1}", level=1)
+        for run in subheading.runs:
+            run.font.name = 'TH Sarabun New'
+            run.font.size = Pt(18)
+            run.font.color.rgb = RGBColor(0, 0, 0)
+            run.bold = True
+
+        # Process data for profile1
+        profile_data1 = self.process_item_data_profile1(self.rawmats_1, self.transpots_1, self.performances_1)
+        total_input_carbon_footprint_1 = self.calculate_totals(profile_data1)
+
+        # Add table for profile1 data
+        table = document.add_table(rows=1, cols=5)
+        hdr_cells = table.rows[0].cells
+        headers = ["Name", "Emission Factor", "Amount", "Unit", "Carbon Footprint"]
+        for cell, header in zip(hdr_cells, headers):
+            cell.text = header
+            for paragraph in cell.paragraphs:
+                for run in paragraph.runs:
+                    run.font.name = 'TH Sarabun New'
+                    run.font.size = Pt(18)
+                    run.bold = True
+
+        for item in profile_data1:
+            row_cells = table.add_row().cells
+            for cell, value in zip(row_cells, item):
+                cell.text = str(value)
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        run.font.name = 'TH Sarabun New'
+                        run.font.size = Pt(16)
+
+        # Add summary for profile1
+        p = document.add_paragraph()
+        p.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+        
+        run_left = p.add_run('Total Carbon Footprint:')
+        run_left.font.name = 'TH Sarabun New'
+        run_left.font.size = Pt(16)
+        run_left.bold = True
+        run_left.font.color.rgb = RGBColor(0, 0, 0)
+        
+        tab = p.add_run('\t\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+        
+        run_center = p.add_run(f'{total_input_carbon_footprint_1}')
+        run_center.font.name = 'TH Sarabun New'
+        run_center.font.size = Pt(16)
+        run_center.font.color.rgb = RGBColor(0, 0, 0)
+        
+        tab = p.add_run('\t\t\t\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+        
+        run_right = p.add_run('KgCO2eq')
+        run_right.font.name = 'TH Sarabun New'
+        run_right.font.size = Pt(16)
+        run_right.font.color.rgb = RGBColor(0, 0, 0)
+
+        # Add financial summary for profile1
+        document.add_page_break()
+        p = document.add_paragraph()
+        p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+        run = p.add_run('Financial Summary')
+        run.font.name = 'TH Sarabun New'
+        run.font.size = Pt(18)
+        run.bold = True
+
+        # Add financial summary in a table for profile1
+        financial_data_1 = [
+            ("Total cost", f"{self.total_cost1:,.2f}", 'Baht'),
+            ("Revenue", f"{self.revenue1:,.2f}", 'Baht'),
+            ("Profit", f"{self.profit1:,.2f}", 'Baht'),
+            ("Break-even Point", f"{self.breakeven1:.2f}", 'Units'),
+            ("Product Efficiency", f"{self.product_efficiency1:.2f}", '%')]
+
+        table = document.add_table(rows=0, cols=3)
+        for label, value, suffix in financial_data_1:
+            row_cells = table.add_row().cells
+            label_cell = row_cells[0].paragraphs[0].add_run(label)
+            label_cell.font.name = 'TH Sarabun New'
+            label_cell.font.size = Pt(16)
+            label_cell.bold = True
+
+            value_paragraph = row_cells[1].paragraphs[0]
+            value_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+            value_cell = value_paragraph.add_run(value)
+            value_cell.font.name = 'TH Sarabun New'
+            value_cell.font.size = Pt(16)
+
+            suffix_paragraph = row_cells[2].paragraphs[0]
+            suffix_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+            suffix_cell = suffix_paragraph.add_run(suffix)
+            suffix_cell.font.name = 'TH Sarabun New'
+            suffix_cell.font.size = Pt(16)
+
+        # Repeat the above steps for profile2
+        document.add_page_break()
+
+        # Add project name heading for profile2
+        subheading = document.add_heading(f"Project Name: {profile2}", level=1)
+        for run in subheading.runs:
+            run.font.name = 'TH Sarabun New'
+            run.font.size = Pt(18)
+            run.font.color.rgb = RGBColor(0, 0, 0)
+            run.bold = True
+
+        # Process data for profile2
+        profile_data2 = self.process_item_data_profile2(self.rawmats_2, self.transpots_2, self.performances_2)
+        total_input_carbon_footprint_2 = self.calculate_totals(profile_data2)
+
+        # Add table for profile2 data
+        table = document.add_table(rows=1, cols=5)
+        hdr_cells = table.rows[0].cells
+        headers = ["Name", "Emission Factor", "Amount", "Unit", "Carbon Footprint"]
+        for cell, header in zip(hdr_cells, headers):
+            cell.text = header
+            for paragraph in cell.paragraphs:
+                for run in paragraph.runs:
+                    run.font.name = 'TH Sarabun New'
+                    run.font.size = Pt(18)
+                    run.bold = True
+
+        for item in profile_data2:
+            row_cells = table.add_row().cells
+            for cell, value in zip(row_cells, item):
+                cell.text = str(value)
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        run.font.name = 'TH Sarabun New'
+                        run.font.size = Pt(16)
+        
+        # Add summary for profile2
+        p = document.add_paragraph()
+        p.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+        
+        run_left = p.add_run('Total Carbon Footprint:')
+        run_left.font.name = 'TH Sarabun New'
+        run_left.font.size = Pt(16)
+        run_left.bold = True
+        run_left.font.color.rgb = RGBColor(0, 0, 0)
+        
+        tab = p.add_run('\t\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+        
+        run_center = p.add_run(f'{total_input_carbon_footprint_2}')
+        run_center.font.name = 'TH Sarabun New'
+        run_center.font.size = Pt(16)
+        run_center.font.color.rgb = RGBColor(0, 0, 0)
+        
+        tab = p.add_run('\t\t\t\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+        
+        run_right = p.add_run('KgCO2eq')
+        run_right.font.name = 'TH Sarabun New'
+        run_right.font.size = Pt(16)
+        run_right.font.color.rgb = RGBColor(0, 0, 0)
+
+        # Add financial summary for profile2
+        document.add_page_break()
+        p = document.add_paragraph()
+        p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+        run = p.add_run('Financial Summary')
+        run.font.name = 'TH Sarabun New'
+        run.font.size = Pt(18)
+        run.bold = True
+
+        # Add financial summary in a table for profile2
+        financial_data_2 = [
+            ("Total cost", f"{self.total_cost2:,.2f}", 'Baht'),
+            ("Revenue", f"{self.revenue2:,.2f}", 'Baht'),
+            ("Profit", f"{self.profit2:,.2f}", 'Baht'),
+            ("Break-even Point", f"{self.breakeven2:.2f}", 'Units'),
+            ("Product Efficiency", f"{self.product_efficiency2:.2f}", '%')]
+
+        table = document.add_table(rows=0, cols=3)
+        for label, value, suffix in financial_data_2:
+            row_cells = table.add_row().cells
+            label_cell = row_cells[0].paragraphs[0].add_run(label)
+            label_cell.font.name = 'TH Sarabun New'
+            label_cell.font.size = Pt(16)
+            label_cell.bold = True
+
+            value_paragraph = row_cells[1].paragraphs[0]
+            value_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+            value_cell = value_paragraph.add_run(value)
+            value_cell.font.name = 'TH Sarabun New'
+            value_cell.font.size = Pt(16)
+
+            suffix_paragraph = row_cells[2].paragraphs[0]
+            suffix_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+            suffix_cell = suffix_paragraph.add_run(suffix)
+            suffix_cell.font.name = 'TH Sarabun New'
+            suffix_cell.font.size = Pt(16)
+
+        # Save the document
+        if file_path:
+            document.save(file_path)
+            print(f"File saved at: {file_path}")
+        else:
+            print("File save canceled")
     
     

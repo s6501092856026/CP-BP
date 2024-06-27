@@ -124,10 +124,6 @@ class LoginView(ttk.Frame):
         # ปุ่มเครื่องหมายคำถาม
         self.button_help = ttk.Button(title_frame, text="?", command=self.show_help)
         self.button_help.grid(row=2, column=0, ipadx=2, ipady=2, padx=0, pady=0, sticky='sw')
-
-        # # ปุ่มเครื่องหมายคำถาม
-        # self.button_help = ttk.Button(title_frame, text="?", command=self.show_help)
-        # self.button_help.place(relx=0.05, rely=0.95, anchor='sw')
         
         # กำหนดการขยายตัวของกรอบหลักเมื่อขนาดหน้าต่างเปลี่ยน
         self.grid_rowconfigure(0, weight=1)

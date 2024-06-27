@@ -15,7 +15,7 @@ class MainView(ttk.Frame):
         frame_button = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
         frame_button.grid(row=0, column=1, sticky='NS')
 
-        self.breakeven_button = ttk.Button(frame_button, text="คำนวณการเงิน", command=self.breakeven)
+        self.breakeven_button = ttk.Button(frame_button, text="คำนวณมูลค่า", command=self.breakeven)
         self.breakeven_button.grid(row=0, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
         self.edit_button = ttk.Button(frame_button, text="แก้ไขโปรไฟล์", command=self.edit) 
@@ -73,10 +73,10 @@ class MainView(ttk.Frame):
 
     # เมท็อดสำหรับเพิ่ม Tooltip สำหรับปุ่ม
     def add_button_tooltips(self):
-        ToolTipController(self.delete_button, "ลบรายการที่เลือก")
-        ToolTipController(self.breakeven_button, "คำนวณจุดคุ้มทุน")
+        ToolTipController(self.delete_button, "ลบโปรไฟล์ที่เลือก")
+        ToolTipController(self.breakeven_button, "คำนวณมูลค่าของผลิตภัณฑ์")
         ToolTipController(self.newprofile_button, "สร้างโปรไฟล์ใหม่")
-        ToolTipController(self.compare_button, "เปรียบเทียบโปรไฟล์")
+        ToolTipController(self.compare_button, "เปรียบเทียบสองโปรไฟล์")
         ToolTipController(self.edit_button, "แก้ไขโปรไฟล์")
     
     def newprofile(self):
