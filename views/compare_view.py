@@ -24,13 +24,13 @@ class CompareView(ttk.Frame):
         frame_tool = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
         frame_tool.grid(row=1, column=1, sticky='NS')
 
-        self.label_profile1 = ttk.Label(frame_tool, text="โปรไฟล์ที่หนึ่ง", background='#C0E4F6')
+        self.label_profile1 = ttk.Label(frame_tool, text="โปรไฟล์ที่หนึ่ง", font=('Tohama', 10, 'bold'), background='#C0E4F6')
         self.label_profile1.grid(row=0, column=0, padx=10, pady=5, sticky='N')
 
         self.entry_profile1 = ttk.Entry(frame_tool)
         self.entry_profile1.grid(row=1, column=0, padx=10, pady=10, sticky='S')
 
-        self.label_profile2 = ttk.Label(frame_tool, text="โปรไฟล์ที่สอง", background='#C0E4F6')
+        self.label_profile2 = ttk.Label(frame_tool, text="โปรไฟล์ที่สอง", font=('Tohama', 10, 'bold'), background='#C0E4F6')
         self.label_profile2.grid(row=2, column=0, padx=10, pady=5, sticky='N')
 
         self.entry_profile2 = ttk.Entry(frame_tool)
@@ -147,15 +147,22 @@ class CompareView(ttk.Frame):
 
         if product1_id and product2_id:
             # ค้นหาข้อมูลเพิ่มเติมตาม product_id
-            raw_data_1 = db.fetch_data("SELECT name_raw, carbon_per_raw, amount FROM product_rawmat pr, raw_mat r WHERE pr.rawmat_id = r.rawmat_id AND pr.product_id = %s", (product1_id[0][0],))
-            trans_data_1 = db.fetch_data("SELECT transpot_name, carbon_per_transpot, amount FROM product_transpotation pt, transpotation t WHERE pt.transpot_id = t.transpot_id AND pt.product_id = %s", (product1_id[0][0],))
-            perf_data_1 = db.fetch_data("SELECT performance_name, carbon_per_performance, amount FROM product_performance pf, performance f WHERE pf.performance_id = f.performance_id AND pf.product_id = %s", (product1_id[0][0],))
+            raw_data_1 = db.fetch_data("SELECT name_raw, carbon_per_raw, amount, unit_raw FROM product_rawmat pr, raw_mat r WHERE pr.rawmat_id = r.rawmat_id AND pr.product_id = %s", (product1_id[0][0],))
+            trans_data_1 = db.fetch_data("SELECT transpot_name, carbon_per_transpot, amount, unit_transpot FROM product_transpotation pt, transpotation t WHERE pt.transpot_id = t.transpot_id AND pt.product_id = %s", (product1_id[0][0],))
+            perf_data_1 = db.fetch_data("SELECT performance_name, carbon_per_performance, amount, unit_performance FROM product_performance pf, performance f WHERE pf.performance_id = f.performance_id AND pf.product_id = %s", (product1_id[0][0],))
 
-            raw_data_2 = db.fetch_data("SELECT name_raw, carbon_per_raw, amount FROM product_rawmat pr, raw_mat r WHERE pr.rawmat_id = r.rawmat_id AND pr.product_id = %s", (product2_id[0][0],))
-            trans_data_2 = db.fetch_data("SELECT transpot_name, carbon_per_transpot, amount FROM product_transpotation pt, transpotation t WHERE pt.transpot_id = t.transpot_id AND pt.product_id = %s", (product2_id[0][0],))
-            perf_data_2 = db.fetch_data("SELECT performance_name, carbon_per_performance, amount FROM product_performance pf, performance f WHERE pf.performance_id = f.performance_id AND pf.product_id = %s", (product2_id[0][0],))
+            raw_data_2 = db.fetch_data("SELECT name_raw, carbon_per_raw, amount, unit_raw FROM product_rawmat pr, raw_mat r WHERE pr.rawmat_id = r.rawmat_id AND pr.product_id = %s", (product2_id[0][0],))
+            trans_data_2 = db.fetch_data("SELECT transpot_name, carbon_per_transpot, amount, unit_transpot FROM product_transpotation pt, transpotation t WHERE pt.transpot_id = t.transpot_id AND pt.product_id = %s", (product2_id[0][0],))
+            perf_data_2 = db.fetch_data("SELECT performance_name, carbon_per_performance, amount, unit_performance FROM product_performance pf, performance f WHERE pf.performance_id = f.performance_id AND pf.product_id = %s", (product2_id[0][0],))
 
-            # self.controller.show_conprepare((profile1, raw_data_1, trans_data_1, perf_data_1), (profile2, raw_data_2, trans_data_2, perf_data_2))
+             # เพิ่มการตรวจสอบว่า raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2 ไม่เป็น None
+            raw_data_1 = raw_data_1 if raw_data_1 else []
+            trans_data_1 = trans_data_1 if trans_data_1 else []
+            perf_data_1 = perf_data_1 if perf_data_1 else []
+            raw_data_2 = raw_data_2 if raw_data_2 else []
+            trans_data_2 = trans_data_2 if trans_data_2 else []
+            perf_data_2 = perf_data_2 if perf_data_2 else []
+
             breakpoint_data1 = self.load_breakpoint_data1(profile1)
             breakpoint_data2 = self.load_breakpoint_data2(profile2)
             self.controller.show_conprepare(profile1, profile2, raw_data_1, trans_data_1, perf_data_1, raw_data_2, trans_data_2, perf_data_2, breakpoint_data1, breakpoint_data2)

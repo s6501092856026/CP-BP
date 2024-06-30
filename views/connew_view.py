@@ -488,38 +488,21 @@ class ConnewView(ttk.Frame):
         figure.savefig(buffer, format="png")
         buffer.seek(0)
         return buffer
-    
-    def insert_graphs(self, sheet, start_row, input_graph, process_graph):
+    def insert_graphs(self, sheet, input_graph_start_row=None, input_graph=None, process_graph_start_row=None, process_graph=None):
         from openpyxl.drawing.image import Image
 
-        input_graph_col = "A"
-        process_graph_col = "I"  # คอลัมน์ที่ 11 นับจาก A (ห่างกัน 10 คอลัมน์)
+        input_graph_col = "D"  # คอลัมน์ที่ 4 นับจาก A (ห่างจากคอลัมน์ของตาราง input 2 คอลัมน์)
+        process_graph_col = "D"  # คอลัมน์ที่ 4 นับจาก A (ห่างจากคอลัมน์ของตาราง process 2 คอลัมน์)
 
         # แทรกกราฟของ Input
         if input_graph:
             img1 = Image(input_graph)
-            sheet.add_image(img1, f"{input_graph_col}{start_row + 1}")
-        
+            sheet.add_image(img1, f"{input_graph_col}{input_graph_start_row}")
+
         # แทรกกราฟของ Process
-        if process_graph:
+        if process_graph and process_graph_start_row:
             img2 = Image(process_graph)
-            sheet.add_image(img2, f"{process_graph_col}{start_row + 1}")
-
-    # def insert_graphs(self, sheet, start_row, input_graph, process_graph):
-    #     input_graph_row = start_row + 2
-    #     if input_graph:
-    #         sheet.add_image(Image(input_graph), f"A{input_graph_row}")
-    #     process_graph_row = input_graph_row + 15
-    #     if process_graph:
-    #         sheet.add_image(Image(process_graph), f"A{process_graph_row}")
-
-    # def insert_graphs(self, sheet, summary_row, input_graph, process_graph):
-    #     input_graph_row = summary_row + 11
-    #     if input_graph:
-    #         sheet.add_image(Image(input_graph), f"A{input_graph_row}")
-    #     process_graph_row = input_graph_row + 15
-    #     if process_graph:
-    #         sheet.add_image(Image(process_graph), f"A{process_graph_row}")
+            sheet.add_image(img2, f"{process_graph_col}{process_graph_start_row}")
 
     def export(self):
         if any(attr is None for attr in [self.total_cost, self.revenue, self.profit, self.breakeven, self.product_efficiency]):
@@ -602,18 +585,15 @@ class ConnewView(ttk.Frame):
         self.set_column_widths(sheet)
         self.set_page_layout(sheet)
 
-        # Create new sheet for graphs
+        # สร้างชีตใหม่สำหรับกราฟ
         graph_sheet = wb.create_sheet(title="Graphs")
-        graph_sheet.merge_cells("A1:E1")
-        graph_sheet["A1"].value = "Carbon Footprint Graphs"
+        graph_sheet.merge_cells("A1:J1")
+        graph_sheet["A1"].value = f"Project Name: {project_name}"
         graph_sheet["A1"].alignment = align_center
-        graph_sheet["A1"].font = Font(name='TH Sarabun New', size=14, bold=True)
+        graph_sheet["A1"].font = Font(name='TH Sarabun New', size=16, bold=True)
 
-        input_graph = self.create_graph(input_data, 'Carbon footprint of Input', '#AFD7F6')
-        process_graph = self.create_graph(process_data, 'Carbon footprint of Process', '#F7D07A')
-        self.insert_graphs(graph_sheet, 2, input_graph, process_graph)
-
-        input_row_num = 20
+        # กำหนดข้อมูลและหัวข้อของตาราง Input
+        input_row_num = 3
         input_headers = ["Name", "Carbon Footprint"]
         for col_num, header in enumerate(input_headers, start=1):
             cell = graph_sheet.cell(row=input_row_num, column=col_num)
@@ -621,6 +601,7 @@ class ConnewView(ttk.Frame):
             cell.alignment = align_center
             cell.font = Font(name='TH Sarabun New', size=12, bold=True)
 
+        # เพิ่มข้อมูลของ Input ลงในตาราง
         input_row_num += 1
         for data in input_data:
             name, carbon_footprint = data[0], data[4]
@@ -633,37 +614,47 @@ class ConnewView(ttk.Frame):
             cell_footprint.number_format = '0.00'
             input_row_num += 1
 
+        # ปรับขนาดความกว้างของคอลัมน์ในตาราง Input
         for col in range(1, 3):
             max_length = 0
             column = graph_sheet.column_dimensions[chr(64 + col)]
-            for row in range(20, input_row_num):
+            for row in range(2, input_row_num):
                 cell = graph_sheet.cell(row=row, column=col)
                 if len(str(cell.value)) > max_length:
                     max_length = len(str(cell.value))
             adjusted_width = (max_length + 2)
             column.width = adjusted_width
 
-        process_row_num = input_row_num + 2
+        # สร้างกราฟสำหรับข้อมูล Input
+        input_graph = self.create_graph(input_data, 'Carbon footprint of Input', '#AFD7F6')
+
+        # แทรกกราฟของ Input ข้างๆ ตาราง Input
+        self.insert_graphs(graph_sheet, None, None, input_row_num - len(input_data), input_graph) # , 2, input_graph)
+        
+        # กำหนดข้อมูลและหัวข้อของตาราง Process
+        process_row_num = input_row_num + 8
         process_headers = ["Name", "Carbon Footprint"]
         for col_num, header in enumerate(process_headers, start=1):
-            cell = graph_sheet.cell(row=process_row_num, column=col_num + 10)
+            cell = graph_sheet.cell(row=process_row_num, column=col_num)
             cell.value = header
             cell.alignment = align_center
             cell.font = Font(name='TH Sarabun New', size=12, bold=True)
 
+        # เพิ่มข้อมูลของ Process ลงในตาราง
         process_row_num += 1
         for data in process_data:
             name, carbon_footprint = data[0], data[4]
-            cell_name = graph_sheet.cell(row=process_row_num, column=11)
+            cell_name = graph_sheet.cell(row=process_row_num, column=1)
             cell_name.value = name
             cell_name.font = Font(name='TH Sarabun New', size=12)
-            cell_footprint = graph_sheet.cell(row=process_row_num, column=12)
+            cell_footprint = graph_sheet.cell(row=process_row_num, column=2)
             cell_footprint.value = carbon_footprint
             cell_footprint.font = Font(name='TH Sarabun New', size=12)
             cell_footprint.number_format = '0.00'
             process_row_num += 1
 
-        for col in range(11, 13):
+        # ปรับขนาดความกว้างของคอลัมน์ในตาราง Process
+        for col in range(1, 3):
             max_length = 0
             column = graph_sheet.column_dimensions[chr(64 + col)]
             for row in range(input_row_num + 2, process_row_num):
@@ -672,6 +663,12 @@ class ConnewView(ttk.Frame):
                     max_length = len(str(cell.value))
             adjusted_width = (max_length + 2)
             column.width = adjusted_width
+
+        # สร้างกราฟสำหรับข้อมูล Process
+        process_graph = self.create_graph(process_data, 'Carbon footprint of Process', '#F7D07A')
+
+        # แทรกกราฟของ Process ข้างๆ ตาราง Process
+        self.insert_graphs(graph_sheet, None, None, process_row_num - len(process_data), process_graph)
 
         if file_path:
             wb.save(file_path)

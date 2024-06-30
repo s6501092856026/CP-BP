@@ -646,7 +646,7 @@ class ConprepareView(ttk.Frame):
 
         # คำนวณเปอร์เซ็นต์ความแตกต่าง
         if total_carbon_profile1 != 0:
-            percentage_difference = ((total_carbon_profile1 - total_carbon_profile2) / total_carbon_profile1) * 100
+            percentage_difference = ((total_carbon_profile2 - total_carbon_profile1) / total_carbon_profile1) * 100
         else:
             percentage_difference = 0  # เพื่อจัดการการหารด้วยศูนย์
 
@@ -655,47 +655,109 @@ class ConprepareView(ttk.Frame):
 
         # อัปเดตป้ายข้อความด้วยเปอร์เซ็นต์ความแตกต่างและเปลี่ยนสีถ้าเป็นลบ
         if percentage_difference < 0:
-            self.label_cf.config(text=percentage_text, foreground = "red")
-        else:
             self.label_cf.config(text=percentage_text, foreground = "green")
+        else:
+            self.label_cf.config(text=percentage_text, foreground = "red")
 
     def process_item_data_profile1(self, rawmats_1, transpots_1, performances_1):
         profile_data1 = []
         for item in rawmats_1:
-            name, carbon_per, amount = item
+            name, carbon_per, amount, unit = item
             carbon_footprint = round(float(carbon_per) * float(amount), 2)
-            profile_data1.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+            profile_data1.append((name, carbon_per, amount, unit, carbon_footprint))
 
         for item in transpots_1:
-            name, carbon_per, amount = item
+            name, carbon_per, amount, unit = item
             carbon_footprint = round(float(carbon_per) * float(amount), 2)
-            profile_data1.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+            profile_data1.append((name, carbon_per, amount, unit, carbon_footprint))
 
         for item in performances_1:
-            name, carbon_per, amount = item
+            name, carbon_per, amount, unit = item
             carbon_footprint = round(float(carbon_per) * float(amount), 2)
-            profile_data1.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+            profile_data1.append((name, carbon_per, amount, unit, carbon_footprint))
 
         return profile_data1
 
     def process_item_data_profile2(self, rawmats_2, transpots_2, performances_2):
         profile_data2 = []
         for item in rawmats_2:
-            name, carbon_per, amount = item
+            name, carbon_per, amount, unit = item
             carbon_footprint = round(float(carbon_per) * float(amount), 2)
-            profile_data2.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+            profile_data2.append((name, carbon_per, amount, unit, carbon_footprint))
 
         for item in transpots_2:
-            name, carbon_per, amount = item
+            name, carbon_per, amount, unit = item
             carbon_footprint = round(float(carbon_per) * float(amount), 2)
-            profile_data2.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+            profile_data2.append((name, carbon_per, amount, unit, carbon_footprint))
 
         for item in performances_2:
-            name, carbon_per, amount = item
+            name, carbon_per, amount, unit = item
             carbon_footprint = round(float(carbon_per) * float(amount), 2)
-            profile_data2.append((name, carbon_per, amount, "KgCO2eq", carbon_footprint))
+            profile_data2.append((name, carbon_per, amount, unit, carbon_footprint))
 
         return profile_data2
+    
+    def add_difference_percentage_excel(self, sheet, row, total_carbon_profile1, total_carbon_profile2):
+        align_center = self.create_styles()
+        
+        # คำนวณเปอร์เซ็นต์ความแตกต่าง
+        if total_carbon_profile1 != 0:
+            percentage_difference = ((total_carbon_profile2 - total_carbon_profile1) / total_carbon_profile1) * 100
+        else:
+            percentage_difference = 0  # เพื่อจัดการการหารด้วยศูนย์
+
+        # จัดรูปแบบเปอร์เซ็นต์ความแตกต่างโดยมี "+" นำหน้าหากเป็นบวก
+        percentage_text = f"{percentage_difference:+.2f}" if percentage_difference >= 0 else f"{percentage_difference:.2f}"
+
+        # เพิ่มค่าความแตกต่างนี้ลงในชีท
+        sheet[f"A{row}"] = "Percentage Difference of Carbon Footprint"
+        sheet[f"A{row}"].font = Font(name='TH Sarabun New', size=12)
+        cell_value = sheet[f"B{row}"]
+        cell_value.value = percentage_text
+        cell_value.font = Font(name='TH Sarabun New', size=12)
+        cell_value.number_format = '0.00%'
+        cell_suffix = sheet[f"C{row}"]
+        cell_suffix.value = '%'
+        cell_suffix.font = Font(name='TH Sarabun New', size=12)
+        cell_suffix.alignment = align_center
+
+    def add_difference_percentage_docx(self, document, total_carbon_profile1, total_carbon_profile2):
+        # คำนวณเปอร์เซ็นต์ความแตกต่าง
+        if total_carbon_profile1 != 0:
+            percentage_difference = ((total_carbon_profile2 - total_carbon_profile1) / total_carbon_profile1) * 100
+        else:
+            percentage_difference = 0  # เพื่อจัดการการหารด้วยศูนย์
+
+        # จัดรูปแบบเปอร์เซ็นต์ความแตกต่างโดยมี "+" นำหน้าหากเป็นบวก
+        percentage_text = f"{percentage_difference:+.2f}" if percentage_difference >= 0 else f"{percentage_difference:.2f}"
+
+        # เพิ่มข้อมูลความแตกต่างในเอกสาร
+        p = document.add_paragraph()
+        p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+
+        run_label = p.add_run('Percentage Difference of Carbon Footprint: ')
+        run_label.font.name = 'TH Sarabun New'
+        run_label.font.size = Pt(16)
+        run_label.bold = True
+        run_label.font.color.rgb = RGBColor(0, 0, 0)
+
+        tab = p.add_run('\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+
+        run_percentage = p.add_run(percentage_text)
+        run_percentage.font.name = 'TH Sarabun New'
+        run_percentage.font.size = Pt(16)
+        run_percentage.font.color.rgb = RGBColor(0, 0, 0)
+
+        tab = p.add_run('\t\t\t\t\t\t\t')
+        tab.font.name = 'TH Sarabun New'
+        tab.font.size = Pt(16)
+
+        run_unit = p.add_run('%')
+        run_unit.font.name = 'TH Sarabun New'
+        run_unit.font.size = Pt(16)
+        run_unit.font.color.rgb = RGBColor(0, 0, 0)
     
     def calculate_totals(self, data):
         return round(sum(item[4] for item in data), 2)
@@ -747,6 +809,79 @@ class ConprepareView(ttk.Frame):
             cell_suffix.value = suffix
             cell_suffix.font = Font(name='TH Sarabun New', size=12)
             cell_suffix.alignment = align_center
+
+    def add_diff_financial(self, sheet, summary_row):
+        align_center = self.create_styles()
+
+        def calculate_percentage_diff(value1, value2):
+            if value1 != 0:
+                return ((value2 - value1) / value1) * 100
+            else:
+                return 0
+
+        financial_diff_data = [
+            ("Total cost", self.total_cost1, self.total_cost2),
+            ("Profit", self.profit1, self.profit2)]
+
+        for i, (label, value1, value2) in enumerate(financial_diff_data, start=1):
+            percentage_diff = calculate_percentage_diff(value1, value2)
+            percentage_text = f"{percentage_diff:+.2f}" if percentage_diff >= 0 else f"{percentage_diff:.2f}"
+
+            row = summary_row + i + 1
+            sheet[f"A{row}"] = f"Percentage Difference of {label}"
+            sheet[f"A{row}"].font = Font(name='TH Sarabun New', size=12)
+            cell_value = sheet[f"B{row}"]
+            cell_value.value = percentage_text
+            cell_value.font = Font(name='TH Sarabun New', size=12)
+            cell_value.number_format = '0.00%'
+            cell_suffix = sheet[f"C{row}"]
+            cell_suffix.value = '%'
+            cell_suffix.font = Font(name='TH Sarabun New', size=12)
+            cell_suffix.alignment = align_center
+
+    def add_diff_financial_docx(self, document, total_cost1, total_cost2, profit1, profit2):
+        def calculate_percentage_diff(value1, value2):
+            if value1 != 0:
+                return ((value2 - value1) / value1) * 100
+            else:
+                return 0
+
+        financial_diff_data = [
+            ("Total cost", total_cost1, total_cost2),
+            ("Profit", profit1, profit2)]
+
+        for label, value1, value2 in financial_diff_data:
+            percentage_diff = calculate_percentage_diff(value1, value2)
+            percentage_text = f"{percentage_diff:+.2f}%" if percentage_diff >= 0 else f"{percentage_diff:.2f}%"
+
+            # Add summary data in a separate paragraph for each label
+            p = document.add_paragraph()
+            p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+
+            run_label = p.add_run(f"Percentage Difference of {label}: ")
+            run_label.font.name = 'TH Sarabun New'
+            run_label.font.size = Pt(16)
+            run_label.bold = True
+            run_label.font.color.rgb = RGBColor(0, 0, 0)
+
+            # Adjusting the tabs to ensure consistent spacing
+            tab = p.add_run('\t\t\t\t')
+            tab.font.name = 'TH Sarabun New'
+            tab.font.size = Pt(16)
+
+            run_value = p.add_run(percentage_text)
+            run_value.font.name = 'TH Sarabun New'
+            run_value.font.size = Pt(16)
+            run_value.font.color.rgb = RGBColor(0, 0, 0)
+
+            tab = p.add_run('\t\t\t\t\t\t')
+            tab.font.name = 'TH Sarabun New'
+            tab.font.size = Pt(16)
+
+            run_unit = p.add_run('%')
+            run_unit.font.name = 'TH Sarabun New'
+            run_unit.font.size = Pt(16)
+            run_unit.font.color.rgb = RGBColor(0, 0, 0)
 
     def set_column_widths(self, sheet):
         for column_cells in sheet.columns:
@@ -873,6 +1008,12 @@ class ConprepareView(ttk.Frame):
         sheet[f"C{summary_row_2}"].font = Font(name='TH Sarabun New', size=12)
 
         self.add_financial_summary_2(sheet, summary_row_2)
+
+         # Add percentage difference for total carbon footprint
+        self.add_difference_percentage_excel(sheet, summary_row_2 + 7, total_input_carbon_footprint_1, total_input_carbon_footprint_2)
+
+        # Add percentage difference for financial data
+        self.add_diff_financial(sheet, summary_row_2 + 6)
 
         self.set_column_widths(sheet)
         self.set_page_layout(sheet)
@@ -1099,11 +1240,17 @@ class ConprepareView(ttk.Frame):
             suffix_cell.font.name = 'TH Sarabun New'
             suffix_cell.font.size = Pt(16)
 
+        # เพิ่มความแตกต่างในเปอร์เซ็นต์ของคาร์บอนฟุตพริ้นท์ทั้งหมด
+        document.add_paragraph()  # เว้น 1 บรรทัด
+        self.add_difference_percentage_docx(document, total_input_carbon_footprint_1, total_input_carbon_footprint_2)
+
+        # เพิ่มความแตกต่างในเปอร์เซ็นต์ของข้อมูลทางการเงิน
+        self.add_diff_financial_docx(document, self.total_cost1, self.total_cost2, self.profit1, self.profit2)
+
+
         # Save the document
         if file_path:
             document.save(file_path)
             print(f"File saved at: {file_path}")
         else:
             print("File save canceled")
-    
-    
