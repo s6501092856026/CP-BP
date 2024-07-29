@@ -59,10 +59,10 @@ class ConnewView(ttk.Frame):
         self.label_unit.grid(row=0, column=2, padx=5, pady=20)
         self.label_unit.configure(anchor='w', background='#C0E4F6')
         
-        self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
+        self.return_button = ttk.Button(self, text="กลับไปยังหน้าหลัก", command=self.back)
         self.return_button.grid(row=4, rowspan=2, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
 
-        self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
+        self.export_button = ttk.Button(self, text="Export", command=self.export)
         self.export_button.grid(row=4, rowspan=2, column=1, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # Frame Input Treeview
@@ -171,15 +171,6 @@ class ConnewView(ttk.Frame):
         self.unit_efficiency = ttk.Label(frame_break, text = "%", font=('Tohama', 10, 'bold'))
         self.unit_efficiency.grid(row=4, column=2, padx=40, pady=5)
         self.unit_efficiency.configure(anchor='e', background='#C0E4F6')
-        
-        # self.output_treeview = ttk.Treeview(self, columns=("Name", "Carbon", "Unit"), show="headings")
-        # self.output_treeview.heading("Name", text="ชื่อ")
-        # self.output_treeview.column("Name", width=310)
-        # self.output_treeview.heading("Carbon", text="ค่าคาร์บอนเทียบเท่า")
-        # self.output_treeview.column("Carbon", width=95)
-        # self.output_treeview.heading("Unit", text="หน่วย")
-        # self.output_treeview.column("Unit", width=60)
-        # self.output_treeview.grid(row=3, rowspan=2, column=2, padx=5, pady=5)
 
         self.add_button_tooltips()
     

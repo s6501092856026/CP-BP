@@ -1,4 +1,5 @@
-from tkinter import ttk
+import tkinter as tk
+from tkinter import ttk, messagebox
 from controllers.tooltip_controller import ToolTipController
 
 class BreakpointView(ttk.Frame):
@@ -33,15 +34,19 @@ class BreakpointView(ttk.Frame):
 
         self.entry_fixedcost = ttk.Entry(self, width=30)
         self.entry_fixedcost.grid(row=1, column=1, columnspan=2, padx=10, pady=10)
+        self.entry_fixedcost.bind("<FocusOut>", self.format_currency)
         
         self.entry_variablecost = ttk.Entry(self, width=30)
         self.entry_variablecost.grid(row=3, column=1, columnspan=2, padx=10, pady=10)
+        self.entry_variablecost.bind("<FocusOut>", self.format_currency)
         
         self.entry_number = ttk.Entry(self, width=30)
         self.entry_number.grid(row=5, column=1, columnspan=2, padx=10, pady=10)
+        self.entry_number.bind("<FocusOut>", self.format_currency)
         
         self.entry_price = ttk.Entry(self, width=30)
         self.entry_price.grid(row=7, column=1, columnspan=2, padx=10, pady=10)
+        self.entry_price.bind("<FocusOut>", self.format_currency)
         
         self.entry_efficieny = ttk.Entry(self, width=30)
         self.entry_efficieny.grid(row=9, column=1, columnspan=2, padx=10, pady=10)
@@ -58,8 +63,8 @@ class BreakpointView(ttk.Frame):
         self.label_price_unit = ttk.Label(self, text = "บาท", font=('Tohama', 10), background='white')
         self.label_price_unit.grid(row=7, column=3, padx=10, pady=10)
         
-        self.label_efficieny_unit = ttk.Label(self, text = "%", font=('Tohama', 10), background='white')
-        self.label_efficieny_unit.grid(row=9, column=3, padx=10, pady=10)
+        self.label_efficiecy_unit = ttk.Label(self, text = "%", font=('Tohama', 10), background='white')
+        self.label_efficiecy_unit.grid(row=9, column=3, padx=10, pady=10)
         
         self.save_as_button = ttk.Button(self, text = "บันทึกเป็น", command=controller.save_as)
         self.save_as_button.grid(row=12, column=3, columnspan=2, padx=10, pady=10)
@@ -72,3 +77,13 @@ class BreakpointView(ttk.Frame):
 
     def back(self):
         self.controller.back_main()
+
+    def format_currency(self, event):
+        try:
+            widget = event.widget
+            value = float(widget.get().replace(',', ''))
+            formatted_value = "{:,.2f}".format(value)
+            widget.delete(0, tk.END)
+            widget.insert(0, formatted_value)
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Please enter a valid number.")

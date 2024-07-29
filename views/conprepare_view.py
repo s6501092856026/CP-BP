@@ -76,11 +76,11 @@ class ConprepareView(ttk.Frame):
         self.add_dif_percent.configure(anchor='center', background='white')
 
         # Button
-        self.return_button = ttk.Button(self, text="Return to Profile", command=self.back)
+        self.return_button = ttk.Button(self, text="กลับไปยังหน้าหลัก", command=self.back)
         self.return_button.grid(row=5, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'W')
 
-        self.export_button = ttk.Button(self, text="Export to Excel", command=self.export)
-        self.export_button.grid(row=5, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
+        # self.export_button = ttk.Button(self, text="Export", command=self.export)
+        # self.export_button.grid(row=5, column=0, padx=10, pady=10, ipadx=10, ipady=10, sticky = 'E')
 
         # Frame Profile1
         frame_profile1 = ttk.Frame(self, borderwidth=1, relief="ridge", style="My.TFrame")

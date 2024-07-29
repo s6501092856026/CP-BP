@@ -60,8 +60,17 @@ class LoginView(ttk.Frame):
         login_frame = ttk.Frame(self, borderwidth=1, relief="ridge", padding="10 10 10 10")
         login_frame.grid(row=0, column=0, sticky='nsew')
 
-        # โหลดรูปภาพโดยตรงโดยใช้ PhotoImage จาก tkinter
-        self.photo_image = tk.PhotoImage(file=r"C:\Users\User\Desktop\Project\CF&BP\image.png")
+        # โหลดและปรับขนาดรูปภาพโดยใช้ PIL
+        try:
+            original_image = Image.open(r"C:\Users\User\Desktop\Project\CF&BP\image.png")
+            resized_image = original_image.resize((120, 137), Image.LANCZOS)  # ปรับขนาดตามต้องการ
+            self.photo_image = ImageTk.PhotoImage(resized_image)
+        except Exception as e:
+            print(f"Error loading image: {e}")
+            self.photo_image = None
+
+        # # โหลดรูปภาพโดยตรงโดยใช้ PhotoImage จาก tkinter
+        # self.photo_image = tk.PhotoImage(file=r"C:\Users\User\Desktop\Project\CF&BP\image.png")
 
         self.image_label = ttk.Label(login_frame, justify='center', anchor='center', image=self.photo_image, background='white')
         self.image_label.grid(row=0, column=0, columnspan=2, sticky='nsew')
@@ -94,7 +103,7 @@ class LoginView(ttk.Frame):
         title_frame.grid(row=0, column=1, sticky='nsew')
 
         # สร้าง Canvas สำหรับพื้นหลัง
-        self.canvas = tk.Canvas(title_frame, width=750, height=450)
+        self.canvas = tk.Canvas(title_frame, width=550, height=450)
         self.canvas.grid(row=0, column=0, rowspan=3, columnspan=2, sticky='nsew')
 
         # โหลดและตั้งค่าพื้นหลัง
@@ -102,23 +111,23 @@ class LoginView(ttk.Frame):
         bg_image = Image.open(bg_image_path)
         
         # ปรับขนาดภาพให้พอดีกับ title_frame
-        bg_image = bg_image.resize((750, 450), Image.LANCZOS)
+        bg_image = bg_image.resize((550, 450), Image.LANCZOS)
         self.bg_photo = ImageTk.PhotoImage(bg_image)
         self.canvas.create_image(0, 0, image=self.bg_photo, anchor='nw')
 
         self.label_title = ttk.Label(title_frame, justify='left', anchor='s',
                                      text="โปรแกรมเพื่อวิเคราะห์คาร์บอนฟุตพริ้นท์\nและความคุ้มค่าการลงทุนของผลิตภัณฑ์"
-                                     , font=('Tohama', 12, 'bold'))
+                                     , font=('Tohama', 11, 'bold'), background='white')
         self.label_title.grid(row=0, column=0, padx=10, sticky='W')
         
         self.label_subtitle = ttk.Label(title_frame, justify='left', anchor='s',
                                      text="(Program for analyze Carbon Footprint\nand Cost-Benefit Assessment of products) "
-                                     , font=('Tohama', 12, 'bold'))
+                                     , font=('Tohama', 11, 'bold'), background='white')
         self.label_subtitle.grid(row=2, column=0, padx=10, sticky='W')
 
         self.label_from = ttk.Label(title_frame, justify='right', anchor='se',
-                                    text="อาจารย์ที่ปรึกษา\nศ.ดร.อรรถกร เก่งพล\n\nจัดทำโดย\nนายกษิดิศ ดาวเรือง\nX-MIE 6501092856026"
-                                    , font=('Tohama', 10))
+                                    text="อาจารย์ที่ปรึกษา \nศ.ดร.อรรถกร เก่งพล \n\nจัดทำโดย \nนายกษิดิศ ดาวเรือง \nX-MIE 6501092856026 "
+                                    , font=('Tohama', 9), background='white')
         self.label_from.grid(row=2, column=1, sticky='SE')
 
         # ปุ่มเครื่องหมายคำถาม
