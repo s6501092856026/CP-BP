@@ -15,19 +15,19 @@ class MainView(ttk.Frame):
         frame_button = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
         frame_button.grid(row=0, column=1, sticky='NS')
 
-        self.breakeven_button = ttk.Button(frame_button, text="คำนวณมูลค่า", command=self.breakeven)
+        self.breakeven_button = ttk.Button(frame_button, text="Calculate", command=self.breakeven)
         self.breakeven_button.grid(row=0, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
-        self.edit_button = ttk.Button(frame_button, text="แก้ไขโปรไฟล์", command=self.edit) 
+        self.edit_button = ttk.Button(frame_button, text="Edit Profile", command=self.edit) 
         self.edit_button.grid(row=1, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
-        self.newprofile_button = ttk.Button(frame_button, text="สร้างโปรไฟล์ใหม่", command=self.newprofile)
+        self.newprofile_button = ttk.Button(frame_button, text="Create New Profile", command=self.newprofile)
         self.newprofile_button.grid(row=2, column=0, padx=5, pady=11, ipadx=10, ipady=10)
 
-        self.delete_button = ttk.Button(frame_button, text="ลบโปรไฟล์", command=self.delete_selected_item)
+        self.delete_button = ttk.Button(frame_button, text="Remove Profile", command=self.delete_selected_item)
         self.delete_button.grid(row=3, column=0, padx=5, pady=11, ipady=10)
 
-        self.compare_button = ttk.Button(frame_button, text="เปรียบเทียบโปรไฟล์", command=self.compare)
+        self.compare_button = ttk.Button(frame_button, text="Compare Profile", command=self.compare)
         self.compare_button.grid(row=4, column=0, padx=5, pady=11, ipadx=10, ipady=10)   
 
         # เรียกใช้งานเมท็อด add_button_tooltips() เพื่อเพิ่ม Tooltip สำหรับปุ่ม
@@ -38,9 +38,9 @@ class MainView(ttk.Frame):
 
         # Budgets
         self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name"), show="headings")
-        self.list_treeview.heading("ID", text="ไอดี")
+        self.list_treeview.heading("ID", text="ID")
         self.list_treeview.column("ID", width=30, stretch=True)
-        self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
+        self.list_treeview.heading("Name", text="Profile Name")
         self.list_treeview.column("Name", width=200, stretch=True)
         self.list_treeview.grid(row=0, column=0, ipady=55)
 
@@ -54,13 +54,13 @@ class MainView(ttk.Frame):
         self.list_treeview.bind("<<TreeviewSelect>>", lambda event: self.get_selected_item())
 
         self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
-        self.detail_treeview.heading("Detail", text="ชื่อ")
-        self.detail_treeview.column("Detail", width=370, stretch=True)
-        self.detail_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
+        self.detail_treeview.heading("Detail", text="Name")
+        self.detail_treeview.column("Detail", width=380, stretch=True)
+        self.detail_treeview.heading("Emission Factor", text="Emission")
         self.detail_treeview.column("Emission Factor", width=85, stretch=True)
-        self.detail_treeview.heading("Amount", text="ปริมาณ")
-        self.detail_treeview.column("Amount", width=50, stretch=True)
-        self.detail_treeview.heading("Unit", text="หน่วย")
+        self.detail_treeview.heading("Amount", text="Amount")
+        self.detail_treeview.column("Amount", width=60, stretch=True)
+        self.detail_treeview.heading("Unit", text="Unit")
         self.detail_treeview.column("Unit", width=40, stretch=True)
         self.detail_treeview.grid(row=0, column=2, ipady=55)
 

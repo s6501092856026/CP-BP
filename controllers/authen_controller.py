@@ -65,8 +65,12 @@ class AuthenController:
     
     def show_signup(self):
         self.login_view.pack_forget()
-        x, y = getCenterPosition(self.app,width=self.width, height=self.height)
-        self.app.geometry(f"{self.width}x{self.height}+{x}+{y}")
         self.signup_view.pack(padx=10, pady=10, expand=True)
+        self.app.update_idletasks()  # อัพเดตวิดเจ็ต
+        width = self.signup_view.winfo_reqwidth() + 10  # เพิ่มขอบเขตบางส่วน
+        height = self.signup_view.winfo_reqheight() + 10  # เพิ่มขอบเขตบางส่วน
+        x, y = getCenterPosition(self.app, width=width, height=height)
+        self.app.geometry(f"{width}x{height}+{x}+{y}")
+        
     
     

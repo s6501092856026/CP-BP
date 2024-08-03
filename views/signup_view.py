@@ -8,49 +8,49 @@ class SignupView(ttk.Frame):
         super().__init__(app)
         self.controller = controller
 
-        self.label_firstname = ttk.Label(self, text = "ชื่อ", background='white')
+        self.label_firstname = ttk.Label(self, text = "Name", background='white', font=('Tohama', 11))
         self.label_firstname.grid(row=0, column=0, padx=10, pady=10)
 
-        self.label_lastname = ttk.Label(self, text = "นามสกุล", background='white')
+        self.label_lastname = ttk.Label(self, text = "Lastname", background='white', font=('Tohama', 11))
         self.label_lastname.grid(row=1, column=0, padx=10, pady=10)
 
-        self.label_tel = ttk.Label(self, text = "เบอร์โทร", background='white')
+        self.label_tel = ttk.Label(self, text = "Tel.", background='white', font=('Tohama', 11))
         self.label_tel.grid(row=2, column=0, padx=10, pady=10)
 
-        self.label_username = ttk.Label(self, text = "ชื่อผู้ใช้งาน", background='white')
+        self.label_username = ttk.Label(self, text = "Username", background='white', font=('Tohama', 11))
         self.label_username.grid(row=3, column=0, padx=10, pady=10)
 
-        self.label_password = ttk.Label(self, text = "รหัสผ่าน", background='white')
+        self.label_password = ttk.Label(self, text = "Password", background='white', font=('Tohama', 11))
         self.label_password.grid(row=4, column=0, padx=10, pady=10)
 
-        self.label_email = ttk.Label(self, text = "อีเมลล์", background='white')
+        self.label_email = ttk.Label(self, text = "E-mail", background='white', font=('Tohama', 11))
         self.label_email.grid(row=5, column=0, padx=10, pady=10)
 
         self.warning_msg = ttk.Label(self, text= "", foreground="red", background='white')
         self.warning_msg.grid(row=6, column=1, padx=10, pady=10)
 
-        self.firstname = ttk.Entry(self, width=30)
+        self.firstname = ttk.Entry(self, width=30, font=('Tohama', 10))
         self.firstname.grid(row=0, column=1, padx=10, pady=10)
 
-        self.lastname = ttk.Entry(self, width=30)
+        self.lastname = ttk.Entry(self, width=30, font=('Tohama', 10))
         self.lastname.grid(row=1, column=1, padx=10, pady=10)
 
-        self.tel = ttk.Entry(self, width=30)
+        self.tel = ttk.Entry(self, width=30, font=('Tohama', 10))
         self.tel.grid(row=2, column=1, padx=10, pady=10)
 
-        self.username = ttk.Entry(self, width=30)
+        self.username = ttk.Entry(self, width=30, font=('Tohama', 10))
         self.username.grid(row=3, column=1, padx=10, pady=10)
 
-        self.password = ttk.Entry(self, width=30)
+        self.password = ttk.Entry(self, width=30, font=('Tohama', 10))
         self.password.grid(row=4, column=1, padx=10, pady=10)
         
-        self.email = ttk.Entry(self, width=30)
+        self.email = ttk.Entry(self, width=30, font=('Tohama', 10))
         self.email.grid(row=5, column=1, padx=10, pady=10)
 
-        self.signup_button = ttk.Button(self, text="ลงทะเบียน",command=self.signup)
+        self.signup_button = ttk.Button(self, text="Register",command=self.signup)
         self.signup_button.grid(row=7, column=0, padx=10, pady=10)
         
-        self.back_button = ttk.Button(self, text="ย้อนกลับ", command=self.controller.show_login)
+        self.back_button = ttk.Button(self, text="Back", command=self.controller.show_login)
         self.back_button.grid(row=7, column=1, padx=10, pady=10, sticky='E')
 
         # สร้าง tooltips

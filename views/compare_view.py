@@ -16,7 +16,7 @@ class CompareView(ttk.Frame):
         frame_top = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
         frame_top.grid(row=0, column=0, columnspan=2, sticky='NSWE')
 
-        self.back_button = ttk.Button(frame_top, text="ย้อนลับ", command=self.back)
+        self.back_button = ttk.Button(frame_top, text="Back", command=self.back)
         self.back_button.grid(row=0, column=0, padx=10, pady=10)
 
         # Frame Tool
@@ -24,22 +24,22 @@ class CompareView(ttk.Frame):
         frame_tool = ttk.Frame(self, borderwidth=1, relief="ridge", style='My.TFrame')
         frame_tool.grid(row=1, column=1, sticky='NS')
 
-        self.label_profile1 = ttk.Label(frame_tool, text="โปรไฟล์ที่หนึ่ง", font=('Tohama', 10, 'bold'), background='#C0E4F6')
+        self.label_profile1 = ttk.Label(frame_tool, text="First Profile", font=('Tohama', 11, 'bold'), background='#C0E4F6')
         self.label_profile1.grid(row=0, column=0, padx=10, pady=5, sticky='N')
 
         self.entry_profile1 = ttk.Entry(frame_tool)
         self.entry_profile1.grid(row=1, column=0, padx=10, pady=10, sticky='S')
 
-        self.label_profile2 = ttk.Label(frame_tool, text="โปรไฟล์ที่สอง", font=('Tohama', 10, 'bold'), background='#C0E4F6')
+        self.label_profile2 = ttk.Label(frame_tool, text="Second Profile", font=('Tohama', 11, 'bold'), background='#C0E4F6')
         self.label_profile2.grid(row=2, column=0, padx=10, pady=5, sticky='N')
 
         self.entry_profile2 = ttk.Entry(frame_tool)
         self.entry_profile2.grid(row=3, column=0, padx=10, pady=10, sticky='S')
 
-        self.add_button = ttk.Button(frame_tool, text="เพิ่ม", command=self.add_profile)
+        self.add_button = ttk.Button(frame_tool, text="Add", command=self.add_profile)
         self.add_button.grid(row=4, column=0, padx=10, pady=20, sticky='')
 
-        self.complete_button = ttk.Button(frame_tool, text="ประมวลผล", command=self.complete)
+        self.complete_button = ttk.Button(frame_tool, text="Evaluate", command=self.complete)
         self.complete_button.grid(row=5, column=0, padx=10, pady=40, ipadx=10, ipady=10, sticky='S')
 
         # Frame 
@@ -47,9 +47,9 @@ class CompareView(ttk.Frame):
         frame_treeview.grid(row=1, column=0)
 
         self.list_treeview = ttk.Treeview(frame_treeview, columns=("ID", "Name"), show="headings")
-        self.list_treeview.heading("ID", text="ไอดี")
+        self.list_treeview.heading("ID", text="ID")
         self.list_treeview.column("ID", width=30, stretch=True)
-        self.list_treeview.heading("Name", text="ชื่อโปรไฟล์")
+        self.list_treeview.heading("Name", text="Profile Name")
         self.list_treeview.column("Name", width=150, stretch=True)
         self.list_treeview.grid(row=0, column=0, ipady=55)
 
@@ -63,13 +63,13 @@ class CompareView(ttk.Frame):
         self.grid_rowconfigure(0, weight=1)
 
         self.detail_treeview = ttk.Treeview(frame_treeview, columns=("Detail", "Emission Factor", "Amount", "Unit"), show="headings")
-        self.detail_treeview.heading("Detail", text="ชื่อ")
+        self.detail_treeview.heading("Detail", text="Name")
         self.detail_treeview.column("Detail", width=370, stretch=True)
-        self.detail_treeview.heading("Emission Factor", text="ปัจจัยการปล่อย")
+        self.detail_treeview.heading("Emission Factor", text="Emission")
         self.detail_treeview.column("Emission Factor", width=85, stretch=True)
-        self.detail_treeview.heading("Amount", text="ปริมาณ")
-        self.detail_treeview.column("Amount", width=50, stretch=True)
-        self.detail_treeview.heading("Unit", text="หน่วย")
+        self.detail_treeview.heading("Amount", text="Amount")
+        self.detail_treeview.column("Amount", width=60, stretch=True)
+        self.detail_treeview.heading("Unit", text="Unit")
         self.detail_treeview.column("Unit", width=40, stretch=True)
         self.detail_treeview.grid(row=0, column=2, ipady=55)
 

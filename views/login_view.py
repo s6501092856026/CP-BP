@@ -75,14 +75,14 @@ class LoginView(ttk.Frame):
         self.image_label = ttk.Label(login_frame, justify='center', anchor='center', image=self.photo_image, background='white')
         self.image_label.grid(row=0, column=0, columnspan=2, sticky='nsew')
 
-        self.label_email = ttk.Label(login_frame, text="ชื่อผู้ใช้งาน", font=('Tohama', 10), background='white')
+        self.label_email = ttk.Label(login_frame, text="Username", font=('Tohama', 12), background='white')
         self.label_email.grid(row=1, column=0, columnspan=2, pady=(20, 0))
 
         self.entry_email = ttk.Entry(login_frame, width=30, justify="center")
         self.entry_email.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
         self.entry_email.insert(0, "admin")
 
-        self.label_password = ttk.Label(login_frame, text="รหัสผ่าน", font=('Tohama', 10), background='white')
+        self.label_password = ttk.Label(login_frame, text="Password", font=('Tohama', 12), background='white')
         self.label_password.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
         self.entry_password = ttk.Entry(login_frame, width=30, show="*", justify="center")
@@ -92,10 +92,10 @@ class LoginView(ttk.Frame):
         self.warning_msg = ttk.Label(login_frame, text="", foreground="red", background='white')
         self.warning_msg.grid(row=5, column=0, columnspan=2, padx=5, pady=5)
 
-        self.button_login = ttk.Button(login_frame, text="เข้าสู่ระบบ", command=self.login, style='My.TButton')
+        self.button_login = ttk.Button(login_frame, text="Login", command=self.login, style='My.TButton')
         self.button_login.grid(row=6, column=0, columnspan=2, padx=10, pady=10, ipadx=7.5, ipady=7.5, sticky='')
 
-        self.button_signup = ttk.Button(login_frame, text="ลงทะเบียน", command=self.controller.show_signup)
+        self.button_signup = ttk.Button(login_frame, text="Register", command=self.controller.show_signup)
         self.button_signup.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky='')
 
         # กรอบหัวข้อ
@@ -115,15 +115,15 @@ class LoginView(ttk.Frame):
         self.bg_photo = ImageTk.PhotoImage(bg_image)
         self.canvas.create_image(0, 0, image=self.bg_photo, anchor='nw')
 
-        self.label_title = ttk.Label(title_frame, justify='left', anchor='s',
-                                     text="โปรแกรมเพื่อวิเคราะห์คาร์บอนฟุตพริ้นท์\nและความคุ้มค่าการลงทุนของผลิตภัณฑ์"
-                                     , font=('Tohama', 11, 'bold'), background='white')
+        self.label_title = ttk.Label(title_frame, justify='left', anchor='n',
+                                     text="โปรแกรมเพื่อวิเคราะห์คาร์บอนฟุตพริ้นท์\nและความคุ้มค่าการลงทุนของผลิตภัณฑ์\n\n(Program for analyze Carbon Footprint\nand Cost-Benefit Assessment of products)"
+                                     , font=('Tohama', 12, 'bold'), background='white')
         self.label_title.grid(row=0, column=0, padx=10, sticky='W')
         
-        self.label_subtitle = ttk.Label(title_frame, justify='left', anchor='s',
-                                     text="(Program for analyze Carbon Footprint\nand Cost-Benefit Assessment of products) "
-                                     , font=('Tohama', 11, 'bold'), background='white')
-        self.label_subtitle.grid(row=2, column=0, padx=10, sticky='W')
+        # self.label_subtitle = ttk.Label(title_frame, justify='left', anchor='s',
+        #                              text="(Program for analyze Carbon Footprint\nand Cost-Benefit Assessment of products) "
+        #                              , font=('Tohama', 11, 'bold'), background='white')
+        # self.label_subtitle.grid(row=2, column=0, padx=10, sticky='W')
 
         self.label_from = ttk.Label(title_frame, justify='right', anchor='se',
                                     text="อาจารย์ที่ปรึกษา \nศ.ดร.อรรถกร เก่งพล \n\nจัดทำโดย \nนายกษิดิศ ดาวเรือง \nX-MIE 6501092856026 "
